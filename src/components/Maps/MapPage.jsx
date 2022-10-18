@@ -1,6 +1,7 @@
-import { useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import './MapPage.css';
 
 // component to display the map page.
 function MapPage() {
@@ -30,7 +31,13 @@ function MapPage() {
 
     return (
         <main>
-            
+            <GoogleMap
+            // setup properties of the map for it to function.
+            zoom={13}
+            mapContainerClassName='map-container'
+            >
+
+            </GoogleMap>
         </main>
     );
 }
