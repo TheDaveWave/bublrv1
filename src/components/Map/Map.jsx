@@ -8,8 +8,8 @@ import './Map.css';
 function Map() {
     // setup local state for the map.
     // lat and lng are set to fargo, ND.
-    const [lng, setLng] = useState(46.8772);
-    const [lat, setLat] = useState(-96.7898);
+    const [lat, setLat] = useState(46.8772);
+    const [lng, setLng] = useState(-96.7898);
     const [activeMarker, setActiveMarker] = useState(null);
     // store the directions response from google into local state.
     const [directionsRes, setDirectionsRes] = useState(null);
@@ -102,6 +102,23 @@ function Map() {
         fullscreenControl: false,
     }
 
+    // const newBounds = new google.maps.lat
+
+    const bounds = {
+        north: lat + 0.001,
+        south: lat - 0.001,
+        west: lng - 0.002,
+        east: lng + 0.002,
+    }
+
+    const homeMapOptions = {
+        zoomControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        restriction: {latLngBounds: bounds }
+    }
+
     // create settings for the google marker icon property
     const customUserIcon = {
         url: '/svg/user_marker_red.svg',
@@ -125,7 +142,7 @@ function Map() {
             zoom={checkMatch ? 15 : 18}
             center={center}
             mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
-            options={mapOptions}
+            options={checkMatch ? mapOptions : homeMapOptions}
             onClick={() => setActiveMarker(null)}
             >
             {/* If there is a response from the directions service then conditionally render the route,
