@@ -23,6 +23,7 @@ function Map() {
     const dispatch = useDispatch();
     // get the current route.
     let match = useRouteMatch();
+    let checkMatch = match.path === '/maps';
     // console.log(match);
 
     // function to get the current location of the user. 
@@ -123,7 +124,7 @@ function Map() {
             // setup properties of the map for it to function.
             zoom={15}
             center={center}
-            mapContainerClassName={match.path === '/maps' ? 'map-container' : 'mini-map'}
+            mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
             options={mapOptions}
             onClick={() => setActiveMarker(null)}
             >
