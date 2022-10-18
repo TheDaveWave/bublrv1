@@ -1,7 +1,6 @@
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import CustomMarker from "../Marker/CustomMarker";
+import { useDispatch, useSelector } from "react-redux";
 import './Map.css';
 
 // component to display the map page.
@@ -10,7 +9,10 @@ function Map() {
     // lat and lng are set to fargo, ND.
     const [lng, setLng] = useState(46.8772);
     const [lat, setLat] = useState(-96.7898);
+    // import fountain data from redux.
+    const fountains = useSelector(store => store.fountainReducer);
 
+ 
     
     // access useDispatch().
     const dispatch = useDispatch();
@@ -60,6 +62,14 @@ function Map() {
         anchor: new window.google.maps.Point(20, 20)
     }
 
+    // the config for the marker icon property.
+    const customIcon = {
+        url: '/svg/df.svg',
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15)
+    }
+
     return (
         <main>
             <GoogleMap
@@ -69,8 +79,16 @@ function Map() {
             mapContainerClassName='map-container'
             options={mapOptions}
             >
-                <Marker position={center} icon={customUserIcon}></Marker>
-                <CustomMarker />
+            <Marker position={center} icon={customUserIcon}></Marker>
+            {fountains.map(ftn => (
+                <Marker
+                    key={ftn.id}
+                    position={{lat: Number(ftn.latitude), lng: Number(ftn.longitude)}}
+                    icon={customIcon}
+                >
+
+                </Marker>
+             ))}
             </GoogleMap>
         </main>
     );
