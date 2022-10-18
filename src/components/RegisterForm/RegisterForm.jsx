@@ -18,6 +18,7 @@ function RegisterForm() {
       type: 'REGISTER',
       payload: {
         username: username,
+        email: email,
         password: password,
       },
     });
