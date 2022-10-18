@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import MapPage from '../Maps/MapPage';
 
 import './App.css';
+import FountainsPage from '../FountainsPage/FountainsPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -66,6 +67,12 @@ function App() {
             exact path='/maps'
           >
             <MapPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact path='/fountains'
+          >
+            <FountainsPage />
           </ProtectedRoute>
 
           <ProtectedRoute

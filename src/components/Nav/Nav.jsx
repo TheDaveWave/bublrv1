@@ -37,6 +37,10 @@ function Nav() {
               Map
             </Link>
 
+            <Link className='navLink' to='/fountains'>
+              Fountains
+            </Link>
+
             <Link className="navLink" to="/info">
               Info Page
             </Link>
