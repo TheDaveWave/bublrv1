@@ -44,6 +44,13 @@ function Map() {
 
     // create center object using user's location
     const center = {lat: lat, lng: lng};
+    // setup config for the googlmaps options property
+    const mapOptions = {
+        zoomControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+    }
 
     // create settings for the google marker icon property
     const customUserIcon = {
@@ -60,6 +67,7 @@ function Map() {
             zoom={13}
             center={center}
             mapContainerClassName='map-container'
+            options={mapOptions}
             >
                 <Marker position={center} icon={customUserIcon}></Marker>
                 <CustomMarker />
