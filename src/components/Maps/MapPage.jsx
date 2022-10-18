@@ -1,6 +1,4 @@
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useLoadScript } from "@react-google-maps/api";
 import Map from "../Map/Map";
 
 // component to display the map page.
