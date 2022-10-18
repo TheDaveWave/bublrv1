@@ -6,6 +6,13 @@ function CustomMarker() {
     // import fountain data from redux.
     const fountains = useSelector(store => store.fountainReducer);
 
+    // the config for the marker icon property.
+    const customIcon = {
+        url: '/svg/df.svg',
+        scaledSize: new window.google.maps.Size(30, 30),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15)
+    }
 
     return (
         <>
@@ -13,7 +20,7 @@ function CustomMarker() {
             <Marker
                 key={ftn.id}
                 position={{lat: Number(ftn.latitude), lng: Number(ftn.longitude)}}
-                
+                icon={customIcon}
             >
 
             </Marker>
