@@ -122,7 +122,7 @@ function Map() {
         <div>
             <GoogleMap
             // setup properties of the map for it to function.
-            zoom={15}
+            zoom={checkMatch ? 15 : 18}
             center={center}
             mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
             options={mapOptions}
