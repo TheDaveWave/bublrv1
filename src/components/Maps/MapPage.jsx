@@ -1,6 +1,7 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import CustomMarker from "../Marker/CustomMarker";
 import './MapPage.css';
 
 // component to display the map page.
@@ -65,7 +66,7 @@ function MapPage() {
             center={center}
             mapContainerClassName='map-container'
             >
-                
+                <CustomMarker />
             </GoogleMap>
         </main>
     );
