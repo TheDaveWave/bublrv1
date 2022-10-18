@@ -1,4 +1,4 @@
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './Map.css';
@@ -9,11 +9,15 @@ function Map() {
     // lat and lng are set to fargo, ND.
     const [lng, setLng] = useState(46.8772);
     const [lat, setLat] = useState(-96.7898);
+    const [activeMarker, setActiveMarker] = useState(null);
+    // store the directions response from google into local state.
+    const [directionsRes, setDirectionsRes] = useState(null);
+    // state to store the distance and duration returned by google directions service.
+    const [distance, setDistance] = useState('');
+    const [duration, setDuration] = useState('');
     // import fountain data from redux.
     const fountains = useSelector(store => store.fountainReducer);
 
- 
-    
     // access useDispatch().
     const dispatch = useDispatch();
 
@@ -33,6 +37,14 @@ function Map() {
         else {
             alert('Navigation services are not enabled.');
         }
+    }
+
+    // handle the active marker, set activeMarker to the fountain id.
+    const handleActiveMarker = (marker) => {
+        if(marker === activeMarker) {
+            return;
+        }
+        setActiveMarker(marker);
     }
 
     // get fountains on load.
@@ -71,13 +83,14 @@ function Map() {
     }
 
     return (
-        <main>
+        <div>
             <GoogleMap
             // setup properties of the map for it to function.
             zoom={15}
             center={center}
             mapContainerClassName='map-container'
             options={mapOptions}
+            onClick={() => setActiveMarker(null)}
             >
             <Marker position={center} icon={customUserIcon}></Marker>
             {fountains.map(ftn => (
@@ -85,12 +98,20 @@ function Map() {
                     key={ftn.id}
                     position={{lat: Number(ftn.latitude), lng: Number(ftn.longitude)}}
                     icon={customIcon}
+                    onClick={() => handleActiveMarker(ftn.id)}
                 >
-
+                    {activeMarker == ftn.id && (
+                        <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                            <div>
+                                <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
+                                <button>Go</button>
+                            </div>
+                        </InfoWindow>
+                    )}
                 </Marker>
              ))}
             </GoogleMap>
-        </main>
+        </div>
     );
 }
 
