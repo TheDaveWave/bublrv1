@@ -1,5 +1,5 @@
 
-function FountainsListItem() {
+function FountainsListItem({fountain}) {
     return (
         <div>This is a fountain</div>
     );
