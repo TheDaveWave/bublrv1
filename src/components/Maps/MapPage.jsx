@@ -5,14 +5,6 @@ import Map from "../Map/Map";
 
 // component to display the map page.
 function MapPage() {
-    // access useDispatch().
-    const dispatch = useDispatch();
-
-    // get fountains on load.
-    useEffect(() => {
-        dispatch({type: 'GET_FOUNTAINS'});
-    }, []);
-
 
     // extract isLoaded key from useLoadScript
     const { isLoaded } = useLoadScript({
