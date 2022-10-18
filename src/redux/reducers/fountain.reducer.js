@@ -7,3 +7,5 @@ const fountainReducer = (state=[], action) => {
             return state;
     }
 };
+
+export default fountainReducer;
