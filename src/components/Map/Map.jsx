@@ -1,4 +1,4 @@
-import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './Map.css';
@@ -56,6 +56,37 @@ function Map() {
 
     // Google Maps
 
+    // set up directions service from google.maps
+    const DirectionsService = new google.maps.DirectionsService();
+    // create an async function to await a response from the google
+    // server which will send the directions.
+    async function getDirections(position) {
+        // call get location to get the location of the user.
+        getLocation();
+        const results = await DirectionsService.route({
+            origin: new google.maps.LatLng(lat, lng),
+            destination: new google.maps.LatLng(position.lat, position.lng),
+            travelMode: google.maps.TravelMode.WALKING
+        });
+        console.log(results);
+        // set the directions results to the result from teh request.
+        setDirectionsRes(results);
+        // set the distance and duration to state variables.
+        setDistance(results.routes[0].legs[0].distance.text);
+        setDuration(results.routes[0].legs[0].duration.text);
+        // close the ingo window
+        setActiveMarker(null);
+    }
+
+    // clear the current route.
+    const clearRoute = () => {
+        if(directionsRes !== null) {
+            setDirectionsRes(null);
+            setDistance('');
+            setDuration('');
+        }
+    }
+
     // create center object using user's location
     const center = {lat: lat, lng: lng};
     // setup config for the googlmaps options property
@@ -92,7 +123,11 @@ function Map() {
             options={mapOptions}
             onClick={() => setActiveMarker(null)}
             >
-            <Marker position={center} icon={customUserIcon}></Marker>
+            {/* If there is a response from the directions service then conditionally render the route,
+                otherwise put a marker where the user is */}
+            {directionsRes ? 
+                <DirectionsRenderer directions={directionsRes}/>
+                : <Marker position={center} icon={customUserIcon}></Marker>}
             {fountains.map(ftn => (
                 <Marker
                     key={ftn.id}
@@ -104,7 +139,7 @@ function Map() {
                         <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                             <div>
                                 <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
-                                <button>Go</button>
+                                <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
                             </div>
                         </InfoWindow>
                     )}
