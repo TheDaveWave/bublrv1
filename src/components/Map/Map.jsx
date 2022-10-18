@@ -102,8 +102,7 @@ function Map() {
         fullscreenControl: false,
     }
 
-    // const newBounds = new google.maps.lat
-
+    // create restriction bounds.
     const bounds = {
         north: lat + 0.001,
         south: lat - 0.001,
@@ -111,6 +110,7 @@ function Map() {
         east: lng + 0.002,
     }
 
+    // map options when viewing on the homepage.
     const homeMapOptions = {
         zoomControl: false,
         streetViewControl: false,
