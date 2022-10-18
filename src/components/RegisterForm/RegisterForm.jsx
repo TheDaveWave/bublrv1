@@ -45,7 +45,7 @@ function RegisterForm() {
       </div>
       <div>
         <label htmlFor="email">
-          Password:
+          Email:
           <input
             type="email"
             name="email"
