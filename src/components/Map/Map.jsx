@@ -1,6 +1,7 @@
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouteMatch } from "react-router-dom";
 import './Map.css';
 
 // component to display the map page.
@@ -20,6 +21,9 @@ function Map() {
 
     // access useDispatch().
     const dispatch = useDispatch();
+    // get the current route.
+    let match = useRouteMatch();
+    // console.log(match);
 
     // function to get the current location of the user. 
     const getLocation = () => {
@@ -119,7 +123,7 @@ function Map() {
             // setup properties of the map for it to function.
             zoom={15}
             center={center}
-            mapContainerClassName='map-container'
+            mapContainerClassName={match.path === '/maps' ? 'map-container' : 'mini-map'}
             options={mapOptions}
             onClick={() => setActiveMarker(null)}
             >
