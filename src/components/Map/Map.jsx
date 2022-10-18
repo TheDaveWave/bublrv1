@@ -64,7 +64,7 @@ function Map() {
         <main>
             <GoogleMap
             // setup properties of the map for it to function.
-            zoom={13}
+            zoom={15}
             center={center}
             mapContainerClassName='map-container'
             options={mapOptions}
