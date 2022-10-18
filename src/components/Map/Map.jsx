@@ -106,12 +106,13 @@ function Map() {
     const bounds = {
         north: lat + 0.001,
         south: lat - 0.001,
-        west: lng - 0.002,
-        east: lng + 0.002,
+        west: lng - 0.0015,
+        east: lng + 0.0015,
     }
 
     // map options when viewing on the homepage.
     const homeMapOptions = {
+        gestureHandling: 'none',
         zoomControl: false,
         streetViewControl: false,
         mapTypeControl: false,
