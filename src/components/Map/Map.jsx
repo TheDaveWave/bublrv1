@@ -104,15 +104,15 @@ function Map() {
 
     // create restriction bounds.
     const bounds = {
-        north: lat + 0.001,
-        south: lat - 0.001,
+        north: lat + 0.0007,
+        south: lat - 0.0007,
         west: lng - 0.0015,
-        east: lng + 0.0015,
+        east: lng + 0.0014,
     }
 
     // map options when viewing on the homepage.
     const homeMapOptions = {
-        gestureHandling: 'none',
+        // gestureHandling: 'none',
         zoomControl: false,
         streetViewControl: false,
         mapTypeControl: false,
