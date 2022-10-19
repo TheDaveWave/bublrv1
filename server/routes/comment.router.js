@@ -3,9 +3,10 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 // GET route to retrieve all the comments for a specific fountain.
-router.get('/:ftnId', (req, res) => {
+router.get('/ftn/:ftnId', (req, res) => {
   // get the ftnId from the url params.
   const ftnId = req.params.ftnId;
+  // console.log(ftnId);
   // setup SQL query text.
   const queryText = `SELECT "u"."username",
   "c".*
@@ -23,23 +24,40 @@ router.get('/:ftnId', (req, res) => {
   });
 });
 
-// GET route to get all replies for a specific comment.
-router.get('/reply/:commentId', (req, res) => {
-  // extract the comment id from request params.
-  const commentId = req.params.commentId;
+// // GET route to get all replies for a specific comment.
+// router.get('/reply/:commentId', (req, res) => {
+//   // extract the comment id from request params.
+//   const commentId = req.params.commentId;
+//   // setup SQL query text.
+//   const queryText = `SELECT "u"."username",
+//   "r".*, "c"."fountain_id"
+//   FROM "comments" AS "c"
+//   JOIN "replies" AS "r" ON "r"."comment_id"="c"."id"
+//   JOIN "users" AS "u" ON "c"."user_id" = "u"."id"
+//   WHERE "c"."id"=$1;`;
+//   pool.query(queryText, [commentId])
+//   .then(response => {
+//     res.send(response.rows);
+//   })
+//   .catch(err => {
+//     console.log(`Error getting replies for comment w/ id: ${commentId}`, err);
+//     res.sendStatus(500);
+//   });
+// });
+
+// GET route to get all replies
+router.get('/reply', (req, res) => {
   // setup SQL query text.
   const queryText = `SELECT "u"."username",
-  "r".*, "c"."fountain_id"
-  FROM "comments" AS "c"
-  JOIN "replies" AS "r" ON "r"."comment_id"="c"."id"
-  JOIN "users" AS "u" ON "c"."user_id" = "u"."id"
-  WHERE "c"."id"=$1;`;
-  pool.query(queryText, [commentId])
+  "r".*
+  FROM "replies" AS "r" 
+  JOIN "users" AS "u" ON "r"."user_id" = "u"."id";`;
+  pool.query(queryText)
   .then(response => {
     res.send(response.rows);
   })
   .catch(err => {
-    console.log(`Error getting replies for comment w/ id: ${commentId}`, err);
+    console.log(`Error getting replies`, err);
     res.sendStatus(500);
   });
 });

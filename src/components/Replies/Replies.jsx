@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Replies({commentId}) {
     // get access to the replies from redux.
-    const replies = useSelector(store => store.fountains.commentReplies);
+    const replies = useSelector(store => store.fountains.replies);
     console.log(replies);
     // access useDispatch()
     const dispatch = useDispatch();
@@ -12,7 +12,7 @@ function Replies({commentId}) {
     useEffect(() => {
         dispatch({
             type: 'GET_REPLIES',
-            payload: commentId
+            // payload: commentId
         });
     }, []);
 
