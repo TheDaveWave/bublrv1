@@ -10,7 +10,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const fountainRouter = require('./routes/fountain.router');
-const threadRouter = require('./routes/thread.router');
+const replyRouter = require('./routes/reply.router');
 const commentRouter = require('./routes/comment.router');
 
 // Body parser middleware
@@ -27,7 +27,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/fountain', fountainRouter);
-app.use('/api/reply', threadRouter);
+app.use('/api/reply', replyRouter);
 app.use('/api/comment', commentRouter);
 
 // Serve static files
