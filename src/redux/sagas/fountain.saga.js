@@ -32,6 +32,7 @@ function* fetchFtnComments(action) {
     try {
         // get the fountain id from the payload.
         const ftnId = action.payload;
+        console.log(ftnId);
         // store response as a variable.
         const response = yield axios.get(`/api/comment/ftn/${ftnId}`);
         yield put({type: 'SET_COMMENTS', payload: response.data});

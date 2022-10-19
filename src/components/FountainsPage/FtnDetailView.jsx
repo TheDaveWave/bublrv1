@@ -26,6 +26,9 @@ function FtnDetailView() {
             type: 'GET_COMMENTS',
             payload: Number(ftnId)
         });
+        dispatch({
+            type: 'GET_REPLIES',
+        });
     }, []);
 
     return (
