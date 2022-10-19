@@ -9,7 +9,7 @@ function FtnDetailView() {
     const ftn = useSelector(store => store.fountains.fountain[0]);
     const comments = useSelector(store => store.fountains.fountainComments);
     // console.log(ftn);
-    console.log(comments);
+    // console.log(comments);
     
     // access useDispatch
     const dispatch = useDispatch();
@@ -37,10 +37,11 @@ function FtnDetailView() {
                 {comments.map(comment => (
                     <div key={comment.id}>
                         <CommentItem key={comment.id} comment={comment}/>
+                        <ul>
+                            <Replies commentId={comment.id}/>
+                        </ul>
                     </div>
                 ))}
-            </ul>
-            <ul>
             </ul>
             </div>
         </main>
