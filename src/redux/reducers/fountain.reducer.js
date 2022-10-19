@@ -20,9 +20,29 @@ const fountain = (state={}, action) => {
     }
 }
 
+// reducer to store fountain comments.
+const fountainComments = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_COMMENTS':
+            return action.payload;
+        default:
+            return state;
+    }
+}
 
+// reducer to store comment replies.
+const commentReplies = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_REPLIES':
+            return action.payload    
+        default:
+            return state;
+    }
+}
 
 export default combineReducers({
     fountainsReducer,
-    fountain
+    fountain,
+    fountainComments,
+    commentReplies
 });

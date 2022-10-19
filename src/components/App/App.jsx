@@ -23,6 +23,7 @@ import MapPage from '../Maps/MapPage';
 
 import './App.css';
 import FountainsPage from '../FountainsPage/FountainsPage';
+import FtnDetailView from '../FountainsPage/FtnDetailView';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,12 @@ function App() {
             exact path='/fountains'
           >
             <FountainsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            path='/fountain/:ftnId'
+          >
+            <FtnDetailView />
           </ProtectedRoute>
 
           <ProtectedRoute
