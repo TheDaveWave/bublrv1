@@ -17,7 +17,7 @@ function FountainsListItem({fountain}) {
             </div>
             <div>
                 <button>Go</button>
-                <button onClick={() => history.push(`/fountain/${fountain.id}`)}>Reviews</button>
+                <button onClick={() => history.push(`/fountain/${fountain.id}`)}>Comments</button>
                 <button>Rate</button>
             </div>
         </div>
