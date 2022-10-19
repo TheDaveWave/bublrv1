@@ -23,13 +23,27 @@ function* fetchFountain(action) {
         const response = yield axios.get(`/api/fountain/${ftnId}`);
         yield put({type: 'SET_FOUNTAIN', payload: response.data});
     } catch (err) {
-        console.log(`error in getting fountant w/ id: `, err);
+        console.log(`error in getting fountant w/ id: ${ftnId}`, err);
+    }
+}
+
+// saga to fetch all the comments for the fountain with given id.
+function* fetchFtnComments(action) {
+    try {
+        // get the fountain id from the payload.
+        const ftnId = action.payload;
+        // store response as a variable.
+        const response = yield axios.get(`/api/comment/${ftnId}`);
+        yield put({type: 'SET_COMMENTS', payload: response.data});
+    } catch (err) {
+        console.log(`Error getting comments for fountain w/ id: ${ftnId}`, err);
     }
 }
 
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
+    yield takeLatest('GET_COMMENTS', fetchFtnComments);
 }
 
 export default fountainSaga;
