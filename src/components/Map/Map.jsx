@@ -16,8 +16,8 @@ function Map() {
     // state to store the distance and duration returned by google directions service.
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
-    // import fountain data from redux.
-    const fountains = useSelector(store => store.fountainsReducer);
+    // import fountains data from redux.
+    const fountains = useSelector(store => store.fountains.fountainsReducer);
 
     // access useDispatch().
     const dispatch = useDispatch();

@@ -1,3 +1,5 @@
+import { combineReducers } from "redux";
+
 // a reducer to store the fountains.
 const fountainsReducer = (state=[], action) => {
     switch (action.type) {
@@ -8,5 +10,19 @@ const fountainsReducer = (state=[], action) => {
     }
 };
 
+// reducer to store a specific fountain.
+const fountain = (state={}, action) => {
+    switch (action.type) {
+        case 'SET_FOUNTAIN':
+            return action.payload;    
+        default:
+            return state;
+    }
+}
 
-export default fountainsReducer;
+
+
+export default combineReducers({
+    fountainsReducer,
+    fountain
+});
