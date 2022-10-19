@@ -48,7 +48,7 @@ router.post('/:ftnId', (req, res) => {
   // Setup SQL query text.
   const queryText = `INSERT INTO "comments" ("user_id", "fountain_id", "body")
   VALUES ($1, $2, $3);`;
-  pool.query(queryText, [req.body.user_id, ftnId, req.body.body])
+  pool.query(queryText, [req.user.id, ftnId, req.body.body])
   .then(() => {
     res.sendStatus(201);
   })

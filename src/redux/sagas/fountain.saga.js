@@ -41,6 +41,17 @@ function* fetchFtnComments(action) {
     }
 }
 
+// saga to add a comment to a fountain.
+function* addComment(action) {
+    try {
+        const ftnId = action.payload.ftnId;
+        yield axios.post(`/api/comment/${ftnId}`, {body: action.payload.body});
+        yield put({type: 'GET_COMMENTS', payload: ftnId});
+    } catch (err) {
+        console.log(`error in adding comment`, err);
+    }
+}
+
 // saga to fetch all the replies for a comment given the comment id.
 function* fetchCommentReplies(action) {
     try {
@@ -58,6 +69,8 @@ function* fountainSaga() {
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
+
+    yield takeLatest('ADD_COMMENT', addComment);
 }
 
 export default fountainSaga;
