@@ -1,5 +1,5 @@
 // a reducer to store the fountains.
-const fountainReducer = (state=[], action) => {
+const fountainsReducer = (state=[], action) => {
     switch (action.type) {
         case 'SET_FOUNTAINS':
             return action.payload;
@@ -8,4 +8,5 @@ const fountainReducer = (state=[], action) => {
     }
 };
 
-export default fountainReducer;
+
+export default fountainsReducer;

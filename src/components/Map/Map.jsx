@@ -17,7 +17,7 @@ function Map() {
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     // import fountain data from redux.
-    const fountains = useSelector(store => store.fountainReducer);
+    const fountains = useSelector(store => store.fountainsReducer);
 
     // access useDispatch().
     const dispatch = useDispatch();

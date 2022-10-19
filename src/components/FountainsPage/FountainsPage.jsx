@@ -5,7 +5,7 @@ import FountainsListItem from "./FountainsListItem";
 
 function FountainsPage() {
     // access the list of fountains to display on the dom.
-    const fountains = useSelector(store => store.fountainReducer);
+    const fountains = useSelector(store => store.fountainsReducer);
 
     // access useDispatch()
     const dispatch = useDispatch();
