@@ -14,9 +14,22 @@ function* fetchFountains() {
     }
 }
 
+// saga to fetch fountain with specific id
+function* fetchFountain(action) {
+    try {
+        // get the fountain id from the payload.
+        const ftnId = action.payload.ftnId;
+        // store response as a variable.
+        const response = yield axios.get(`/api/fountain/${ftnId}`);
+        yield put({type: 'SET_FOUNTAIN', payload: response.data});
+    } catch (err) {
+        console.log(`error in getting fountant w/ id: `, err);
+    }
+}
 
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
+    yield takeLatest('GET_FOUNTAIN', fetchFountain);
 }
 
 export default fountainSaga;
