@@ -67,7 +67,7 @@ function FtnDetailView() {
             <ul>
                 {comments.map(comment => (
                     <div key={comment.id}>
-                        <CommentItem key={comment.id} comment={comment}/>
+                        <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
                         <ul>
                             <Replies commentId={comment.id}/>
                         </ul>

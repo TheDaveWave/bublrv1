@@ -58,6 +58,21 @@ router.post('/:ftnId', (req, res) => {
   });
 });
 
+// route to DELETE a comment
+router.delete('/:commentId', (req, res) => {
+  const commentId = req.params.commentId;
+  // Setup SQL query text.
+  const queryText = `DELETE FROM "comments" WHERE "id"=$1 AND "user_id"=$2;`;
+  pool.query(queryText, [commentId, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error deleting comment', err);
+    res.sendStatus(500);
+  })
+});
+
 // POST route to add a reply to a comment given a comment id.
 router.post('/reply/:commentId', (req, res) => {
   // Extract comment id from req params.

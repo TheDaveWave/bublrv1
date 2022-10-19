@@ -52,6 +52,18 @@ function* addComment(action) {
     }
 }
 
+// saga to delete a comment
+function* deleteComment(action) {
+    try {
+        const ftnId = action.payload.ftnId;
+        const commentId = action.payload.commentId;
+        yield axios.delete(`/api/comment/${commentId}`);
+        yield put({type: 'GET_COMMENTS', payload: ftnId});
+    } catch (err) {
+        console.log('Error deleting comment from fountain', err);
+    }
+}
+
 // saga to fetch all the replies for a comment given the comment id.
 function* fetchCommentReplies(action) {
     try {
@@ -71,6 +83,7 @@ function* fountainSaga() {
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
 
     yield takeLatest('ADD_COMMENT', addComment);
+    yield takeLatest('DELETE_COMMENT', deleteComment);
 }
 
 export default fountainSaga;
