@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 function FtnDetailView() {
     // get the current fountain from redux
     const ftn = useSelector(store => store.fountains.fountain[0]);
-    console.log(ftn);
+    const comments = useSelector(store => store.fountains.fountainComments);
+    // console.log(ftn);
     
     // access useDispatch
     const dispatch = useDispatch();
@@ -18,12 +19,21 @@ function FtnDetailView() {
             type: 'GET_FOUNTAIN',
             payload: Number(ftnId)
         });
+        dispatch({
+            type: 'GET_COMMENTS',
+            payload: Number(ftnId)
+        });
     }, []);
 
     return (
         <main>
-            <h1>Fountain: {ftn.id}</h1>
-            <p>Rating: {ftn.rating}</p>
+            <h1>Fountain: {ftn?.id}</h1>
+            <p>Rating: {ftn?.rating}</p>
+            <ul>
+                {comments.map(comment => (
+                    <li key={comment.id}>User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+                ))}
+            </ul>
         </main>
     );
 }
