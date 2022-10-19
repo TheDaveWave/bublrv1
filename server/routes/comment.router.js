@@ -57,4 +57,21 @@ router.post('/:ftnId', (req, res) => {
   });
 });
 
+// POST route to add a reply to a comment given a comment id.
+router.post('/reply/:commentId', (req, res) => {
+  // Extract comment id from req params.
+  const commentId = req.params.commentId;
+  // Setup SQL query text.
+  const queryText = `INSERT INTO "replies" ("user_id", "comment_id", "body")
+  VALUES ($1, $2, $3);`;
+  pool.query(queryText, [req.body.user_id, commentId, req.body.body])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log(`Error replyling to comment with id: ${commentId}`, err);
+    res.sendStatus(500);
+  });
+});
+
 module.exports = router;
