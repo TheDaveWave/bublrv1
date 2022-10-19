@@ -18,7 +18,7 @@ function* fetchFountains() {
 function* fetchFountain(action) {
     try {
         // get the fountain id from the payload.
-        const ftnId = action.payload.ftnId;
+        const ftnId = action.payload;
         // store response as a variable.
         const response = yield axios.get(`/api/fountain/${ftnId}`);
         yield put({type: 'SET_FOUNTAIN', payload: response.data});
