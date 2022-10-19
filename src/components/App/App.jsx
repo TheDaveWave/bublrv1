@@ -19,7 +19,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import MapPage from '../Maps/MapPage';
+import MapPage from '../MapsPage/MapPage';
 
 import './App.css';
 import FountainsPage from '../FountainsPage/FountainsPage';

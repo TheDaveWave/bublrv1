@@ -32,8 +32,9 @@ function* fetchFtnComments(action) {
     try {
         // get the fountain id from the payload.
         const ftnId = action.payload;
+        console.log(ftnId);
         // store response as a variable.
-        const response = yield axios.get(`/api/comment/${ftnId}`);
+        const response = yield axios.get(`/api/comment/ftn/${ftnId}`);
         yield put({type: 'SET_COMMENTS', payload: response.data});
     } catch (err) {
         console.log(`Error getting comments for fountain w/ id: ${ftnId}`, err);
@@ -43,11 +44,12 @@ function* fetchFtnComments(action) {
 // saga to fetch all the replies for a comment given the comment id.
 function* fetchCommentReplies(action) {
     try {
-        const commentId = action.payload;
-        const response = yield axios.get(`/api/comment/reply/${commentId}`);
+        // const commentId = action.payload;
+        // const response = yield axios.get(`/api/comment/reply/${commentId}`);
+        const response = yield axios.get(`/api/comment/reply`);
         yield put({type: 'SET_REPLIES', payload: response.data});
     } catch (err) {
-        console.log(`error in getting replies for comment with id: ${commentId}`, err);
+        console.log(`error in getting replies for comments`, err);
     }
 }
 

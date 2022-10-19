@@ -9,7 +9,7 @@ function FtnDetailView() {
     const ftn = useSelector(store => store.fountains.fountain[0]);
     const comments = useSelector(store => store.fountains.fountainComments);
     // console.log(ftn);
-    console.log(comments);
+    // console.log(comments);
     
     // access useDispatch
     const dispatch = useDispatch();
@@ -26,21 +26,26 @@ function FtnDetailView() {
             type: 'GET_COMMENTS',
             payload: Number(ftnId)
         });
+        dispatch({
+            type: 'GET_REPLIES',
+        });
     }, []);
 
     return (
         <main>
             <h1>Fountain: {ftn?.id}</h1>
             <p>Rating: {ftn?.rating}</p>
+            <button>Comment</button>
             <div>
             <ul>
                 {comments.map(comment => (
                     <div key={comment.id}>
                         <CommentItem key={comment.id} comment={comment}/>
+                        <ul>
+                            <Replies commentId={comment.id}/>
+                        </ul>
                     </div>
                 ))}
-            </ul>
-            <ul>
             </ul>
             </div>
         </main>

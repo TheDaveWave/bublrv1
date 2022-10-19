@@ -30,8 +30,8 @@ const fountainComments = (state = [], action) => {
     }
 }
 
-// reducer to store comment replies.
-const commentReplies = (state = [], action) => {
+// reducer to store all replies.
+const replies = (state = [], action) => {
     switch (action.type) {
         case 'SET_REPLIES':
             return action.payload    
@@ -44,5 +44,6 @@ export default combineReducers({
     fountainsReducer,
     fountain,
     fountainComments,
-    commentReplies
+    // commentReplies,
+    replies,
 });
