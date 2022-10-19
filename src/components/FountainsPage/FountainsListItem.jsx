@@ -4,11 +4,6 @@ function FountainsListItem({fountain}) {
     // access browser history
     const history = useHistory();
 
-    // handle the reviews button.
-    const goToReviews = (id) => {
-        
-    }
-
     return (
         <div>
             <img src={fountain.picture} className='info-img' alt='A drinking fountain'/>
