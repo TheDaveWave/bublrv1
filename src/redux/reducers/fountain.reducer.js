@@ -30,16 +30,6 @@ const fountainComments = (state = [], action) => {
     }
 }
 
-// // reducer to store comment replies.
-// const commentReplies = (state = [], action) => {
-//     switch (action.type) {
-//         case 'SET_REPLIES':
-//             return action.payload    
-//         default:
-//             return state;
-//     }
-// }
-
 // reducer to store all replies.
 const replies = (state = [], action) => {
     switch (action.type) {

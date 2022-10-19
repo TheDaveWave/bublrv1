@@ -24,27 +24,6 @@ router.get('/ftn/:ftnId', (req, res) => {
   });
 });
 
-// // GET route to get all replies for a specific comment.
-// router.get('/reply/:commentId', (req, res) => {
-//   // extract the comment id from request params.
-//   const commentId = req.params.commentId;
-//   // setup SQL query text.
-//   const queryText = `SELECT "u"."username",
-//   "r".*, "c"."fountain_id"
-//   FROM "comments" AS "c"
-//   JOIN "replies" AS "r" ON "r"."comment_id"="c"."id"
-//   JOIN "users" AS "u" ON "c"."user_id" = "u"."id"
-//   WHERE "c"."id"=$1;`;
-//   pool.query(queryText, [commentId])
-//   .then(response => {
-//     res.send(response.rows);
-//   })
-//   .catch(err => {
-//     console.log(`Error getting replies for comment w/ id: ${commentId}`, err);
-//     res.sendStatus(500);
-//   });
-// });
-
 // GET route to get all replies
 router.get('/reply', (req, res) => {
   // setup SQL query text.
