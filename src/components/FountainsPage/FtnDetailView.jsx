@@ -38,11 +38,7 @@ function FtnDetailView() {
                 {comments.map(comment => (
                     <div key={comment.id}>
                         <li>User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
-                        <ul>
-                            {replies.map(reply => (
-                                <li key={reply.id}>Reply: </li>
-                            ))}
-                        </ul>
+                        
                     </div>
                 ))}
             </ul>
