@@ -40,10 +40,22 @@ function* fetchFtnComments(action) {
     }
 }
 
+// saga to fetch all the replies for a comment given the comment id.
+function* fetchCommentReplies(action) {
+    try {
+        const commentId = action.payload;
+        const response = yield axios.get(`/api/comment/reply/${commentId}`);
+        yield put({type: 'SET_REPLIES', payload: response.data});
+    } catch (err) {
+        console.log(`error in getting replies for comment with id: ${commentId}`, err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
+    yield takeLatest('GET_REPLIES', fetchCommentReplies);
 }
 
 export default fountainSaga;

@@ -31,7 +31,12 @@ function FtnDetailView() {
             <p>Rating: {ftn?.rating}</p>
             <ul>
                 {comments.map(comment => (
+                    <div>
                     <li key={comment.id}>User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+                    <ul>
+                        
+                    </ul>
+                    </div>
                 ))}
             </ul>
         </main>
