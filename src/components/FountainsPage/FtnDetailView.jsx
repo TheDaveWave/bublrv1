@@ -35,6 +35,7 @@ function FtnDetailView() {
         <main>
             <h1>Fountain: {ftn?.id}</h1>
             <p>Rating: {ftn?.rating}</p>
+            <button>Comment</button>
             <div>
             <ul>
                 {comments.map(comment => (
