@@ -12,7 +12,7 @@ import fountains from './fountain.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
-  fountains, //contains fountainsReducer, fountain, fountainComments
+  fountains, //contains fountainsReducer, fountain, fountainComments, commentReplies
 });
 
 export default rootReducer;

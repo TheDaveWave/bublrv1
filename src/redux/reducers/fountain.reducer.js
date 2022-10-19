@@ -43,5 +43,6 @@ const commentReplies = (state = [], action) => {
 export default combineReducers({
     fountainsReducer,
     fountain,
-    fountainComments
+    fountainComments,
+    commentReplies
 });

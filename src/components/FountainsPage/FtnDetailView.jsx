@@ -6,6 +6,7 @@ function FtnDetailView() {
     // get the current fountain from redux
     const ftn = useSelector(store => store.fountains.fountain[0]);
     const comments = useSelector(store => store.fountains.fountainComments);
+    const replies = useSelector(store => store.fountains.commentReplies);
     // console.log(ftn);
     
     // access useDispatch
@@ -23,6 +24,10 @@ function FtnDetailView() {
             type: 'GET_COMMENTS',
             payload: Number(ftnId)
         });
+        // dispatch({
+        //     type: 'GET_REPLIES',
+        //     payload: 
+        // })
     }, []);
 
     return (
@@ -31,11 +36,13 @@ function FtnDetailView() {
             <p>Rating: {ftn?.rating}</p>
             <ul>
                 {comments.map(comment => (
-                    <div>
-                    <li key={comment.id}>User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
-                    <ul>
-                        
-                    </ul>
+                    <div key={comment.id}>
+                        <li>User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+                        <ul>
+                            {replies.map(reply => (
+                                <li key={reply.id}>Reply: </li>
+                            ))}
+                        </ul>
                     </div>
                 ))}
             </ul>
