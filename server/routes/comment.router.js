@@ -40,11 +40,21 @@ router.get('/reply/:commentId', (req, res) => {
   });
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
+// POST route to add a comment to a fountain.
+router.post('/:ftnId', (req, res) => {
+  // Extract fountain id from req params
+  const ftnId = req.params.ftnId;
+  // Setup SQL query text.
+  const queryText = `INSERT INTO "comments" ("user_id", "fountain_id", "body")
+  VALUES ($1, $2, $3);`;
+  pool.query(queryText, [req.body.user_id, ftnId, req.body.body])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log(`Error in add a comment to fountain w/ id: ${ftnId}`, err);
+    res.sendStatus(500);
+  });
 });
 
 module.exports = router;
