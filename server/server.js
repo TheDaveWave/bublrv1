@@ -27,7 +27,6 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/fountain', fountainRouter);
-app.use('/api/reply', replyRouter);
 app.use('/api/comment', commentRouter);
 
 // Serve static files
