@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import CommentItem from "../CommentItem/CommentItem";
 import Replies from "../Replies/Replies";
 
 function FtnDetailView() {
@@ -35,7 +36,7 @@ function FtnDetailView() {
             <ul>
                 {comments.map(comment => (
                     <div key={comment.id}>
-                        <li>ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+                        <CommentItem key={comment.id} comment={comment}/>
                     </div>
                 ))}
             </ul>
