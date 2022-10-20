@@ -39,7 +39,7 @@ function ReplyItem({reply}) {
 
     return (
         <>
-        <li key={reply?.id}>User: {reply.username} | Reply: {reply.body} | Likes {reply.likes} | Date: {reply.date}</li>
+        <li key={reply?.id}>User: {reply.username} | Reply: {reply.body} | Date: {reply.date}</li>
         {userid === Number(reply.user_id) && 
             <>
             {editMode ? 

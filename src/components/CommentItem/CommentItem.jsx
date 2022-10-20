@@ -60,7 +60,7 @@ function CommentItem({comment, ftnId}) {
 
     return (
         <>
-        <li>ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+        <li>ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Date: {comment.date}</li>
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         {addingReply ? 
         <div>
