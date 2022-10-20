@@ -14,7 +14,8 @@ router.get('/ftn/:ftnId', rejectUnauthenticated, (req, res) => {
   FROM "comments" AS "c"
   JOIN "fountains" AS "f" ON "f"."id" = "c"."fountain_id"
   JOIN "users" AS "u" ON "c"."user_id" = "u"."id"
-  WHERE "f"."id"=$1;`;
+  WHERE "f"."id"=$1
+  ORDER BY "date" DESC;`;
   pool.query(queryText, [ftnId])
   .then(response => {
     res.send(response.rows);
@@ -31,7 +32,8 @@ router.get('/reply', rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT "u"."username",
   "r".*
   FROM "replies" AS "r" 
-  JOIN "users" AS "u" ON "r"."user_id" = "u"."id";`;
+  JOIN "users" AS "u" ON "r"."user_id" = "u"."id"
+  ORDER BY "date" DESC;`;
   pool.query(queryText)
   .then(response => {
     res.send(response.rows);
@@ -137,6 +139,39 @@ router.delete('/reply/:replyId', rejectUnauthenticated, (req, res) => {
   })
   .catch(err => {
     console.log('Error getting the user id tied to the reply', err);
+    res.sendStatus(500);
+  });
+});
+
+// PUT route to update a comment body.
+router.put('/:commentId', rejectUnauthenticated, (req, res) => {
+  // extract commentId from request params
+  const commentId = req.params.commentId;
+  // get newBody from req.body.
+  const newBody = req.body.newBody;
+  // setup SQL query text for update
+  const queryText = `UPDATE "comments" SET "body"=$1 WHERE "id"=$2 AND "user_id"=$3;`;
+  pool.query(queryText, [newBody, commentId, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error updating comment', err);
+    res.sendStatus(500);
+  });
+});
+
+// PUT route to update a reply.
+router.put('/reply/:replyId', rejectUnauthenticated, (req, res) => {
+  const replyId = req.params.replyId;
+  const newBody = req.body.newBody;
+  const queryText = `UPDATE "replies" SET "body"=$1 WHERE "id"=$2 AND "user_id"=$3;`;
+  pool.query(queryText, [newBody, replyId, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error updating reply', err);
     res.sendStatus(500);
   });
 });
