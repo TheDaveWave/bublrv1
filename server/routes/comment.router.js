@@ -93,8 +93,19 @@ router.post('/reply/:commentId', rejectUnauthenticated, (req, res) => {
 });
 
 // route to delete a reply on a comment.
-router.delete('/reply/:commentId', rejectUnauthenticated, (req, res) => {
-  
+router.delete('/reply/:replyId', rejectUnauthenticated, (req, res) => {
+  // extract replyId from request parameters.
+  const replyId = req.params.replyId;
+  // setup SQL query text.
+  const queryText = `DELETE FROM "replies" WHERE "id"=$1;`;
+  pool.query(queryText, [replyId])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log(`Error deleting reply`, err);
+    res.sendStatus(500);
+  });
 });
 
 module.exports = router;
