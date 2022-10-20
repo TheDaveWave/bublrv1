@@ -141,4 +141,22 @@ router.delete('/reply/:replyId', rejectUnauthenticated, (req, res) => {
   });
 });
 
+// PUT route to update a comment body.
+router.put('/:commentId', rejectUnauthenticated, (req, res) => {
+  // extract commentId from request params
+  const commentId = req.params.commentId;
+  // get newBody from req.body.
+  const newBody = req.body.newBody;
+  // setup SQL query text for update
+  const queryText = `UPDATE "comments" SET "body"=$1 WHERE "id"=$2 AND "user_id"=$3;`;
+  pool.query(queryText, [newBody, commentId, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error updating comment', err);
+    res.sendStatus(500);
+  });
+});
+
 module.exports = router;
