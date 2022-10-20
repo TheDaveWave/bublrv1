@@ -32,7 +32,7 @@ function CommentItem({comment, ftnId}) {
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         {addingReply ? 
         <div>
-            <input placeholder='Add Reply'/>
+            <input value={replyBody} onChange={evt => setReplyBody(evt.target.value)} placeholder='Add Reply'/>
             <button onClick={() => handleReply()}>Add</button>
             <button onClick={() => setAddingReply(false)}>Cancel</button>
         </div> :
