@@ -93,17 +93,33 @@ router.post('/reply/:commentId', rejectUnauthenticated, (req, res) => {
 });
 
 // route to delete a reply on a comment.
+// current user id must match user_id value of replies table.
 router.delete('/reply/:replyId', rejectUnauthenticated, (req, res) => {
   // extract replyId from request parameters.
   const replyId = req.params.replyId;
-  // setup SQL query text.
-  const queryText = `DELETE FROM "replies" WHERE "id"=$1;`;
-  pool.query(queryText, [replyId])
-  .then(() => {
-    res.sendStatus(201);
+  // setup SQL query text to get replies.user_id.
+  const getQuery = `SELECT "user_id" FROM "replies" WHERE "id"=$1;`;
+  pool.query(getQuery, [replyId])
+  .then(response => {
+    // console.log(response.rows[0].user_id);
+    const itemUserId = Number(response.rows[0].user_id);
+    if(itemUserId === req.user.id) {
+      // setup SQL query text.
+      const queryText = `DELETE FROM "replies" WHERE "id"=$1;`;
+      pool.query(queryText, [replyId])
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch(err => {
+        console.log(`Error deleting reply`, err);
+        res.sendStatus(500);
+      });
+    } else {
+      res.status(401).send('You are not authorized!');
+    }
   })
   .catch(err => {
-    console.log(`Error deleting reply`, err);
+    console.log('Error getting the user id tied to the reply', err);
     res.sendStatus(500);
   });
 });
