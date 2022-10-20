@@ -54,6 +54,7 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     .then(response => {
         // res.send(response.rows[0].likes);
         const likes = Number(response.rows[0].likes);
+        // if likes is not zero then update likes to 1.
         if(likes === 0) {
             // setup SQL query text.
             const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
@@ -66,6 +67,7 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
                 res.sendStatus(500);
             });
         } else {
+            // if likes is not 0 then add a new entry.
             const queryText = `INSERT INTO "ratings" ("user_id", "fountain_id", "likes")
             VALUES($1, $2, $3);`;
             pool.query(queryText, [req.user.id, ftnId, 1])
@@ -73,6 +75,7 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
                 res.sendStatus(201);
             })
             .catch(err => {
+                // if entry already exists send back 418 as an error.
                 if(Number(err.code) === 23505) {
                     res.status(418).send('Already liked by user.');
                 } else {
