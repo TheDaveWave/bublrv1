@@ -64,7 +64,7 @@ function* deleteComment(action) {
     }
 }
 
-// saga to fetch all the replies for a comment given the comment id.
+// saga to fetch all the replies for each comment.
 function* fetchCommentReplies(action) {
     try {
         // const commentId = action.payload;
@@ -73,6 +73,20 @@ function* fetchCommentReplies(action) {
         yield put({type: 'SET_REPLIES', payload: response.data});
     } catch (err) {
         console.log(`error in getting replies for comments`, err);
+    }
+}
+
+// /api/comment/reply/:commentId
+// saga to add a reply to a comment given a comment id.
+function* addReply(action) {
+    try {
+        // setup comment id from the payload.
+        const commentId = action.payload.commentId;
+        yield axios.post(`/api/comment/reply/${commentId}`);
+        // after adding, retrieve updated list of replies.
+        yield put({type: 'GET_REPLIES'});
+    } catch (err) {
+        console.log('Error adding reply to comment', err);
     }
 }
 
