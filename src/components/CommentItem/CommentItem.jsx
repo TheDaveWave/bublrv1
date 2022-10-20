@@ -29,6 +29,7 @@ function CommentItem({comment, ftnId}) {
     return (
         <>
         <li>ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
+        {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         {addingReply ? 
         <div>
             <input placeholder='Add Reply'/>
@@ -37,6 +38,7 @@ function CommentItem({comment, ftnId}) {
         </div> :
         <div>
             <button onClick={() => setAddingReply(true)}>Reply</button>
+            {/* Conditionally render delete button for comment if comment was created by current user */}
             {Number(comment.user_id) === userid && <button onClick={() => handleDelete()}>Delete</button>}
         </div>}
         </>
