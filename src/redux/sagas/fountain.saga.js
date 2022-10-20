@@ -135,7 +135,8 @@ function* likeFountain(action) {
     try {
         // get the fountain id.
         const ftnId = action.payload;
-        const response = yield axios.get(`/api/fountain/${ftnId}`);
+        yield axios.post(`/api/fountain/rating${ftnId}`);
+        yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error in liking fountain.', err);
     }
@@ -154,6 +155,8 @@ function* fountainSaga() {
     yield takeLatest('ADD_REPLY', addReply);
     yield takeLatest('DELETE_REPLY', deleteReply);
     yield takeLatest('UPDATE_REPLY', updateReply);
+    // sagas that manipulate ratings.
+    yield takeLatest('ADD_LIKE', likeFountain);
 }
 
 export default fountainSaga;
