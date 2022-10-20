@@ -131,6 +131,14 @@ function* updateReply(action) {
     }
 }
 
+function* likeFountain(action) {
+    try {
+        
+    } catch (err) {
+        console.log('Error in liking fountain.', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
