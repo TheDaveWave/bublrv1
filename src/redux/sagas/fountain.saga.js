@@ -69,7 +69,7 @@ function* updateComment(action) {
     try {
         const ftnId = action.payload.ftnId;
         const commentId = action.payload.commentId;
-        const newBody = action.payload.newBody;
+        const newBody = action.payload.body;
         yield axios.put(`/api/comment/${commentId}`, {newBody});
         // refresh comments.
         yield put({type: 'GET_COMMENTS', payload: ftnId});

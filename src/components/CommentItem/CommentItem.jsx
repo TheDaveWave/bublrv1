@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 function CommentItem({comment, ftnId}) {
     // setup local state for reply input.
     const [addingReply, setAddingReply] = useState(false);
-    const [replyBody, setReplyBody] = useState('');
+    const [newBody, setNewBody] = useState('');
+    const [editMode, setEditMode] = useState(false);
     // access useDispatch()
     const dispatch = useDispatch();
     // get current user
@@ -22,20 +23,36 @@ function CommentItem({comment, ftnId}) {
         });
     }
 
-    // a function to handle adding a reply.
-    const handleReply = () => {
-        if(!replyBody) {
+    // a function to handle adding and editing a comment.
+    const handleComment = () => {
+        if(!newBody) {
             alert('Missing reply.');
+        } else if (editMode) {
+            // dispatch to edit a comment.
+            dispatch({
+                type: 'UPDATE_COMMENT',
+                payload: {
+                    commentId: comment.id,
+                    body: newBody,
+                    ftnId
+                }
+            });
+             // clear inputs
+             setNewBody('');
+             // close form
+             setAddingReply(false);
+             setEditMode(false);
         } else {
+            // dispatch to add a new reply.
             dispatch({
                 type: 'ADD_REPLY',
                 payload: {
                     commentId: comment.id,
-                    body: replyBody
+                    body: newBody
                 }
             });
-             // clear inputs
-            setReplyBody('');
+            // clear inputs
+            setNewBody('');
             // close form
             setAddingReply(false);
         }
@@ -47,14 +64,18 @@ function CommentItem({comment, ftnId}) {
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         {addingReply ? 
         <div>
-            <input value={replyBody} onChange={evt => setReplyBody(evt.target.value)} placeholder='Add Reply'/>
-            <button onClick={() => handleReply()}>Add</button>
-            <button onClick={() => setAddingReply(false)}>Cancel</button>
+            <input value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Add Reply'/>
+            <button onClick={() => handleComment()}>Add</button>
+            <button onClick={() => {setAddingReply(false); setEditMode(false)}}>Cancel</button>
         </div> :
         <div>
             <button onClick={() => setAddingReply(true)}>Reply</button>
             {/* Conditionally render delete button for comment if comment was created by current user */}
-            {Number(comment.user_id) === userid && <button onClick={() => handleDelete()}>Delete</button>}
+            {Number(comment.user_id) === userid && 
+                <>
+                <button onClick={() => {setAddingReply(true); setEditMode(true)}}>Edit</button>
+                <button onClick={() => handleDelete()}>Delete</button>
+                </>}
         </div>}
         </>
     );
