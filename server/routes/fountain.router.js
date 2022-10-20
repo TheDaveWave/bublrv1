@@ -73,7 +73,7 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
                         res.sendStatus(201);
                     })
                     .catch(err => {
-                        // console.log('error in adding a like', err);
+                        console.log('error in updating a like', err);
                         // res.sendStatus(500);
                         res.status(418).send('Already liked by user.');
                     });
