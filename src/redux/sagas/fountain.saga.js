@@ -90,6 +90,20 @@ function* addReply(action) {
     }
 }
 
+// saga to delete a reply given the reply id.
+// /api/comment/reply/:replyId
+function* deleteReply(action) {
+    try {
+        // set replyId to action.payload.
+        const replyId = action.payload;
+        yield axios.delete(`/api/comment/reply/${replyId}`);
+        // refresh replies.
+        yield put({type: 'GET_REPLIES'});
+    } catch (err) {
+        console.log('Error deleting reply with id', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
@@ -100,6 +114,7 @@ function* fountainSaga() {
     yield takeLatest('DELETE_COMMENT', deleteComment);
     // sagas that manipulate reply entities.
     yield takeLatest('ADD_REPLY', addReply);
+    yield takeLatest('DELETE_REPLY', deleteReply);
 }
 
 export default fountainSaga;
