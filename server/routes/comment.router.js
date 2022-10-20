@@ -62,17 +62,34 @@ router.post('/:ftnId', rejectUnauthenticated, (req, res) => {
 // route to DELETE a comment
 router.delete('/:commentId', rejectUnauthenticated, (req, res) => {
   const commentId = req.params.commentId;
-  // Setup SQL query text.
-  const queryText = `DELETE FROM "comments" WHERE "id"=$1 AND "user_id"=$2;`;
-  pool.query(queryText, [commentId, req.user.id])
-  .then(() => {
-    res.sendStatus(201);
+  // set up query text to get comments.user_id
+  const getQuery = `SELECT "user_id" FROM "comments" WHERE "id"=$1;`;
+  pool.query(getQuery, [commentId])
+  .then(response => {
+    // get the user id tied to that comment with given id.
+    const itemUserId = Number(response.rows[0].user_id);
+    // check if the itemUserId matches the logged in user id.
+    if(itemUserId === req.user.id) {
+      // Setup SQL query text.
+      // this query text gets rid of the need to have two queries.
+      const queryText = `DELETE FROM "comments" WHERE "id"=$1 AND "user_id"=$2;`;
+      pool.query(queryText, [commentId, req.user.id])
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch(err => {
+        // maybe add anothe pool to update comment to "delete comment" depending on the error.
+        console.log('Error deleting comment', err);
+        res.sendStatus(500);
+      });
+    } else {
+      res.sendStatus(401);
+    }
   })
   .catch(err => {
-    // maybe add anothe pool to update comment to "delete comment" depending on the error.
-    console.log('Error deleting comment', err);
+    console.log('Error getting user id tied to comment', err);
     res.sendStatus(500);
-  })
+  });
 });
 
 // POST route to add a reply to a comment given a comment id.
@@ -93,17 +110,33 @@ router.post('/reply/:commentId', rejectUnauthenticated, (req, res) => {
 });
 
 // route to delete a reply on a comment.
+// current user id must match user_id value of replies table.
 router.delete('/reply/:replyId', rejectUnauthenticated, (req, res) => {
   // extract replyId from request parameters.
   const replyId = req.params.replyId;
-  // setup SQL query text.
-  const queryText = `DELETE FROM "replies" WHERE "id"=$1;`;
-  pool.query(queryText, [replyId])
-  .then(() => {
-    res.sendStatus(201);
+  // setup SQL query text to get replies.user_id.
+  const getQuery = `SELECT "user_id" FROM "replies" WHERE "id"=$1;`;
+  pool.query(getQuery, [replyId])
+  .then(response => {
+    // console.log(response.rows[0].user_id);
+    const itemUserId = Number(response.rows[0].user_id);
+    if(itemUserId === req.user.id) {
+      // setup SQL query text.
+      const queryText = `DELETE FROM "replies" WHERE "id"=$1;`;
+      pool.query(queryText, [replyId])
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch(err => {
+        console.log(`Error deleting reply`, err);
+        res.sendStatus(500);
+      });
+    } else {
+      res.status(401).send('You are not authorized!');
+    }
   })
   .catch(err => {
-    console.log(`Error deleting reply`, err);
+    console.log('Error getting the user id tied to the reply', err);
     res.sendStatus(500);
   });
 });
