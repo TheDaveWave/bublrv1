@@ -23,7 +23,10 @@ function Replies({commentId}) {
     return (
         <>
             {commentReplies.map(reply => (
+                <>
                 <li key={reply?.id}>User: {reply.username} | Reply: {reply.body} | Likes {reply.likes} | Date: {reply.date}</li>
+                <button></button>
+                </>
             ))}
         </>
     );
