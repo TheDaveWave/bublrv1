@@ -5,7 +5,12 @@ const router = express.Router();
 // GET all of the fountain data from the database.
 router.get('/', (req, res) => {
     // setup SQL query text.
-    const queryText = `SELECT * FROM "fountains";`;
+    const queryText = `SELECT "f".*,
+    COALESCE(ROUND(SUM("r"."likes"),1), 0) AS "likes",
+    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    FROM "fountains" AS "f"
+    LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
+    GROUP BY "f"."id";`;
     pool.query(queryText)
     .then(response => {
         res.send(response.rows);
@@ -21,7 +26,13 @@ router.get('/:ftnId', (req, res) => {
     // user params to get the value of the id.
     const ftnId = req.params.ftnId;
     // SQL query text using data sanitization.
-    const queryText = `SELECT * FROM "fountains" WHERE "id"=$1;`;
+    const queryText = `SELECT "f".*,
+    COALESCE(ROUND(SUM("r"."likes"),1), 0) AS "likes",
+    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    FROM "fountains" AS "f"
+    LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
+    GROUP BY "f"."id"
+    HAVING "f"."id"=$1;`;
     pool.query(queryText, [ftnId])
     .then(response => {
         res.send(response.rows);
