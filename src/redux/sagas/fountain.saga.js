@@ -133,7 +133,9 @@ function* updateReply(action) {
 
 function* likeFountain(action) {
     try {
-        
+        // get the fountain id.
+        const ftnId = action.payload;
+        const response = yield axios.get(`/api/fountain/${ftnId}`);
     } catch (err) {
         console.log('Error in liking fountain.', err);
     }

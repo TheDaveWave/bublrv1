@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 // GET all of the fountain data from the database.
 router.get('/', (req, res) => {
@@ -40,6 +41,49 @@ router.get('/:ftnId', (req, res) => {
     })
     .catch(err => {
         console.log(`Error getting fountain with id:${ftnId}`, err);
+        res.sendStatus(500);
+    });
+});
+
+router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
+    // extract ftn id from req params
+    const ftnId = req.params.ftnId;
+    // setup get query text to get the current likes of the fountain with user id.
+    const getQuery = `SELECT "likes" FROM "ratings" WHERE "user_id"=$1 and "fountain_id"=$2;`;
+    pool.query(getQuery, [req.user.id, ftnId])
+    .then(response => {
+        // res.send(response.rows[0].likes);
+        let likes = Number(response.rows[0].likes);
+        if(likes === 0) {
+            // setup SQL query text.
+            const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
+            pool.query(queryText, [1, req.user.id, ftnId])
+            .then(() => {
+                res.sendStatus(201);
+            })
+            .catch(err => {
+                console.log('error in adding a like', err);
+                res.sendStatus(500);
+            });
+        } else {
+            const queryText = `INSERT INTO "ratings" ("user_id", "fountain_id", "likes")
+            VALUES($1, $2, $3);`;
+            pool.query(queryText, [req.user.id, ftnId, 1])
+            .then(() => {
+                res.sendStatus(201);
+            })
+            .catch(err => {
+                if(Number(err.code) === 23505) {
+                    res.status(418).send('Already liked by user.');
+                } else {
+                    console.log('error in adding a like', err);
+                    res.sendStatus(500);
+                }
+            });
+        }
+    })
+    .catch(err => {
+        console.log('Error getting likes', err)
         res.sendStatus(500);
     });
 });
