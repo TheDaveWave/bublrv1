@@ -14,7 +14,8 @@ router.get('/ftn/:ftnId', rejectUnauthenticated, (req, res) => {
   FROM "comments" AS "c"
   JOIN "fountains" AS "f" ON "f"."id" = "c"."fountain_id"
   JOIN "users" AS "u" ON "c"."user_id" = "u"."id"
-  WHERE "f"."id"=$1;`;
+  WHERE "f"."id"=$1
+  ORDER BY "date" DESC;`;
   pool.query(queryText, [ftnId])
   .then(response => {
     res.send(response.rows);
@@ -31,7 +32,8 @@ router.get('/reply', rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT "u"."username",
   "r".*
   FROM "replies" AS "r" 
-  JOIN "users" AS "u" ON "r"."user_id" = "u"."id";`;
+  JOIN "users" AS "u" ON "r"."user_id" = "u"."id"
+  ORDER BY "date" DESC;`;
   pool.query(queryText)
   .then(response => {
     res.send(response.rows);
