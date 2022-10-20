@@ -56,6 +56,7 @@ function FtnDetailView() {
         <main>
             <h1>Fountain: {ftn?.id}</h1>
             <p>Rating: {ftn?.rating}</p>
+            <p>Likes: {ftn?.likes}</p>
             {newComment ? 
             <div>
                 <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
