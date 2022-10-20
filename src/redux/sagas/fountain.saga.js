@@ -94,10 +94,12 @@ function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
+    // sagas that manipulate comment entities.
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
-
     yield takeLatest('ADD_COMMENT', addComment);
     yield takeLatest('DELETE_COMMENT', deleteComment);
+    // sagas that manipulate reply entities.
+    yield takeLatest('ADD_REPLY', addReply);
 }
 
 export default fountainSaga;
