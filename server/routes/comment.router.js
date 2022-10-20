@@ -62,17 +62,34 @@ router.post('/:ftnId', rejectUnauthenticated, (req, res) => {
 // route to DELETE a comment
 router.delete('/:commentId', rejectUnauthenticated, (req, res) => {
   const commentId = req.params.commentId;
-  // Setup SQL query text.
-  const queryText = `DELETE FROM "comments" WHERE "id"=$1 AND "user_id"=$2;`;
-  pool.query(queryText, [commentId, req.user.id])
-  .then(() => {
-    res.sendStatus(201);
+  // set up query text to get comments.user_id
+  const getQuery = `SELECT "user_id" FROM "comments" WHERE "id"=$1;`;
+  pool.query(getQuery, [commentId])
+  .then(response => {
+    // get the user id tied to that comment with given id.
+    const itemUserId = Number(response.rows[0].user_id);
+    // check if the itemUserId matches the logged in user id.
+    if(itemUserId === req.user.id) {
+      // Setup SQL query text.
+      // this query text gets rid of the need to have two queries.
+      const queryText = `DELETE FROM "comments" WHERE "id"=$1 AND "user_id"=$2;`;
+      pool.query(queryText, [commentId, req.user.id])
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch(err => {
+        // maybe add anothe pool to update comment to "delete comment" depending on the error.
+        console.log('Error deleting comment', err);
+        res.sendStatus(500);
+      });
+    } else {
+      res.sendStatus(401);
+    }
   })
   .catch(err => {
-    // maybe add anothe pool to update comment to "delete comment" depending on the error.
-    console.log('Error deleting comment', err);
+    console.log('Error getting user id tied to comment', err);
     res.sendStatus(500);
-  })
+  });
 });
 
 // POST route to add a reply to a comment given a comment id.
