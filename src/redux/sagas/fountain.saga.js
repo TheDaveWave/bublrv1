@@ -118,6 +118,19 @@ function* deleteReply(action) {
     }
 }
 
+// saga to update reply body.
+function* updateReply(action) {
+    try {
+        const replyId = action.payload.replyId;
+        const newBody = action.payload.newBody;
+        yield axios.put(`/api/reply/${replyId}`, {newBody});
+        // refresh replies.
+        yield put({type: 'GET_REPLIES'});
+    } catch (err) {
+        console.log('Error updating reply with id', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
@@ -130,6 +143,7 @@ function* fountainSaga() {
     // sagas that manipulate reply entities.
     yield takeLatest('ADD_REPLY', addReply);
     yield takeLatest('DELETE_REPLY', deleteReply);
+    yield takeLatest('UPDATE_REPLY', updateReply);
 }
 
 export default fountainSaga;
