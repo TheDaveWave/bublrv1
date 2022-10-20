@@ -52,6 +52,11 @@ function Map() {
         setActiveMarker(marker);
     }
 
+    // used to add a like to a fountain.
+    const addLike = (ftnId) => {
+        dispatch({type: 'ADD_LIKE', payload: ftnId});
+    }
+
     // get fountains on load.
     useEffect(() => {
         dispatch({type: 'GET_FOUNTAINS'});
@@ -163,6 +168,7 @@ function Map() {
                             <div>
                                 <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
                                 <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
+                                <button onClick={() => addLike(ftn.id)}>Like</button>
                             </div>
                         </InfoWindow>
                     )}

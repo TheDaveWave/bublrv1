@@ -48,41 +48,36 @@ router.get('/:ftnId', (req, res) => {
 router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     // extract ftn id from req params
     const ftnId = req.params.ftnId;
-    // setup get query text to get the current likes of the fountain with user id.
-    const getQuery = `SELECT "likes" FROM "ratings" WHERE "user_id"=$1 and "fountain_id"=$2;`;
-    pool.query(getQuery, [req.user.id, ftnId])
-    .then(response => {
-        // res.send(response.rows[0].likes);
-        const likes = Number(response.rows[0].likes);
-        // if likes is not zero then update likes to 1.
-        if(likes === 0) {
-            // setup SQL query text.
-            const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
-            pool.query(queryText, [1, req.user.id, ftnId])
-            .then(() => {
-                res.sendStatus(201);
-            })
-            .catch(err => {
-                console.log('error in adding a like', err);
-                res.sendStatus(500);
-            });
-        } else {
-            // if likes is not 0 then add a new entry.
-            const queryText = `INSERT INTO "ratings" ("user_id", "fountain_id", "likes")
-            VALUES($1, $2, $3);`;
-            pool.query(queryText, [req.user.id, ftnId, 1])
-            .then(() => {
-                res.sendStatus(201);
-            })
-            .catch(err => {
-                // if entry already exists send back 418 as an error.
-                if(Number(err.code) === 23505) {
-                    res.status(418).send('Already liked by user.');
-                } else {
-                    console.log('error in adding a like', err);
-                    res.sendStatus(500);
-                }
-            });
+    // if likes is not 0 then add a new entry.
+    const queryText = `INSERT INTO "ratings" ("user_id", "fountain_id", "likes")
+    VALUES($1, $2, $3);`;
+    pool.query(queryText, [req.user.id, ftnId, 1])
+    .then(() => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        // if entry already exists send back 418 as an error.
+        if(Number(err.code) === 23505) {
+            // setup get query text to get the current likes of the fountain with user id.
+            const getQuery = `SELECT "likes" FROM "ratings" WHERE "user_id"=$1 and "fountain_id"=$2;`;
+            pool.query(getQuery, [req.user.id, ftnId])
+            .then(response => {
+                // res.send(response.rows[0].likes);
+                const likes = Number(response.rows[0].likes);
+                // if likes is not zero then update likes to 1.
+                if(likes === 0) {
+                    // setup SQL query text.
+                    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
+                    pool.query(queryText, [1, req.user.id, ftnId])
+                    .then(() => {
+                        res.sendStatus(201);
+                    })
+                    .catch(err => {
+                        // console.log('error in adding a like', err);
+                        // res.sendStatus(500);
+                        res.status(418).send('Already liked by user.');
+                    });
+                }});
         }
     })
     .catch(err => {

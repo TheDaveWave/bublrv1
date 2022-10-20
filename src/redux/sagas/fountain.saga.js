@@ -135,7 +135,7 @@ function* likeFountain(action) {
     try {
         // get the fountain id.
         const ftnId = action.payload;
-        yield axios.post(`/api/fountain/rating${ftnId}`);
+        yield axios.post(`/api/fountain/rating/${ftnId}`);
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error in liking fountain.', err);
