@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ReplyItem from "./RepyItem";
 
 function Replies({commentId}) {
     // get access to the replies from redux.
@@ -23,7 +24,7 @@ function Replies({commentId}) {
     return (
         <>
             {commentReplies.map(reply => (
-                <li key={reply?.id}>User: {reply.username} | Reply: {reply.body} | Likes {reply.likes} | Date: {reply.date}</li>
+                <ReplyItem key={reply?.id} reply={reply}/>
             ))}
         </>
     );

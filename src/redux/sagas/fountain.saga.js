@@ -64,7 +64,7 @@ function* deleteComment(action) {
     }
 }
 
-// saga to fetch all the replies for a comment given the comment id.
+// saga to fetch all the replies for each comment.
 function* fetchCommentReplies(action) {
     try {
         // const commentId = action.payload;
@@ -76,14 +76,45 @@ function* fetchCommentReplies(action) {
     }
 }
 
+// /api/comment/reply/:commentId
+// saga to add a reply to a comment given a comment id.
+function* addReply(action) {
+    try {
+        // setup comment id from the payload.
+        const commentId = action.payload.commentId;
+        yield axios.post(`/api/comment/reply/${commentId}`, {body: action.payload.body});
+        // after adding, retrieve updated list of replies.
+        yield put({type: 'GET_REPLIES'});
+    } catch (err) {
+        console.log('Error adding reply to comment', err);
+    }
+}
+
+// saga to delete a reply given the reply id.
+// /api/comment/reply/:replyId
+function* deleteReply(action) {
+    try {
+        // set replyId to action.payload.
+        const replyId = action.payload;
+        yield axios.delete(`/api/comment/reply/${replyId}`);
+        // refresh replies.
+        yield put({type: 'GET_REPLIES'});
+    } catch (err) {
+        console.log('Error deleting reply with id', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
+    // sagas that manipulate comment entities.
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
-
     yield takeLatest('ADD_COMMENT', addComment);
     yield takeLatest('DELETE_COMMENT', deleteComment);
+    // sagas that manipulate reply entities.
+    yield takeLatest('ADD_REPLY', addReply);
+    yield takeLatest('DELETE_REPLY', deleteReply);
 }
 
 export default fountainSaga;
