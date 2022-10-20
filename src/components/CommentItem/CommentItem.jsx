@@ -34,11 +34,11 @@ function CommentItem({comment, ftnId}) {
                     body: replyBody
                 }
             });
+             // clear inputs
+            setReplyBody('');
+            // close form
+            setAddingReply(false);
         }
-        // clear inputs
-        setReplyBody('');
-        // close form
-        setAddingReply(false);
     }
 
     return (

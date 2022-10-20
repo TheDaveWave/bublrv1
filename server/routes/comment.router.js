@@ -69,6 +69,7 @@ router.delete('/:commentId', rejectUnauthenticated, (req, res) => {
     res.sendStatus(201);
   })
   .catch(err => {
+    // maybe add anothe pool to update comment to "delete comment" depending on the error.
     console.log('Error deleting comment', err);
     res.sendStatus(500);
   })
@@ -81,7 +82,7 @@ router.post('/reply/:commentId', rejectUnauthenticated, (req, res) => {
   // Setup SQL query text.
   const queryText = `INSERT INTO "replies" ("user_id", "comment_id", "body")
   VALUES ($1, $2, $3);`;
-  pool.query(queryText, [req.body.user_id, commentId, req.body.body])
+  pool.query(queryText, [req.user.id, commentId, req.body.body])
   .then(() => {
     res.sendStatus(201);
   })
