@@ -80,9 +80,25 @@ router.delete('/:commentId', rejectUnauthenticated, (req, res) => {
         res.sendStatus(201);
       })
       .catch(err => {
-        // maybe add anothe pool to update comment to "delete comment" depending on the error.
-        console.log('Error deleting comment', err);
-        res.sendStatus(500);
+        // console.log(err.code);
+        // add another pool to update comment to "delete comment" if error
+        // is due to a foreign key constraint.
+        if(Number(err.code) === 23503) {
+          // update comment body to "delete comment".
+          const queryText = `UPDATE "comments" SET "body"='deleted comment' 
+          WHERE "id"=$1 AND "user_id"=$2;`;
+          pool.query(queryText, [commentId, req.user.id])
+          .then(() => {
+            res.sendStatus(201);
+          })
+          .catch(err => {
+            console.log('Error updating comment in delete comment', err);
+            res.sendStatus(500);
+          })
+        } else {
+          console.log('Error deleting comment', err);
+          res.sendStatus(500);
+        }
       });
     } else {
       res.sendStatus(401);
