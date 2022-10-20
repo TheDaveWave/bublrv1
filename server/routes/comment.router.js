@@ -161,4 +161,19 @@ router.put('/:commentId', rejectUnauthenticated, (req, res) => {
   });
 });
 
+// PUT route to update a reply.
+router.put('/reply/:replyId', rejectUnauthenticated, (req, res) => {
+  const replyId = req.params.replyId;
+  const newBody = req.body.newBody;
+  const queryText = `UPDATE "replies" SET "body"=$1 WHERE "id"=$2 AND "user_id"=$3;`;
+  pool.query(queryText, [newBody, replyId, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error updating reply', err);
+    res.sendStatus(500);
+  });
+});
+
 module.exports = router;
