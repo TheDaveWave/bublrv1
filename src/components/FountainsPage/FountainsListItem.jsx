@@ -9,6 +9,7 @@ function FountainsListItem({fountain}) {
             <img src={fountain.picture} className='info-img' alt='A drinking fountain'/>
             <div>
                 <p>Rating: {fountain.rating}</p>
+                <p>Likes: {fountain.likes}</p>
             </div>
             <div>
                 <button>Go</button>
