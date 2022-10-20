@@ -53,7 +53,7 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     pool.query(getQuery, [req.user.id, ftnId])
     .then(response => {
         // res.send(response.rows[0].likes);
-        let likes = Number(response.rows[0].likes);
+        const likes = Number(response.rows[0].likes);
         if(likes === 0) {
             // setup SQL query text.
             const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
