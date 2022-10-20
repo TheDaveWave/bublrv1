@@ -24,13 +24,21 @@ function CommentItem({comment, ftnId}) {
 
     // a function to handle adding a reply.
     const handleReply = () => {
-        dispatch({
-            type: 'ADD_REPLY',
-            payload: {
-                commentId: comment.id,
-                body: replyBody
-            }
-        });
+        if(!replyBody) {
+            alert('Missing reply.');
+        } else {
+            dispatch({
+                type: 'ADD_REPLY',
+                payload: {
+                    commentId: comment.id,
+                    body: replyBody
+                }
+            });
+        }
+        // clear inputs
+        setReplyBody('');
+        // close form
+        setAddingReply(false);
     }
 
     return (
