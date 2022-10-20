@@ -82,7 +82,7 @@ function* addReply(action) {
     try {
         // setup comment id from the payload.
         const commentId = action.payload.commentId;
-        yield axios.post(`/api/comment/reply/${commentId}`);
+        yield axios.post(`/api/comment/reply/${commentId}`, {body: action.payload.body});
         // after adding, retrieve updated list of replies.
         yield put({type: 'GET_REPLIES'});
     } catch (err) {

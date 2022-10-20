@@ -11,6 +11,7 @@ function CommentItem({comment, ftnId}) {
     const userid = useSelector(store => store.user.id);
     // console.log(userid);
 
+    // handles the deleting of a comment on button click.
     const handleDelete = () => {
         dispatch({
             type: 'DELETE_COMMENT',
@@ -23,7 +24,13 @@ function CommentItem({comment, ftnId}) {
 
     // a function to handle adding a reply.
     const handleReply = () => {
-
+        dispatch({
+            type: 'ADD_REPLY',
+            payload: {
+                commentId: comment.id,
+                body: replyBody
+            }
+        });
     }
 
     return (
