@@ -1,8 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function CommentItem({comment, ftnId}) {
     // access useDispatch()
     const dispatch = useDispatch();
+    // get current user
+    const userid = useSelector(store => store.user.id);
+    // console.log(userid);
 
     const handleDelete = () => {
         dispatch({
@@ -18,7 +21,7 @@ function CommentItem({comment, ftnId}) {
         <>
         <li>ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Likes: {comment.likes} | Date: {comment.date}</li>
         <button>Reply</button>
-        <button onClick={() => handleDelete()}>Delete</button>
+        {Number(comment.user_id) === userid && <button onClick={() => handleDelete()}>Delete</button>}
         </>
     );
 }
