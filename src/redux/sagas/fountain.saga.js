@@ -64,6 +64,20 @@ function* deleteComment(action) {
     }
 }
 
+// saga to update comment body.
+function* updateComment(action) {
+    try {
+        const ftnId = action.payload.ftnId;
+        const commentId = action.payload.commentId;
+        const newBody = action.payload.newBody;
+        yield axios.put(`/api/comment/${commentId}`, {newBody});
+        // refresh comments.
+        yield put({type: 'GET_COMMENTS', payload: ftnId});
+    } catch (err) {
+        console.log('Error updating comment', err);
+    }
+}
+
 // saga to fetch all the replies for each comment.
 function* fetchCommentReplies(action) {
     try {
@@ -112,6 +126,7 @@ function* fountainSaga() {
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
     yield takeLatest('ADD_COMMENT', addComment);
     yield takeLatest('DELETE_COMMENT', deleteComment);
+    yield takeLatest('UPDATE_COMMENT', updateComment);
     // sagas that manipulate reply entities.
     yield takeLatest('ADD_REPLY', addReply);
     yield takeLatest('DELETE_REPLY', deleteReply);
