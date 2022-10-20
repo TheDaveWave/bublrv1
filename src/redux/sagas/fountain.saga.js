@@ -123,7 +123,7 @@ function* updateReply(action) {
     try {
         const replyId = action.payload.replyId;
         const newBody = action.payload.newBody;
-        yield axios.put(`/api/reply/${replyId}`, {newBody});
+        yield axios.put(`/api/comment/reply/${replyId}`, {newBody});
         // refresh replies.
         yield put({type: 'GET_REPLIES'});
     } catch (err) {
