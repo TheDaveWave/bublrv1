@@ -91,4 +91,9 @@ router.post('/reply/:commentId', rejectUnauthenticated, (req, res) => {
   });
 });
 
+// route to delete a reply on a comment.
+router.delete('/reply/:commentId', rejectUnauthenticated, (req, res) => {
+  
+});
+
 module.exports = router;
