@@ -86,6 +86,19 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.delete('/rating/:ftnid', rejectUnauthenticated, (req, res) => {
+    const ftnId = req.params.ftnid;
+    const queryText = `DELETE "ratings" WHERE "user_id"=$1 AND "fountain_id=$2;`;
+    pool.query(queryText, [req.user.id, ftnId])
+    .then(() => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        console.log('Error removing like', err);
+        res.sendStatus(500);
+    });
+});
+
 /**
  * POST route template
  */

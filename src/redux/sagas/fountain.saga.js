@@ -142,6 +142,16 @@ function* likeFountain(action) {
     }
 }
 
+function* unlikeFountain(action) {
+    try {
+        const ftnId = action.payload;
+        yield axios.delete(`/api/fountain/rating/${ftnId}`);
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('Error removing like', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
@@ -157,6 +167,7 @@ function* fountainSaga() {
     yield takeLatest('UPDATE_REPLY', updateReply);
     // sagas that manipulate ratings.
     yield takeLatest('ADD_LIKE', likeFountain);
+    yield takeLatest('REMOVE_LIKE', unlikeFountain);
 }
 
 export default fountainSaga;
