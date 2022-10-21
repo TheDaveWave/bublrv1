@@ -131,6 +131,27 @@ function* updateReply(action) {
     }
 }
 
+function* likeFountain(action) {
+    try {
+        // get the fountain id.
+        const ftnId = action.payload;
+        yield axios.post(`/api/fountain/like/${ftnId}`);
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('Error in liking fountain.', err);
+    }
+}
+
+function* unlikeFountain(action) {
+    try {
+        const ftnId = action.payload;
+        yield axios.put(`/api/fountain/like/${ftnId}`);
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('Error removing like', err);
+    }
+}
+
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
@@ -144,6 +165,9 @@ function* fountainSaga() {
     yield takeLatest('ADD_REPLY', addReply);
     yield takeLatest('DELETE_REPLY', deleteReply);
     yield takeLatest('UPDATE_REPLY', updateReply);
+    // sagas that manipulate ratings.
+    yield takeLatest('ADD_LIKE', likeFountain);
+    yield takeLatest('REMOVE_LIKE', unlikeFountain);
 }
 
 export default fountainSaga;
