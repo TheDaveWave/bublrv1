@@ -163,6 +163,7 @@ function* rateFountain(action) {
         yield axios.put(`/api/fountain/rating/${ftnId}`, {rating});
         // refresh the fountains.
         yield put({type: 'GET_FOUNTAINS'});
+        // maybe instead refresh the specific fountain?
     } catch (err) {
         console.log('Error rating fountain', err);
     }
