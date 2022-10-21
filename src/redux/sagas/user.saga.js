@@ -24,8 +24,22 @@ function* fetchUser() {
   }
 }
 
+// used to update user info.
+function* updateUser(action) {
+  try {
+    const firstname = action.payload.firstname;
+    const lastname = action.payload.lastname;
+    const password = action.payload.password;
+    yield axios.put(`/api/user/edit`, {firstname, lastname, password});
+    yield put({type: 'FETCH_USER'});
+  } catch (err) {
+    console.log('Error updating user', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('EDIT_USER', updateUser);
 }
 
 export default userSaga;
