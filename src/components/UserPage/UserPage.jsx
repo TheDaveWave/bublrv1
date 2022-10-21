@@ -19,22 +19,31 @@ function UserPage() {
   const userObj = {
     firstname,
     lastname,
-    password
+    password,
   }
 
   // used to send updated info to DB.
   const updateInfo = () => {
-    // if(!password) {
-    //   alert('Please type in new password');
-    // } else {
       dispatch({
         type: 'EDIT_USER',
         payload: userObj
       });
       // empty inputs.
       setPassword('');
-      // setEditMode(false);
-    // }
+      setEditMode(false);
+  }
+
+  const updateBio = () => {
+    console.log(bio)
+    if(bio === user.bio) {
+      return;
+    } else {
+      dispatch({
+        type: 'EDIT_BIO',
+        payload: bio
+      });
+      setEditBio(false);
+    }
   }
 
   return (
@@ -46,11 +55,11 @@ function UserPage() {
         <h3>Bio</h3>
       </div>
       <div>
-        <textarea value={bio} onChange={evt => setBio(evt.target.value)} readOnly={editMode ? false : true}></textarea>
+        <textarea value={bio} onChange={evt => setBio(evt.target.value)} readOnly={editBio ? false : true}></textarea>
         <div>
           {editBio ? 
             <>
-            <button>Save</button>
+            <button onClick={() => updateBio()}>Save</button>
             <button onClick={() => setEditBio(false)}>Cancel</button> 
             </> :
             <button onClick={() => setEditBio(true)}>Edit Bio</button>

@@ -30,16 +30,27 @@ function* updateUser(action) {
     const firstname = action.payload.firstname;
     const lastname = action.payload.lastname;
     const password = action.payload.password;
-    yield axios.put(`/api/user/edit`, {firstname, lastname, password});
+    yield axios.put(`/api/user/edit`, {firstname, lastname, password, bio});
     yield put({type: 'FETCH_USER'});
   } catch (err) {
     console.log('Error updating user', err);
   }
 }
 
+function* updateBio(action) {
+  try {
+    const bio = action.payload;
+    yield axios.put(`/api/user/bio`, {bio});
+    yield put({type: 'FETCH_USER'});
+  } catch (err) {
+    console.log('Erro updating user bio', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('EDIT_USER', updateUser);
+  yield takeLatest('EDIT_BIO', updateBio);
 }
 
 export default userSaga;
