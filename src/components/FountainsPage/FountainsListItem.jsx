@@ -6,8 +6,13 @@ function FountainsListItem({fountain}) {
     // access browser history
     const history = useHistory();
     // setup local state for rating
-    const [rating, setRating] = useState(Number(fountain.rating));
-    console.log(fountain.id, rating);
+    const [rateMode, setRateMode] = useState(false);
+    const [rating, setRating] = useState(0);
+
+    // used to handle the submit of rating.
+    const submitRating = () => {
+
+    }
 
     return (
         <div>
@@ -20,7 +25,7 @@ function FountainsListItem({fountain}) {
             <div>
                 <button>Go</button>
                 <button onClick={() => history.push(`/fountain/${fountain.id}`)}>Comments</button>
-                {/* <button>Rate</button> */}
+                {!rateMode && <button onClick={() => setRateMode(true)}>Rate</button>}
             </div>
         </div>
     );
