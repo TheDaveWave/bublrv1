@@ -14,7 +14,6 @@ function UserPage() {
     <main>
       <div>
         <h2>{user.username}</h2>
-        {/* <p>Your ID is: {user.id}</p> */}
         <h3>Bio</h3>
       </div>
       <div>
