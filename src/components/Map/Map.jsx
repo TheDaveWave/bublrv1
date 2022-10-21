@@ -57,6 +57,10 @@ function Map() {
         dispatch({type: 'ADD_LIKE', payload: ftnId});
     }
 
+    const removeLike = (ftnId) => {
+        dispatch({type: 'REMOVE_LIKE', payload: ftnId});
+    }
+
     // get fountains on load.
     useEffect(() => {
         dispatch({type: 'GET_FOUNTAINS'});
@@ -167,8 +171,10 @@ function Map() {
                         <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                             <div>
                                 <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
+                                <p>Likes: {ftn.likes}</p>
                                 <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
                                 <button onClick={() => addLike(ftn.id)}>Like</button>
+                                <button onClick={() => removeLike(ftn.id)}>Dislike</button>
                             </div>
                         </InfoWindow>
                     )}
