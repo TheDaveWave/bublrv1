@@ -1,10 +1,12 @@
-import { Box, Button, Card, CardActions, CardContent, TextField } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Divider, TextField } from "@mui/material";
 import { useState } from "react";
 
 function SettingsPage() {
+    const defaultImageUrl = 'images/eda-fountain1.jpeg';
     // setup local state
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
+    const [picture, setPicture] = useState(defaultImageUrl);
 
     // function to get the current location of the user. 
     const getLocation = () => {
@@ -24,14 +26,21 @@ function SettingsPage() {
         }
     }
 
+    // instantiate fountain object.
+    const fountainObj = {
+        lat,
+        lng,
+        picture
+    }
+
     return (
         <Box
             component='form'
             sx={{
                 '& .MuiTextField-root': { m: 2, width: '25ch' },
+                '.MuiButtonBase-root': {m: 2}
                 }}
         >
-            <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
             <div>
                 <TextField 
                     variant='standard'
@@ -44,6 +53,31 @@ function SettingsPage() {
                     value={lng}
                 />
             </div>
+            <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
+            <Divider variant='middle'/>
+            <Box
+                component='label'
+                sx={{
+                    '& .MuiTextField-root': { m: 2, width: '25ch' },
+                }}
+            >
+                <TextField 
+                    variant='standard'
+                    label='Image URL'
+                    type='url'
+                    value={picture}
+                    onChange={evt => setPicture(evt.target.value)}
+                />
+            </Box>
+            <Divider variant='middle'/>
+            <Box
+                component='label'
+                sx={{
+                    '.MuiButtonBase-root': { m: 2, width: '12.5ch'},
+                }}
+            >
+                <Button variant='contained'>Upload</Button>
+            </Box>
         </Box>
     );
 }

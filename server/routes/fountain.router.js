@@ -45,6 +45,28 @@ router.get('/:ftnId', (req, res) => {
     });
 });
 
+// POST route to add a fountain to the DB.
+router.post('/', rejectUnauthenticated, (req, res) => {
+    if(req.user.admin) {
+        const picture = req.body.picture;
+        const lat = req.body.lat;
+        const lng = req.body.lng;
+        const queryText = `INSERT INTO "fountains" ("user_id", "latitude", "longitude", "picture")
+        VALUES ($1, $2, $3, $4);`;
+        const values = [req.user.id, lat, lng, picture];
+        pool.query(queryText, values)
+        .then(() => {
+            res.sendStatus(201);
+        })
+        .catch(err => {
+            console.log('Error adding fountain', err);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+});
+
 router.post('/like/:ftnId', rejectUnauthenticated, (req, res) => {
     // extract ftn id from req params
     const ftnId = req.params.ftnId;
@@ -126,11 +148,5 @@ router.put('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     });
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
-});
 
 module.exports = router;
