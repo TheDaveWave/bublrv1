@@ -36,19 +36,34 @@ router.post('/register', (req, res, next) => {
 // Handles when a user wants to update their profile.
 router.put('/edit', rejectUnauthenticated, (req, res) => {
   // get info from the request body.
-  const firstname = req.body.username;
-  const lastname = req.body.username;
-  const password = encryptLib.comparePassword(req.body.password);
-  const queryText = `UPDATE "users" SET "firstname"=$1, "lastname"=$2, "password"=$3
-  WHERE "id"=$4;`;
-  pool.query(queryText, [firstname, lastname, password, req.user.id])
-  .then(() => {
-    res.sendStatus(201);
-  })
-  .catch(err => {
-    console.log('Error updating user info', err);
-    res.sendStatus(500);
-  });
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  if(!req.body.password || req.body.password === '') {
+    // console.log(req.body);
+    const queryText = `UPDATE "users" SET "firstname"=$1, "lastname"=$2
+    WHERE "id"=$3 RETURNING*;`;
+    pool.query(queryText, [firstname, lastname, req.user.id])
+    .then((resp) => {
+      // console.log(resp.rows[0]);
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('Error updating user info', err);
+      res.sendStatus(500);
+    });
+  } else {
+    const password = encryptLib.encryptPassword(req.body.password);
+    const queryText = `UPDATE "users" SET "firstname"=$1, "lastname"=$2, "password"=$3
+    WHERE "id"=$4;`;
+    pool.query(queryText, [firstname, lastname, password, req.user.id])
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('Error updating user info', err);
+      res.sendStatus(500);
+    });
+  }
 });
 
 // Handles login form authenticate/login POST
