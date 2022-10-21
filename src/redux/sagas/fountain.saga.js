@@ -131,6 +131,7 @@ function* updateReply(action) {
     }
 }
 
+// saga to add a like to a fountain.
 function* likeFountain(action) {
     try {
         // get the fountain id.
@@ -142,6 +143,7 @@ function* likeFountain(action) {
     }
 }
 
+// used to dislike a fountain.
 function* unlikeFountain(action) {
     try {
         const ftnId = action.payload;
@@ -149,6 +151,20 @@ function* unlikeFountain(action) {
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error removing like', err);
+    }
+}
+
+// used to rate a fountain.
+function* rateFountain(action) {
+    try {
+        const ftnId = action.payload.ftnId;
+        const rating = action.payload.rating;
+        // setup rating in the request body.
+        yield axios.put(`/api/fountain/rating/${ftnId}`, {rating});
+        // refresh the fountains.
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('Error rating fountain', err);
     }
 }
 
@@ -168,6 +184,7 @@ function* fountainSaga() {
     // sagas that manipulate ratings.
     yield takeLatest('ADD_LIKE', likeFountain);
     yield takeLatest('REMOVE_LIKE', unlikeFountain);
+    yield takeLatest('RATE_FOUNTAIN', rateFountain);
 }
 
 export default fountainSaga;
