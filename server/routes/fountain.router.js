@@ -108,6 +108,24 @@ router.put('/like/:ftnid', rejectUnauthenticated, (req, res) => {
     });
 });
 
+// PUT route to update rating
+router.put('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
+    // extract fountain Id from req params.
+    const ftnId = req.params.ftnId;
+    // get the rating from the request body.
+    const rating = req.body.rating;
+    // setup SQL query text.
+    const queryText = `UPDATE "ratings" SET "rating"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
+    pool.query(queryText, [rating, req.user.id, ftnId])
+    .then(() => {
+        res.sendStatus(201);
+    })
+    .catch(err => {
+        console.log('Error rating fountain', err);
+        res.sendStatus(500);
+    });
+});
+
 /**
  * POST route template
  */
