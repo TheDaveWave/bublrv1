@@ -45,7 +45,7 @@ router.get('/:ftnId', (req, res) => {
     });
 });
 
-router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
+router.post('/like/:ftnId', rejectUnauthenticated, (req, res) => {
     // extract ftn id from req params
     const ftnId = req.params.ftnId;
     // if likes is not 0 then add a new entry.
@@ -86,10 +86,11 @@ router.post('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.delete('/rating/:ftnid', rejectUnauthenticated, (req, res) => {
+// a PUT route to UPDATE the likes for a fountain.
+router.put('/like/:ftnid', rejectUnauthenticated, (req, res) => {
     const ftnId = req.params.ftnid;
-    const queryText = `DELETE FROM "ratings" WHERE "user_id"=$1 AND "fountain_id"=$2;`;
-    pool.query(queryText, [req.user.id, ftnId])
+    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$1 AND "fountain_id"=$2;`;
+    pool.query(queryText, [0, req.user.id, ftnId])
     .then(() => {
         res.sendStatus(201);
     })

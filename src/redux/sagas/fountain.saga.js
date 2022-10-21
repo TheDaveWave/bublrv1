@@ -135,7 +135,7 @@ function* likeFountain(action) {
     try {
         // get the fountain id.
         const ftnId = action.payload;
-        yield axios.post(`/api/fountain/rating/${ftnId}`);
+        yield axios.post(`/api/fountain/like/${ftnId}`);
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error in liking fountain.', err);
@@ -145,7 +145,7 @@ function* likeFountain(action) {
 function* unlikeFountain(action) {
     try {
         const ftnId = action.payload;
-        yield axios.delete(`/api/fountain/rating/${ftnId}`);
+        yield axios.put(`/api/fountain/like/${ftnId}`);
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error removing like', err);
