@@ -89,7 +89,7 @@ router.post('/like/:ftnId', rejectUnauthenticated, (req, res) => {
 // a PUT route to UPDATE the likes for a fountain.
 router.put('/like/:ftnid', rejectUnauthenticated, (req, res) => {
     const ftnId = req.params.ftnid;
-    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$1 AND "fountain_id"=$2;`;
+    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
     pool.query(queryText, [0, req.user.id, ftnId])
     .then(() => {
         res.sendStatus(201);
