@@ -1,3 +1,4 @@
+import { Rating } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -171,6 +172,9 @@ function Map() {
                         <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                             <div>
                                 <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
+                                <div>
+                                <Rating value={Number(ftn.rating)} precision={0.1} readOnly/>
+                                </div>
                                 <p>Likes: {ftn.likes}</p>
                                 <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
                                 <button onClick={() => addLike(ftn.id)}>Like</button>
