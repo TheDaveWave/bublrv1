@@ -33,6 +33,52 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+// Handles when a user wants to update their profile.
+router.put('/edit', rejectUnauthenticated, (req, res) => {
+  // get info from the request body.
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  if(!req.body.password || req.body.password === '') {
+    // console.log(req.body);
+    const queryText = `UPDATE "users" SET "firstname"=$1, "lastname"=$2
+    WHERE "id"=$3;`;
+    pool.query(queryText, [firstname, lastname, req.user.id])
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('Error updating user info', err);
+      res.sendStatus(500);
+    });   
+  } else {
+    const password = encryptLib.encryptPassword(req.body.password);
+    const queryText = `UPDATE "users" SET "firstname"=$1, "lastname"=$2, "password"=$3
+    WHERE "id"=$4;`;
+    pool.query(queryText, [firstname, lastname, password, req.user.id])
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('Error updating user info', err);
+      res.sendStatus(500);
+    });
+  }
+});
+
+router.put('/bio', rejectUnauthenticated, (req, res) => {
+  const bio = req.body.bio;
+  const queryText = `UPDATE "users" SET "bio"=$1
+  WHERE "id"=$2;`;
+  pool.query(queryText, [bio, req.user.id])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => {
+    console.log('Error updating user info', err);
+    res.sendStatus(500);
+  });
+});
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -47,5 +93,6 @@ router.post('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
 
 module.exports = router;
