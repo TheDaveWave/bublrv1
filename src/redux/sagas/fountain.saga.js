@@ -144,7 +144,7 @@ function* likeFountain(action) {
 }
 
 // used to dislike a fountain.
-function* unlikeFountain(action) {
+function* dislikeFountain(action) {
     try {
         const ftnId = action.payload;
         yield axios.put(`/api/fountain/like/${ftnId}`);
@@ -183,7 +183,7 @@ function* fountainSaga() {
     yield takeLatest('UPDATE_REPLY', updateReply);
     // sagas that manipulate ratings.
     yield takeLatest('ADD_LIKE', likeFountain);
-    yield takeLatest('REMOVE_LIKE', unlikeFountain);
+    yield takeLatest('REMOVE_LIKE', dislikeFountain);
     yield takeLatest('RATE_FOUNTAIN', rateFountain);
 }
 
