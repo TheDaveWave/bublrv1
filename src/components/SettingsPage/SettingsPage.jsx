@@ -1,8 +1,10 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, TextField } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 function SettingsPage() {
     const defaultImageUrl = 'images/eda-fountain1.jpeg';
+    const dispatch = useDispatch();
     // setup local state
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
@@ -31,6 +33,18 @@ function SettingsPage() {
         lat,
         lng,
         picture
+    }
+
+    // used to upload a new fountain.
+    const addFountain = () => {
+        if(!lat || !lng || !picture) {
+            alert('Please fill out form');
+        } else {
+            dispatch({
+                type: 'ADD_FOUNTAIN',
+                payload: fountainObj
+            });
+        }
     }
 
     return (
