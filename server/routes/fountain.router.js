@@ -89,9 +89,17 @@ router.post('/like/:ftnId', rejectUnauthenticated, (req, res) => {
 // a PUT route to UPDATE the likes for a fountain.
 router.put('/like/:ftnid', rejectUnauthenticated, (req, res) => {
     const ftnId = req.params.ftnid;
-    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
+    const queryText = `UPDATE "ratings" SET "likes"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3 RETURNING *;`;
     pool.query(queryText, [0, req.user.id, ftnId])
-    .then(() => {
+    .then((response) => {
+        // console.log(response.rows);
+        // if(!response.rows[0]) {
+        //     const queryText = `INSERT INTO "ratings" ("user_id", "fountain_id", "likes")
+        //     VALUES($1, $2, $3);`;
+        //     pool.query(queryText, [req.user.id, ftnId, 0]);
+        // } else {
+        //     res.sendStatus(201);
+        // }
         res.sendStatus(201);
     })
     .catch(err => {
