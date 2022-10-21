@@ -1,10 +1,12 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function SettingsPage() {
     const defaultImageUrl = 'images/eda-fountain1.jpeg';
     const dispatch = useDispatch();
+    const history = useHistory();
     // setup local state
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
@@ -44,6 +46,7 @@ function SettingsPage() {
                 type: 'ADD_FOUNTAIN',
                 payload: fountainObj
             });
+            history.push('/maps');
         }
     }
 
@@ -90,7 +93,7 @@ function SettingsPage() {
                     '.MuiButtonBase-root': { m: 2, width: '12.5ch'},
                 }}
             >
-                <Button variant='contained'>Upload</Button>
+                <Button onClick={() => addFountain()} variant='contained'>Upload</Button>
             </Box>
         </Box>
     );
