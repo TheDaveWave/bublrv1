@@ -67,6 +67,32 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     }
 });
 
+// PUT route to update a fountain's information.
+router.put('/:ftnId', rejectUnauthenticated, (req, res) => {
+    // check if the user is an admin.
+    if(req.user.admin) {
+        // shorten req.body by assigning it to a variable b.
+        const b = req.body;
+        const ftnId = req.params.ftnId;
+        const queryText = `UPDATE "fountains"
+            SET "latitude"=$1, "longitude"=$2, "picture"=$3, "laminar_flow"=$4,
+                "turbulent_flow"=$5, "bottle_accessible"=$6, "outdoor"=$7, "indoor"=$8
+            WHERE "id"=$9;`;
+        const values = [b.lat, b.lng, b.picture, b.laminar, b.turbulent, b.bottle, b.outdoor, b.indoor, ftnId];
+        pool.query(queryText, values) 
+        .then(() => {
+            res.sendStatus(201);
+        })
+        .catch(err => {
+            console.log('Error updating fountain', err);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+// POST route to add a like.
 router.post('/like/:ftnId', rejectUnauthenticated, (req, res) => {
     // extract ftn id from req params
     const ftnId = req.params.ftnId;
