@@ -18,9 +18,9 @@ function SettingsPage() {
     const [lng, setLng] = useState(0);
     const [picture, setPicture] = useState(defaultImageUrl);
     // setup local state for the edit mode.
-    const [selectLat, setSelectLat] = useState(0);
-    const [selectLng, setSelectLng] = useState(0);
-    const [selPicture, setSelPicture] = useState(0);
+    const [selectLat, setSelectLat] = useState('');
+    const [selectLng, setSelectLng] = useState('');
+    const [selPicture, setSelPicture] = useState('');
     const [fountainId, setFountainId] = useState('');
 
     // function to get the current location of the user. 
@@ -46,7 +46,7 @@ function SettingsPage() {
             alert('Please select a fountain to edit');
         } else {
             const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
-            console.log(fountainObj);
+            // console.log(fountainObj);
             setSelectLat(Number(fountainObj.latitude));
             setSelectLng(Number(fountainObj.longitude));
             setSelPicture(fountainObj?.picture);
@@ -159,11 +159,13 @@ function SettingsPage() {
                             variant='standard'
                             label='Latitude'
                             value={selectLat}
+                            onChange={evt => setSelectLat(evt.target.value)}
                         />
                         <TextField 
                             variant='standard'
                             label='Longitude'
                             value={selectLng}
+                            onChange={evt => setSelectLng(evt.target.value)}
                         />
                     </div>
                     <TextField 
