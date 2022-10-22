@@ -60,6 +60,14 @@ function SettingsPage() {
         picture
     }
 
+    // instantiate edit fountain object.
+    const editFtnObj = {
+        ftnId: fountainId,
+        lat: selectLat,
+        lng: selectLng,
+        picture: selPicture,
+    }
+
     // used to upload a new fountain.
     const addFountain = () => {
         if(!lat || !lng || !picture) {
