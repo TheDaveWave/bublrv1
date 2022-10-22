@@ -17,10 +17,20 @@ function* fetchFountains() {
 // used to add a fountain.
 function* addFountain(action) {
     try {
-        const picture = action.payload.picture;
-        const lat = action.payload.lat;
-        const lng = action.payload.lng;
-        yield axios.post(`/api/fountain`, {lat, lng, picture});
+        // make action.payload shorter by assigning it to variable ap.
+        const ap = action.payload;
+        // make payload object to be sent.
+        const fountain = {
+            lat: ap.lat,
+            lng: ap.lng,
+            picture: ap.picture,
+            laminar: ap.laminar,
+            turbulent: ap.turbulent,
+            bottle: ap.bottle,
+            outdoor: ap.outdoor,
+            indoor: ap.indoor,
+        }
+        yield axios.post(`/api/fountain`, fountain);
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('Error adding a fountain', err);

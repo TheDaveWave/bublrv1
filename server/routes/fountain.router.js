@@ -48,12 +48,12 @@ router.get('/:ftnId', (req, res) => {
 // POST route to add a fountain to the DB.
 router.post('/', rejectUnauthenticated, (req, res) => {
     if(req.user.admin) {
-        const picture = req.body.picture;
-        const lat = req.body.lat;
-        const lng = req.body.lng;
-        const queryText = `INSERT INTO "fountains" ("user_id", "latitude", "longitude", "picture")
-        VALUES ($1, $2, $3, $4);`;
-        const values = [req.user.id, lat, lng, picture];
+        // shorten req.body by assigning it to a variable b.
+        const b = req.body;
+        const queryText = `INSERT INTO "fountains" ("user_id", "latitude", "longitude", "picture", "laminar_flow",
+        "turbulent_flow", "bottle_accessible", "outdoor", "indoor")
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
+        const values = [req.user.id, b.lat, b.lng, b.picture, b.laminar, b.turbulent, b.bottle, b.outdoor, b.indoor];
         pool.query(queryText, values)
         .then(() => {
             res.sendStatus(201);
