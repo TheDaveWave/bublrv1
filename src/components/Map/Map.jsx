@@ -1,4 +1,4 @@
-import { Rating } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -147,6 +147,7 @@ function Map() {
     }
 
     return (
+        <>
         <div>
             <GoogleMap
             // setup properties of the map for it to function.
@@ -186,6 +187,8 @@ function Map() {
              ))}
             </GoogleMap>
         </div>
+        <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+        </>
     );
 }
 
