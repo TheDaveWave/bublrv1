@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -22,7 +22,12 @@ function SettingsPage() {
     const [selectLat, setSelectLat] = useState('');
     const [selectLng, setSelectLng] = useState('');
     const [selPicture, setSelPicture] = useState('');
-    const [fountainId, setFountainId] = useState('');
+    const [fountainId, setFountainId] = useState('');    
+    const [laminar, setLaminar] = useState(false);
+    const [turbulent, setTurbulent] = useState(false);
+    const [bottle, setBottle] = useState(false);
+    const [outdoor, setOutdoor] = useState(false);
+    const [indoor, setIndoor] = useState(false);
 
     // function to get the current location of the user. 
     const getLocation = () => {
@@ -46,12 +51,18 @@ function SettingsPage() {
         if(!fountainId || fountainId === 0) {
             alert('Please select a fountain to edit');
         } else {
+            console.log(editFtnObj);
             setEditMode(true);
             const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
             // console.log(fountainObj);
             setSelectLat(Number(fountainObj.latitude));
             setSelectLng(Number(fountainObj.longitude));
             setSelPicture(fountainObj?.picture);
+            setLaminar(fountainObj?.laminar_flow);
+            setTurbulent(fountainObj?.turbulent_flow);
+            setBottle(fountainObj?.bottle_accessible);
+            setOutdoor(fountainObj?.outdoor);
+            setIndoor(fountainObj?.indoor);
         }
     }
 
@@ -60,14 +71,6 @@ function SettingsPage() {
         lat,
         lng,
         picture
-    }
-
-    // instantiate edit fountain object.
-    const editFtnObj = {
-        ftnId: fountainId,
-        lat: selectLat,
-        lng: selectLng,
-        picture: selPicture,
     }
 
     // used to upload a new fountain.
@@ -83,14 +86,35 @@ function SettingsPage() {
         }
     }
 
+    // instantiate edit fountain object.
+    const editFtnObj = {
+        ftnId: fountainId,
+        lat: selectLat,
+        lng: selectLng,
+        picture: selPicture,
+        laminar,
+        turbulent,
+        bottle,
+        outdoor,
+        indoor
+    }
+
+    // used to send a dispatch to update a fountain.
+    const EditFountain = () => {
+
+    }
+
+
     // get all the fountains on page load.
     useEffect(() => {
         dispatch({type: 'GET_FOUNTAINS'});
     }, []);
 
-    // set fountainId to a value on load.
+    // set fountainId to a value anytime fountainId is updated.
     useEffect(() => {
         setFountainId(fountainId);
+        // const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
+        // console.log(fountainObj);
     }, [fountainId]);
 
     return (
@@ -186,6 +210,16 @@ function SettingsPage() {
                         value={selPicture}
                         onChange={evt => setPicture(evt.target.value)}
                     />
+                    <Container>
+                        <FormGroup>
+                            <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(!turbulent)}}/>} label='Laminar Flow'/>
+                            <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(!laminar)}}/>} label='Turbulent Flow'/>
+                            <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
+                            <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(!indoor)}}/>} label='Outdoor'/>
+                            <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(!outdoor)}}/>} label='Indoor'/>
+                        </FormGroup>
+                    </Container>
+                    <Button>Update</Button>
                     <Button onClick={() => {setEditMode(false); setFountainId('')}}>Cancel</Button>
                 </Box>
                 }
