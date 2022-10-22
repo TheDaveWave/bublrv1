@@ -14,6 +14,19 @@ function* fetchFountains() {
     }
 }
 
+// used to add a fountain.
+function* addFountain(action) {
+    try {
+        const picture = action.payload.picture;
+        const lat = action.payload.lat;
+        const lng = action.payload.lng;
+        yield axios.post(`/api/fountain`, {lat, lng, picture});
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('Error adding a fountain', err);
+    }
+}
+
 // saga to fetch fountain with specific id
 function* fetchFountain(action) {
     try {
@@ -172,6 +185,7 @@ function* rateFountain(action) {
 function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
+    yield takeLatest('ADD_FOUNTAIN', addFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
     // sagas that manipulate comment entities.
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
