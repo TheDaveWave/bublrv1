@@ -69,6 +69,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 // PUT route to update a fountain's information.
 router.put('/:ftnId', rejectUnauthenticated, (req, res) => {
+    // check if the user is an admin.
     if(req.user.admin) {
         // shorten req.body by assigning it to a variable b.
         const b = req.body;
