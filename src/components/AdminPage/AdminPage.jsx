@@ -18,6 +18,7 @@ function SettingsPage() {
     const [lng, setLng] = useState(0);
     const [picture, setPicture] = useState(defaultImageUrl);
     // setup local state for the edit mode.
+    const [editMode, setEditMode] = useState(false);
     const [selectLat, setSelectLat] = useState('');
     const [selectLng, setSelectLng] = useState('');
     const [selPicture, setSelPicture] = useState('');
@@ -45,6 +46,7 @@ function SettingsPage() {
         if(!fountainId || fountainId === 0) {
             alert('Please select a fountain to edit');
         } else {
+            setEditMode(true);
             const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
             // console.log(fountainObj);
             setSelectLat(Number(fountainObj.latitude));
@@ -161,6 +163,7 @@ function SettingsPage() {
                     </Select>
                     <Button onClick={() => selectChange()}>Select</Button>
                 </FormControl>
+                {editMode && 
                 <Box>
                     <div>
                         <TextField 
@@ -183,7 +186,9 @@ function SettingsPage() {
                         value={selPicture}
                         onChange={evt => setPicture(evt.target.value)}
                     />
+                    <Button onClick={() => {setEditMode(false); setFountainId('')}}>Cancel</Button>
                 </Box>
+                }
             </Box>
         </Box>
     );
