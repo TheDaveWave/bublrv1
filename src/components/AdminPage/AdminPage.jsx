@@ -100,8 +100,13 @@ function SettingsPage() {
     }
 
     // used to send a dispatch to update a fountain.
-    const EditFountain = () => {
-
+    const editFountain = () => {
+        dispatch({
+            type: 'EDIT_FOUNTAIN',
+            payload: editFtnObj
+        });
+        // close edit mode.
+        setEditMode(false);
     }
 
 
@@ -212,14 +217,14 @@ function SettingsPage() {
                     />
                     <Container>
                         <FormGroup>
-                            <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(!turbulent)}}/>} label='Laminar Flow'/>
-                            <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(!laminar)}}/>} label='Turbulent Flow'/>
+                            <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
+                            <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
                             <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
-                            <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(!indoor)}}/>} label='Outdoor'/>
-                            <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(!outdoor)}}/>} label='Indoor'/>
+                            <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
+                            <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
                         </FormGroup>
                     </Container>
-                    <Button>Update</Button>
+                    <Button onClick={() => editFountain()}>Update</Button>
                     <Button onClick={() => {setEditMode(false); setFountainId('')}}>Cancel</Button>
                 </Box>
                 }
