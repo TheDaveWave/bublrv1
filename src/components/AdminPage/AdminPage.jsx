@@ -1,9 +1,15 @@
-import { Box, Button, Divider, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 function SettingsPage() {
+    // get list of fountains from redux.
+    const fountains = useSelector(store => store.fountains.fountainsReducer);
+    // Sort the fountains by ID without having to make another server get request.
+    const sortFountains = [...fountains].sort((a, b) => a.id - b.id);
+    // setup access to react methods.
     const defaultImageUrl = 'images/eda-fountain1.jpeg';
     const dispatch = useDispatch();
     const history = useHistory();
@@ -11,6 +17,7 @@ function SettingsPage() {
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
     const [picture, setPicture] = useState(defaultImageUrl);
+    const [fountainId, setFountainId] = useState('');
 
     // function to get the current location of the user. 
     const getLocation = () => {
@@ -49,6 +56,11 @@ function SettingsPage() {
             history.push('/maps');
         }
     }
+
+    // get all the fountains on page load.
+    useEffect(() => {
+        dispatch({type: 'GET_FOUNTAINS'})
+    }, []);
 
     return (
         <Box
@@ -94,6 +106,30 @@ function SettingsPage() {
                 }}
             >
                 <Button onClick={() => addFountain()} variant='contained'>Upload</Button>
+            </Box>
+            <Divider variant='middle' />
+            <Box
+                sx={{
+                    '& .MuiTypography-root': { m: 2 },
+                }}
+            >
+                <Typography variant='subtitle2'>
+                    Edit Fountain
+                </Typography>
+                <FormControl sx={{width: 150}}>
+                    <InputLabel id='ftn-id' sx={{ marginLeft: 2 }}>Fountain ID</InputLabel>
+                    <Select 
+                        labelId='ftn-id' 
+                        sx={{ marginLeft: 2 }}
+                        label={`Fountain ID: ${sortFountains[0]?.id}`}
+                        value={fountainId}
+                        onChange={evt => setFountainId(evt.target.value)}
+                    >
+                        {sortFountains.map(ftn => (
+                            <MenuItem key={ftn.id} value={ftn.id}>Fountain: {ftn.id}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Box>
         </Box>
     );
