@@ -44,7 +44,7 @@ function* updateFountain(action) {
             indoor: ap.indoor,
         }
         // create axios put request.
-        yield axios.put(`/fountain/${ap.ftnId}`, update);
+        yield axios.put(`/api/fountain/${ap.ftnId}`, update);
         yield put({type: 'GET_FOUNTAINS'});
     } catch (err) {
         console.log('error updating fountain', err);
