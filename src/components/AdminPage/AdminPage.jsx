@@ -13,7 +13,8 @@ function SettingsPage() {
     const defaultImageUrl = 'images/eda-fountain1.jpeg';
     const dispatch = useDispatch();
     const history = useHistory();
-    // setup local state
+    // setup local state.
+    const [addForm, toggleAddForm] = useState(false);
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
     const [picture, setPicture] = useState(defaultImageUrl);
@@ -107,6 +108,11 @@ function SettingsPage() {
         });
         // close edit mode.
         setEditMode(false);
+        clearCheckBoxes();
+    }
+
+    // used to set check boxes to false.
+    const clearCheckBoxes = () => {
         setLaminar(false);
         setTurbulent(false);
         setBottle(false);
@@ -128,85 +134,94 @@ function SettingsPage() {
     }, [fountainId]);
 
     return (
-        <Box
-            component='form'
-            sx={{
-                '& .MuiTextField-root': { m: 2, width: '25ch' },
-                '.MuiButtonBase-root': {m: 2}
-                }}
-        >
-            <div>
-                <TextField 
-                    variant='standard'
-                    label='Latitude'
-                    value={lat}
-                />
-                <TextField 
-                    variant='standard'
-                    label='Longitude'
-                    value={lng}
-                />
-            </div>
-            <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
-            <Divider variant='middle'/>
+        <Container>
+            { !addForm & !editMode ? 
+            <>
+             <Typography sx={{ m: 2 }} variant='subtitle2'>
+                Add New Fountain
+            </Typography>
+            <Button sx={{ m: 2 }} onClick={() => toggleAddForm(true)} variant='contained'>Add Fountain</Button>
+            <Typography sx={{ m: 2 }} variant='subtitle2'>
+                Edit Fountain
+            </Typography>
+            <FormControl sx={{width: 150}}>
+                <InputLabel id='ftn-id' sx={{ marginLeft: 2 }}>Fountain ID</InputLabel>
+                <Select 
+                    labelId='ftn-id' 
+                    sx={{ marginLeft: 2 }}
+                    label={`Fountain ID: ${sortFountains[0]?.id}`}
+                    value={fountainId}
+                    onChange={evt => setFountainId(Number(evt.target.value))}
+                >
+                    {sortFountains.map(ftn => (
+                        <MenuItem key={ftn.id} value={ftn.id}>Fountain: {ftn.id}</MenuItem>
+                    ))}
+                </Select>
+                <Button onClick={() => selectChange()}>Edit</Button>
+            </FormControl>
+            </>
+            : addForm && !editMode ?  
             <Box
-                component='label'
+                component='form'
+                sx={{
+                    '& .MuiTextField-root': { m: 2, width: '25ch' },
+                    '.MuiButtonBase-root': {m: 2}
+                    }}
+            >
+                <div>
+                    <TextField 
+                        variant='standard'
+                        label='Latitude'
+                        value={lat}
+                    />
+                    <TextField 
+                        variant='standard'
+                        label='Longitude'
+                        value={lng}
+                    />
+                </div>
+                <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
+                <Divider variant='middle'/>
+                <Box
+                    component='label'
+                    sx={{
+                        '& .MuiTextField-root': { m: 2, width: '25ch' },
+                    }}
+                >
+                    <TextField 
+                        variant='standard'
+                        label='Image URL'
+                        type='url'
+                        value={picture}
+                        onChange={evt => setPicture(evt.target.value)}
+                    />
+                </Box>
+                <Container>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
+                        <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
+                        <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
+                        <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
+                        <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
+                    </FormGroup>
+                </Container>
+                <Divider variant='middle'/>
+                <Box
+                    component='label'
+                    sx={{
+                        '.MuiButtonBase-root': { m: 2, width: '12.5ch'},
+                    }}
+                >
+                    <Button onClick={() => addFountain()} variant='contained'>Upload</Button>
+                    <Button onClick={() => toggleAddForm(false)} variant='contained'>Cancel</Button>
+                </Box>
+            </Box>
+            : !addForm && editMode ?
+            <Box
                 sx={{
                     '& .MuiTextField-root': { m: 2, width: '25ch' },
                 }}
             >
-                <TextField 
-                    variant='standard'
-                    label='Image URL'
-                    type='url'
-                    value={picture}
-                    onChange={evt => setPicture(evt.target.value)}
-                />
-            </Box>
-            <Container>
-                <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
-                    <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
-                    <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
-                    <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
-                    <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
-                </FormGroup>
-            </Container>
-            <Divider variant='middle'/>
-            <Box
-                component='label'
-                sx={{
-                    '.MuiButtonBase-root': { m: 2, width: '12.5ch'},
-                }}
-            >
-                <Button onClick={() => addFountain()} variant='contained'>Upload</Button>
-            </Box>
-            <Divider variant='middle' />
-            <Box
-                sx={{
-                    '& .MuiTypography-root': { m: 2 },
-                    '.MuiTextField-root': { m: 2, width: '25ch' },
-                }}
-            >
-                <Typography variant='subtitle2'>
-                    Edit Fountain
-                </Typography>
-                <FormControl sx={{width: 150}}>
-                    <InputLabel id='ftn-id' sx={{ marginLeft: 2 }}>Fountain ID</InputLabel>
-                    <Select 
-                        labelId='ftn-id' 
-                        sx={{ marginLeft: 2 }}
-                        label={`Fountain ID: ${sortFountains[0]?.id}`}
-                        value={fountainId}
-                        onChange={evt => setFountainId(Number(evt.target.value))}
-                    >
-                        {sortFountains.map(ftn => (
-                            <MenuItem key={ftn.id} value={ftn.id}>Fountain: {ftn.id}</MenuItem>
-                        ))}
-                    </Select>
-                    <Button onClick={() => selectChange()}>Select</Button>
-                </FormControl>
-                {editMode && 
                 <Box>
                     <div>
                         <TextField 
@@ -239,12 +254,13 @@ function SettingsPage() {
                         </FormGroup>
                     </Container>
                     <Button onClick={() => editFountain()}>Update</Button>
-                    <Button onClick={() => {setEditMode(false); setFountainId('')}}>Cancel</Button>
+                    <Button onClick={() => {setEditMode(false); setFountainId(''); clearCheckBoxes()}}>Cancel</Button>
                 </Box>
-                }
             </Box>
-        </Box>
-    );
-}
+            :
+            <div>404</div>
+        }
+    </Container>
+)}
 
 export default SettingsPage;
