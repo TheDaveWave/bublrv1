@@ -27,6 +27,30 @@ function* addFountain(action) {
     }
 }
 
+// used to update a fountain with id.
+function* updateFountain(action) {
+    try {
+        // make action.payload shorter by assigning it to variable ap.
+        const ap = action.payload;
+        // make payload object to be sent.
+        const update = {
+            lat: ap.lat,
+            lng: ap.lng,
+            picture: ap.picture,
+            laminar: ap.laminar,
+            turbulent: ap.turbulent,
+            bottle: ap.bottle,
+            outdoor: ap.outdoor,
+            indoor: ap.indoor,
+        }
+        // create axios put request.
+        yield axios.put(`/fountain/${ap.ftnId}`, update);
+        yield put({type: 'GET_FOUNTAINS'});
+    } catch (err) {
+        console.log('error updating fountain', err);
+    }
+}
+
 // saga to fetch fountain with specific id
 function* fetchFountain(action) {
     try {
@@ -186,6 +210,7 @@ function* fountainSaga() {
     yield takeLatest('GET_FOUNTAINS', fetchFountains);
     yield takeLatest('GET_FOUNTAIN', fetchFountain);
     yield takeLatest('ADD_FOUNTAIN', addFountain);
+    yield takeLatest('EDIT_FOUNTAIN', updateFountain);
     yield takeLatest('GET_COMMENTS', fetchFtnComments);
     // sagas that manipulate comment entities.
     yield takeLatest('GET_REPLIES', fetchCommentReplies);
