@@ -1,4 +1,4 @@
-import { Button, Rating } from "@mui/material";
+import { Button, Container, Rating } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,22 @@ function Map() {
     const [duration, setDuration] = useState('');
     // import fountains data from redux.
     const fountains = useSelector(store => store.fountains.fountainsReducer);
+
+    // setup local state for filter
+    const [laminar, setLaminar] = useState(false);
+    const [turbulent, setTurbulent] = useState(false);
+    const [bottle, setBottle] = useState(false);
+    const [outdoor, setOutdoor] = useState(false);
+    const [indoor, setIndoor] = useState(false);
+
+    // create filter object.
+    const mapFilter = {
+        laminar,
+        turbulent,
+        bottle,
+        outdoor,
+        indoor
+    }
 
     // access useDispatch().
     const dispatch = useDispatch();
@@ -188,6 +204,11 @@ function Map() {
             </GoogleMap>
         </div>
         <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+        {checkMatch && 
+        <Container>
+
+        </Container>
+        }
         </>
     );
 }
