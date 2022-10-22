@@ -71,7 +71,12 @@ function SettingsPage() {
     const fountainObj = {
         lat,
         lng,
-        picture
+        picture,
+        laminar,
+        turbulent,
+        bottle,
+        outdoor,
+        indoor
     }
 
     // used to upload a new fountain.
@@ -83,6 +88,7 @@ function SettingsPage() {
                 type: 'ADD_FOUNTAIN',
                 payload: fountainObj
             });
+            clearCheckBoxes();
             history.push('/maps');
         }
     }
