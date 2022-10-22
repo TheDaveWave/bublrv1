@@ -51,7 +51,7 @@ function SettingsPage() {
         if(!fountainId || fountainId === 0) {
             alert('Please select a fountain to edit');
         } else {
-            console.log(editFtnObj);
+            // console.log(editFtnObj);
             setEditMode(true);
             const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
             // console.log(fountainObj);
