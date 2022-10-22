@@ -17,6 +17,10 @@ function SettingsPage() {
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
     const [picture, setPicture] = useState(defaultImageUrl);
+    // setup local state for the edit mode.
+    const [selectLat, setSelectLat] = useState(0);
+    const [selectLng, setSelectLng] = useState(0);
+    const [selPicture, setSelPicture] = useState(0);
     const [fountainId, setFountainId] = useState('');
 
     // function to get the current location of the user. 
@@ -34,6 +38,18 @@ function SettingsPage() {
         }
         else {
             alert('Navigation services are not enabled.');
+        }
+    }
+
+    const selectChange = () => {
+        if(!fountainId || fountainId === 0) {
+            alert('Please select a fountain to edit');
+        } else {
+            const fountainObj = sortFountains.find(ftn => ftn.id === fountainId);
+            console.log(fountainObj);
+            setSelectLat(Number(fountainObj.latitude));
+            setSelectLng(Number(fountainObj.longitude));
+            setSelPicture(fountainObj?.picture);
         }
     }
 
@@ -59,8 +75,13 @@ function SettingsPage() {
 
     // get all the fountains on page load.
     useEffect(() => {
-        dispatch({type: 'GET_FOUNTAINS'})
+        dispatch({type: 'GET_FOUNTAINS'});
     }, []);
+
+    // set fountainId to a value on load.
+    useEffect(() => {
+        setFountainId(fountainId);
+    }, [fountainId]);
 
     return (
         <Box
@@ -111,6 +132,7 @@ function SettingsPage() {
             <Box
                 sx={{
                     '& .MuiTypography-root': { m: 2 },
+                    '.MuiTextField-root': { m: 2, width: '25ch' },
                 }}
             >
                 <Typography variant='subtitle2'>
@@ -123,13 +145,35 @@ function SettingsPage() {
                         sx={{ marginLeft: 2 }}
                         label={`Fountain ID: ${sortFountains[0]?.id}`}
                         value={fountainId}
-                        onChange={evt => setFountainId(evt.target.value)}
+                        onChange={evt => setFountainId(Number(evt.target.value))}
                     >
                         {sortFountains.map(ftn => (
                             <MenuItem key={ftn.id} value={ftn.id}>Fountain: {ftn.id}</MenuItem>
                         ))}
                     </Select>
+                    <Button onClick={() => selectChange()}>Select</Button>
                 </FormControl>
+                <Box>
+                    <div>
+                        <TextField 
+                            variant='standard'
+                            label='Latitude'
+                            value={selectLat}
+                        />
+                        <TextField 
+                            variant='standard'
+                            label='Longitude'
+                            value={selectLng}
+                        />
+                    </div>
+                    <TextField 
+                        variant='standard'
+                        label='Image URL'
+                        type='url'
+                        value={selPicture}
+                        onChange={evt => setPicture(evt.target.value)}
+                    />
+                </Box>
             </Box>
         </Box>
     );
