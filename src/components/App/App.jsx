@@ -24,7 +24,7 @@ import MapPage from '../MapsPage/MapPage';
 import './App.css';
 import FountainsPage from '../FountainsPage/FountainsPage';
 import FtnDetailView from '../FountainsPage/FtnDetailView';
-import SettingsPage from '../SettingsPage/SettingsPage';
+import SettingsPage from '../AdminPage/AdminPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -92,7 +92,7 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            exact path='/settings'
+            exact path='/admin'
           >
             {user.admin ? 
               <SettingsPage />

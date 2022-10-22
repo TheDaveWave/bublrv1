@@ -47,8 +47,8 @@ function Nav() {
 
             {/* If a user is logged in and the user is an admin show settings. */}
             {user.admin && (
-              <Link className='navLink' to='/settings'>
-                Settings
+              <Link className='navLink' to='/admin'>
+                Admin
               </Link>
             )}
 
