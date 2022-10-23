@@ -19,7 +19,8 @@ function Map() {
     const [duration, setDuration] = useState('');
     // import fountains data from redux.
     const fountains = useSelector(store => store.fountains.fountainsReducer);
-    // const [fountainState, setFountainState] = useState(fountains);
+    // fountain state to use either fountains or the filtered fountains.
+    const [fountainState, setFountainState] = useState([]);
     let filteredFountains = [];
     // setup local state for filter
     const [filterMode, setFilterMode] = useState(false);
@@ -57,13 +58,13 @@ function Map() {
                 console.log(ftn);
                 return ftn;
             }
-        });
-        dispatch({
-            type: 'SET_FOUNTAINS',
-            payload: filteredFountains
-        });
-        // console.log(filteredFountains);
-        filteredFountains = [];
+        }); 
+        // dispatch({
+        //     type: 'SET_FOUNTAINS',
+        //     payload: filteredFountains
+        // });
+        console.log(filteredFountains);
+        // filteredFountains = [];
     }
 
     // used to set check boxes to false.
@@ -77,8 +78,11 @@ function Map() {
 
     // used to filter fountains on the map.
     const useFilter = () => {
-        // setFilterMode(true);
+        setFilterMode(true);
+        // run the filter to populate the filter array.
         filterFountains();
+        // set the fountain state to filteredFountains.
+        setFountainState(filteredFountains);
     }
 
     // used to clear the filter.
@@ -135,9 +139,11 @@ function Map() {
 
     // get fountains on load.
     useEffect(() => {
-        if(filteredFountains.length === 0) {
-            dispatch({type: 'GET_FOUNTAINS'});
-        }
+        // if(filteredFountains.length === 0) {
+        //     dispatch({type: 'GET_FOUNTAINS'});
+        // }
+        dispatch({type: 'GET_FOUNTAINS'});
+        // setFountainState(filteredFountains);
         getLocation();
     }, []);
 
@@ -235,6 +241,7 @@ function Map() {
             {directionsRes ? 
                 <DirectionsRenderer directions={directionsRes}/>
                 : <Marker position={center} icon={customUserIcon}></Marker>}
+            {/* Attempting to make a filter for the markers and conditionally render it without making api calls.*/}
             {!filterMode ? 
             fountains.map(ftn => (
                 <Marker
@@ -259,8 +266,9 @@ function Map() {
                     )}
                 </Marker>
              ))
-             :
-             filteredFountains.map(ftn => (
+             : 
+            //  basially a copy of whats above but mapping over a different array of filtered fountains.
+             fountainState.map(ftn => (
                 <Marker
                     key={ftn.id}
                     position={{lat: Number(ftn.latitude), lng: Number(ftn.longitude)}}
