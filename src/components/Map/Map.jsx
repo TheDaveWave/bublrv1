@@ -62,7 +62,7 @@ function Map() {
     // direct to closest fountain.
     const directToClosest = () => {
         findClosest();
-        console.log(closest);
+        // console.log(closest);
         getDirections(closest);
     }
 
