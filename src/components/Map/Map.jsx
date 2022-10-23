@@ -43,11 +43,11 @@ function Map() {
         console.log('clicked');
         filteredFountains = fountains.filter(ftn => {
             // console.log('filter:',mapFilter, 'Ftn', ftn);
-            console.log('1',ftn.laminar_flow === mapFilter.laminar);
-            console.log('2',ftn.turbulent_flow === mapFilter.turbulent);
-            console.log('3',ftn.bottle_accessible === mapFilter.bottle);
-            console.log('4',ftn.outdoor === mapFilter.outdoor);
-            console.log('5',ftn.indoor === mapFilter.indoor);
+            // console.log('1',ftn.laminar_flow === mapFilter.laminar);
+            // console.log('2',ftn.turbulent_flow === mapFilter.turbulent);
+            // console.log('3',ftn.bottle_accessible === mapFilter.bottle);
+            // console.log('4',ftn.outdoor === mapFilter.outdoor);
+            // console.log('5',ftn.indoor === mapFilter.indoor);
             if(ftn.laminar_flow === mapFilter.laminar 
                 && ftn.turbulent_flow === mapFilter.turbulent
                 && ftn.bottle_accessible === mapFilter.bottle
@@ -62,7 +62,8 @@ function Map() {
             type: 'SET_FOUNTAINS',
             payload: filteredFountains
         });
-        console.log(filteredFountains);
+        // console.log(filteredFountains);
+        filteredFountains = [];
     }
 
     // used to set check boxes to false.
@@ -134,7 +135,7 @@ function Map() {
 
     // get fountains on load.
     useEffect(() => {
-        if(filteredFountains.length !== 0) {
+        if(filteredFountains.length === 0) {
             dispatch({type: 'GET_FOUNTAINS'});
         }
         getLocation();
