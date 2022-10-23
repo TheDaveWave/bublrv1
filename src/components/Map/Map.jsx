@@ -169,8 +169,8 @@ function Map() {
     }, []);
 
     useEffect(() => {
-        console.log(history);
-        console.log(history.location);
+        // console.log(history);
+        // console.log(history.location);
         if(coords === false) {
             return;
         }
