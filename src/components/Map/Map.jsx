@@ -32,6 +32,39 @@ function Map() {
     const [bottle, setBottle] = useState(false);
     const [outdoor, setOutdoor] = useState(true);
     const [indoor, setIndoor] = useState(false);
+    // store closest fountain.
+    const [closest, setClosest] = useState({});
+
+    // find marker shortest distance from user to marker 
+    const findClosest = () => {
+        // getLocation();
+        let result = 0;
+        let fountain;
+        fountains.map((ftn, index) => {
+            let x = Number(ftn?.longitude) - lng;
+            let y = Number(ftn?.latitude) - lat;
+            let x2 = x * x;
+            let y2 = y * y;
+            let root = Math.sqrt(x2 + y2);
+            // console.log(ftn.id, ':', root);
+            if(index === 0) {
+                result = root;
+            }
+            if(result > root) {
+                result = root;
+                fountain = ftn;
+            }
+        });
+        // console.log(result, fountain);
+        setClosest({lat: Number(fountain?.latitude), lng: Number(fountain?.longitude)});
+    }
+
+    // direct to closest fountain.
+    const directToClosest = () => {
+        findClosest();
+        // console.log(closest);
+        getDirections(closest);
+    }
 
     // create filter object.
     const mapFilter = {
@@ -173,6 +206,9 @@ function Map() {
         // console.log(history.location);
         if(coords === false) {
             return;
+        }
+        if(coords) {
+            findClosest();
         }
         if(history.location.state !== undefined && coords) {
             getDirections(history.location.state?.position);
@@ -329,6 +365,7 @@ function Map() {
             </GoogleMap>
         </div>
         <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+        <Button onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
         {checkMatch && 
         <Container>
             <FormGroup>
