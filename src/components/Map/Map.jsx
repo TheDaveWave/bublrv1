@@ -212,7 +212,7 @@ function Map() {
         }
         if(history.location.state !== undefined && coords) {
             getDirections(history.location.state?.position);
-            history.location.state = undefined;
+            window.history.replaceState({}, document.title)
         }
     }, [coords]);
 
@@ -248,6 +248,7 @@ function Map() {
             setDirectionsRes(null);
             setDistance('');
             setDuration('');
+            // history.push('/maps');
         }
     }
 
