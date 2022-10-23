@@ -25,6 +25,18 @@ function FountainsListItem({fountain}) {
         setRateMode(false);
     }
 
+    // handle navigation to /maps with direction to selected fountain.
+    const fountainGo = () => {
+        // create position object to be sent to redux and/or map component.
+        const position = {
+            lat: fountain.latitude,
+            lng: fountain.longitude,
+        }
+
+        // push to maps page.
+        history.push('/maps');
+    }
+
     return (
         <div>
             <img src={fountain.picture} className='info-img' alt='A drinking fountain'/>
@@ -36,7 +48,7 @@ function FountainsListItem({fountain}) {
                 <p>Likes: {fountain.likes}</p>
             </div>
             <div>
-                <button>Go</button>
+                <button onClick={() => fountainGo()}>Go</button>
                 <button onClick={() => history.push(`/fountain/${fountain.id}`)}>Comments</button>
                 {rateMode ? 
                     <button onClick={() => submitRating()}>Confirm</button> : 

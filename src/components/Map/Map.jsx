@@ -151,7 +151,8 @@ function Map() {
     // create an async function to await a response from the google
     // server which will send the directions.
     async function getDirections(position) {
-        // call get location to get the location of the user.
+        // call get location to get the location of the user
+        // this will be the origin location.
         getLocation();
         const results = await DirectionsService.route({
             origin: new google.maps.LatLng(lat, lng),
