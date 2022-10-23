@@ -1,4 +1,4 @@
-import { Button, Rating } from "@mui/material";
+import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,81 @@ function Map() {
     const [duration, setDuration] = useState('');
     // import fountains data from redux.
     const fountains = useSelector(store => store.fountains.fountainsReducer);
+    // fountain state to use either fountains or the filtered fountains.
+    const [fountainState, setFountainState] = useState([]);
+    let filteredFountains = [];
+    // setup local state for filter
+    const [filterMode, setFilterMode] = useState(false);
+    const [laminar, setLaminar] = useState(false);
+    const [turbulent, setTurbulent] = useState(true);
+    const [bottle, setBottle] = useState(false);
+    const [outdoor, setOutdoor] = useState(true);
+    const [indoor, setIndoor] = useState(false);
+
+    // create filter object.
+    const mapFilter = {
+        laminar,
+        turbulent,
+        bottle,
+        outdoor,
+        indoor
+    }
+
+    // filter out the fountains that match the criteria.
+    const filterFountains = () => {
+        console.log('clicked');
+        filteredFountains = fountains.filter(ftn => {
+            // console.log('filter:',mapFilter, 'Ftn', ftn);
+            // console.log('1',ftn.laminar_flow === mapFilter.laminar);
+            // console.log('2',ftn.turbulent_flow === mapFilter.turbulent);
+            // console.log('3',ftn.bottle_accessible === mapFilter.bottle);
+            // console.log('4',ftn.outdoor === mapFilter.outdoor);
+            // console.log('5',ftn.indoor === mapFilter.indoor);
+            if(ftn.laminar_flow === mapFilter.laminar 
+                && ftn.turbulent_flow === mapFilter.turbulent
+                && ftn.bottle_accessible === mapFilter.bottle
+                && ftn.outdoor === mapFilter.outdoor
+                && ftn.indoor === mapFilter.indoor) 
+            {
+                console.log(ftn);
+                return ftn;
+            }
+        }); 
+        // dispatch({
+        //     type: 'SET_FOUNTAINS',
+        //     payload: filteredFountains
+        // });
+        console.log(filteredFountains);
+        // filteredFountains = [];
+    }
+
+    // used to set check boxes to false.
+    const clearCheckBoxes = () => {
+        setLaminar(false);
+        setTurbulent(true);
+        setBottle(false);
+        setOutdoor(true);
+        setIndoor(false);
+    }
+
+    // used to filter fountains on the map.
+    const useFilter = () => {
+        setFilterMode(true);
+        // run the filter to populate the filter array.
+        filterFountains();
+        // set the fountain state to filteredFountains.
+        setFountainState(filteredFountains);
+    }
+
+    // used to clear the filter.
+    const clearFilter = () => {
+        dispatch({
+            type: 'GET_FOUNTAINS'
+        });
+        clearCheckBoxes();
+        setFilterMode(false);
+        filteredFountains = [];
+    }
 
     // access useDispatch().
     const dispatch = useDispatch();
@@ -64,7 +139,11 @@ function Map() {
 
     // get fountains on load.
     useEffect(() => {
+        // if(filteredFountains.length === 0) {
+        //     dispatch({type: 'GET_FOUNTAINS'});
+        // }
         dispatch({type: 'GET_FOUNTAINS'});
+        // setFountainState(filteredFountains);
         getLocation();
     }, []);
 
@@ -162,7 +241,34 @@ function Map() {
             {directionsRes ? 
                 <DirectionsRenderer directions={directionsRes}/>
                 : <Marker position={center} icon={customUserIcon}></Marker>}
-            {fountains.map(ftn => (
+            {/* Attempting to make a filter for the markers and conditionally render it without making api calls.*/}
+            {!filterMode ? 
+            fountains.map(ftn => (
+                <Marker
+                    key={ftn.id}
+                    position={{lat: Number(ftn?.latitude), lng: Number(ftn.longitude)}}
+                    icon={customIcon}
+                    onClick={() => handleActiveMarker(ftn.id)}
+                >
+                    {activeMarker == ftn.id && (
+                        <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                            <div>
+                                <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
+                                <div>
+                                <Rating value={Number(ftn.rating)} precision={0.1} readOnly/>
+                                </div>
+                                <p>Likes: {ftn.likes}</p>
+                                <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
+                                <button onClick={() => addLike(ftn.id)}>Like</button>
+                                <button onClick={() => removeLike(ftn.id)}>Dislike</button>
+                            </div>
+                        </InfoWindow>
+                    )}
+                </Marker>
+             ))
+             : 
+            //  basially a copy of whats above but mapping over a different array of filtered fountains.
+             fountainState.map(ftn => (
                 <Marker
                     key={ftn.id}
                     position={{lat: Number(ftn.latitude), lng: Number(ftn.longitude)}}
@@ -184,10 +290,24 @@ function Map() {
                         </InfoWindow>
                     )}
                 </Marker>
-             ))}
+             ))
+            }
             </GoogleMap>
         </div>
         <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+        {checkMatch && 
+        <Container>
+            <FormGroup>
+                <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
+                <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
+                <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
+                <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
+                <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
+            </FormGroup>
+            <Button onClick={() => useFilter()}>Filter</Button>
+            <Button onClick={() => clearFilter()}>Clear Filter</Button>
+        </Container>
+        }
         </>
     );
 }
