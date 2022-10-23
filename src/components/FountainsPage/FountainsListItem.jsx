@@ -29,12 +29,12 @@ function FountainsListItem({fountain}) {
     const fountainGo = () => {
         // create position object to be sent to redux and/or map component.
         const position = {
-            lat: fountain.latitude,
-            lng: fountain.longitude,
+            lat: Number(fountain.latitude),
+            lng: Number(fountain.longitude),
         }
-
+        console.log(position);
         // push to maps page.
-        history.push('/maps');
+        history.push('/maps', {position});
     }
 
     return (
