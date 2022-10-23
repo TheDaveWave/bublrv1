@@ -2,15 +2,18 @@ import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox } from
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import './Map.css';
 
 // component to display the map page.
 function Map() {
+    // access history.
+    const history = useHistory();
     // setup local state for the map.
     // lat and lng are set to fargo, ND.
     const [lat, setLat] = useState(46.8772);
     const [lng, setLng] = useState(-96.7898);
+    const [coords, setCoords] = useState(false);
     const [activeMarker, setActiveMarker] = useState(null);
     // store the directions response from google into local state.
     const [directionsRes, setDirectionsRes] = useState(null);
@@ -98,21 +101,42 @@ function Map() {
     // console.log(match);
 
     // function to get the current location of the user. 
+    // const getLocation = () => {
+    //     // check if user has location services enabled.
+    //     if(navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(p => {
+    //             // set lat local state to current latitude.
+    //             setLat(p.coords.latitude);
+    //             // set lng local state to current longitude.
+    //             setLng(p.coords.longitude);
+    //             // console log for testing
+    //             console.log(p.coords.latitude, p.coords.longitude);
+    //         });
+    //         setCoords(true);
+    //     }
+    //     else {
+    //         alert('Navigation services are not enabled.');
+    //     }
+    // }
+
+    // function to get the current location of the user. 
     const getLocation = () => {
         // check if user has location services enabled.
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(p => {
-                // set lat local state to current latitude.
-                setLat(p.coords.latitude);
-                // set lng local state to current longitude.
-                setLng(p.coords.longitude);
-                // console log for testing
-                console.log(p.coords.latitude, p.coords.longitude);
-            });
-        }
-        else {
-            alert('Navigation services are not enabled.');
-        }
+        return new Promise((resolve, reject) => {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(p => {
+                    // set lat local state to current latitude.
+                    setLat(p.coords.latitude);
+                    // set lng local state to current longitude.
+                    setLng(p.coords.longitude);
+                    // console log for testing
+                    console.log(p.coords.latitude, p.coords.longitude);
+                    resolve(setCoords(true));
+                }, err => {
+                    alert('Navigation services are not enabled.');
+                });
+            }
+        })
     }
 
     // handle the active marker, set activeMarker to the fountain id.
@@ -140,8 +164,21 @@ function Map() {
         // }
         dispatch({type: 'GET_FOUNTAINS'});
         // setFountainState(filteredFountains);
+        setCoords(false);
         getLocation();
     }, []);
+
+    useEffect(() => {
+        // console.log(history);
+        // console.log(history.location);
+        if(coords === false) {
+            return;
+        }
+        if(history.location.state !== undefined && coords) {
+            getDirections(history.location.state?.position);
+            history.location.state = undefined;
+        }
+    }, [coords]);
 
 
     // Google Maps
@@ -151,7 +188,8 @@ function Map() {
     // create an async function to await a response from the google
     // server which will send the directions.
     async function getDirections(position) {
-        // call get location to get the location of the user.
+        // call get location to get the location of the user
+        // this will be the origin location.
         getLocation();
         const results = await DirectionsService.route({
             origin: new google.maps.LatLng(lat, lng),
