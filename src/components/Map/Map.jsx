@@ -230,7 +230,7 @@ function Map() {
         const results = await DirectionsService.route({
             origin: new google.maps.LatLng(lat, lng),
             destination: new google.maps.LatLng(position.lat, position.lng),
-            travelMode: google.maps.TravelMode.WALKING
+            travelMode: google.maps.TravelMode.DRIVING
         });
         console.log(results);
         // set the directions results to the result from teh request.
@@ -262,11 +262,17 @@ function Map() {
     }
 
     // create restriction bounds.
+    // const bounds = {
+    //     north: lat + 0.0007,
+    //     south: lat - 0.0007,
+    //     west: lng - 0.0015,
+    //     east: lng + 0.0014,
+    // }
     const bounds = {
-        north: lat + 0.0007,
-        south: lat - 0.0007,
-        west: lng - 0.0015,
-        east: lng + 0.0014,
+        north: lat + 0.01,
+        south: lat - 0.01,
+        west: lng - 0.01,
+        east: lng + 0.01,
     }
 
     // map options when viewing on the homepage.
@@ -304,6 +310,7 @@ function Map() {
             center={center}
             mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
             options={checkMatch ? mapOptions : homeMapOptions}
+            // options={mapOptions}
             onClick={() => setActiveMarker(null)}
             >
             {/* If there is a response from the directions service then conditionally render the route,
