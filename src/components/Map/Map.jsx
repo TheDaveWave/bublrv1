@@ -1,5 +1,5 @@
 import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
-import { DirectionsRenderer, GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
@@ -41,14 +41,9 @@ function Map() {
 
     // filter out the fountains that match the criteria.
     const filterFountains = () => {
-        console.log('clicked');
+        // console.log('In filterFountains');
+        // NEED TO MAKE THIS MORE DYNAMIC
         filteredFountains = fountains.filter(ftn => {
-            // console.log('filter:',mapFilter, 'Ftn', ftn);
-            // console.log('1',ftn.laminar_flow === mapFilter.laminar);
-            // console.log('2',ftn.turbulent_flow === mapFilter.turbulent);
-            // console.log('3',ftn.bottle_accessible === mapFilter.bottle);
-            // console.log('4',ftn.outdoor === mapFilter.outdoor);
-            // console.log('5',ftn.indoor === mapFilter.indoor);
             if(ftn.laminar_flow === mapFilter.laminar 
                 && ftn.turbulent_flow === mapFilter.turbulent
                 && ftn.bottle_accessible === mapFilter.bottle
@@ -67,7 +62,7 @@ function Map() {
         // filteredFountains = [];
     }
 
-    // used to set check boxes to false.
+    // used to reset checkboxes state.
     const clearCheckBoxes = () => {
         setLaminar(false);
         setTurbulent(true);
@@ -133,6 +128,7 @@ function Map() {
         dispatch({type: 'ADD_LIKE', payload: ftnId});
     }
 
+    // used to remove a like from a fountain.
     const removeLike = (ftnId) => {
         dispatch({type: 'REMOVE_LIKE', payload: ftnId});
     }
