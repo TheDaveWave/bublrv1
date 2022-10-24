@@ -1,0 +1,19 @@
+.navLink {
+    text-decoration: none;
+    color: #fff;
+    
+}
+
+.navLogout {
+    color: #000;
+    border: none;
+    background-color: transparent;
+    font-size: 99%;
+    text-align: left;
+}
+
+.toolbar {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}

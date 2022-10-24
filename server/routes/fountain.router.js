@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     // setup SQL query text.
     const queryText = `SELECT "f".*,
     COALESCE(SUM("r"."likes"),0) AS "likes",
-    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    COALESCE(ROUND(AVG(NULLIF("r"."rating",0)),1),0) AS "rating"
     FROM "fountains" AS "f"
     LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
     GROUP BY "f"."id"
@@ -30,7 +30,7 @@ router.get('/:ftnId', (req, res) => {
     // SQL query text using data sanitization.
     const queryText = `SELECT "f".*,
     COALESCE(SUM("r"."likes"),0) AS "likes",
-    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    COALESCE(ROUND(AVG(NULLIF("r"."rating",0)),1),0) AS "rating"
     FROM "fountains" AS "f"
     LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
     GROUP BY "f"."id"
@@ -162,15 +162,30 @@ router.put('/rating/:ftnId', rejectUnauthenticated, (req, res) => {
     const ftnId = req.params.ftnId;
     // get the rating from the request body.
     const rating = req.body.rating;
-    // setup SQL query text.
-    const queryText = `UPDATE "ratings" SET "rating"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
-    pool.query(queryText, [rating, req.user.id, ftnId])
+    // setup SQL query text for inserting a rating.
+    const insertQuery = `INSERT INTO "ratings" ("user_id", "fountain_id", "rating")
+    VALUES($1, $2, $3);`
+    pool.query(insertQuery, [req.user.id, ftnId, rating])
     .then(() => {
         res.sendStatus(201);
     })
     .catch(err => {
-        console.log('Error rating fountain', err);
-        res.sendStatus(500);
+        // res.sendStatus(500);
+        if(Number(err.code) === 23505) {
+            // setup SQL query text.
+            const queryText = `UPDATE "ratings" SET "rating"=$1 WHERE "user_id"=$2 AND "fountain_id"=$3;`;
+            pool.query(queryText, [rating, req.user.id, ftnId])
+            .then(() => {
+                res.sendStatus(201);
+            })
+            .catch(err => {
+                console.log('Error rating fountain', err);
+                res.sendStatus(500);
+            });
+        } else {
+            console.log('Erroring adding a rating', err);
+            res.sendStatus(500);
+        }
     });
 });
 
