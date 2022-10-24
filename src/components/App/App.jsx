@@ -38,12 +38,13 @@ function App() {
 
   return (
     <Router>
-      <div>
         <Box 
           className='flex-wrapper'
           component='div' 
         >
+          
           <Nav />
+          
           <Box className='content' component='div'>
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -165,7 +166,6 @@ function App() {
             <Footer />
           </Box>
         </Box>
-      </div>
     </Router>
   );
 }
