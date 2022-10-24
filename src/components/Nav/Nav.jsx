@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
-import { AppBar } from '@mui/material';
+import { AppBar, IconButton, Toolbar } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  // setup local state
+  const [navAnchor, setNavAnchor] = useState(false);
 
   return (
     <AppBar position='fixed'>
-      <div className="nav">
-        <Link to="/home">
-          <h2 className="nav-title">Bublr</h2>
-        </Link>
-        <div>
+      <Toolbar className='toolbar'>
+          <Link className='navLink' to="/home">
+            <h2 className="nav-title">Bublr</h2>
+          </Link>
           {/* If no user is logged in, show these links */}
           {!user.id && (
             // If there's no user, show login/registration links
@@ -22,7 +24,7 @@ function Nav() {
               Login / Register
             </Link>
           )}
-
+          
           {/* If a user is logged in, show these links */}
           {user.id && (
             <>
@@ -54,16 +56,16 @@ function Nav() {
                 </Link>
               )}
 
-              <LogOutButton className="navLink" />
+              {/* <LogOutButton className="navLink" /> */}
             </>
           )}
-          
-
           <Link className="navLink" to="/about">
             About
           </Link>
-        </div>
-      </div>
+          <IconButton onClick={() => setNavAnchor(!navAnchor)}>
+            <MoreVertIcon sx={{color: '#fff'}}/>
+          </IconButton>
+      </Toolbar>
     </AppBar>
   );
 }

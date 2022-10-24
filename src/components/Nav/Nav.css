@@ -1,0 +1,11 @@
+.navLink {
+    text-decoration: none;
+    color: #fff;
+    
+}
+
+.toolbar {
+    display: flex;
+    flex-grow: 1;
+
+}
