@@ -13,6 +13,7 @@ function FountainsListItem({fountain}) {
 
     // used to handle the submit of rating.
     const submitRating = () => {
+        console.log(rating);
         // dispatch value of rating to redux.
         dispatch({
             type: 'RATE_FOUNTAIN',

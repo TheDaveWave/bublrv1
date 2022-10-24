@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     // setup SQL query text.
     const queryText = `SELECT "f".*,
     COALESCE(SUM("r"."likes"),0) AS "likes",
-    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    COALESCE(ROUND(AVG(NULLIF("r"."rating",0)),1),0) AS "rating"
     FROM "fountains" AS "f"
     LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
     GROUP BY "f"."id"
@@ -30,7 +30,7 @@ router.get('/:ftnId', (req, res) => {
     // SQL query text using data sanitization.
     const queryText = `SELECT "f".*,
     COALESCE(SUM("r"."likes"),0) AS "likes",
-    COALESCE(ROUND(AVG("r"."rating"),1),0) AS "rating"
+    COALESCE(ROUND(AVG(NULLIF("r"."rating",0)),1),0) AS "rating"
     FROM "fountains" AS "f"
     LEFT JOIN "ratings" AS "r" ON "r"."fountain_id"="f"."id"
     GROUP BY "f"."id"
