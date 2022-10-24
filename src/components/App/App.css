@@ -1,0 +1,7 @@
+.flex-wrapper {
+   margin-top: 68px;
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+   justify-content: space-between; 
+}

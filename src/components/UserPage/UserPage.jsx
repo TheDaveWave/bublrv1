@@ -47,7 +47,7 @@ function UserPage() {
   }
 
   return (
-    <main>
+    <div>
       <div>
         <h2>{user.username}</h2>
         <p>First Name: {user.firstname}</p>
@@ -87,7 +87,7 @@ function UserPage() {
         <button onClick={() => setEditMode(true)}>Edit Profile</button>
       }
       <LogOutButton />
-    </main>
+    </div>
   );
 }
 
