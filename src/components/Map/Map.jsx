@@ -47,7 +47,7 @@ function Map() {
             let x2 = x * x;
             let y2 = y * y;
             let root = Math.sqrt(x2 + y2);
-            console.log(ftn.id, ":", root);
+            // console.log(ftn.id, ":", root);
             if(index === 0) {
                 result = root;
                 fountain = ftn;
