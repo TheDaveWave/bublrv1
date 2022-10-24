@@ -25,7 +25,6 @@ import './App.css';
 import FountainsPage from '../FountainsPage/FountainsPage';
 import FtnDetailView from '../FountainsPage/FtnDetailView';
 import SettingsPage from '../AdminPage/AdminPage';
-import { AppBar } from '@mui/material';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,9 +38,7 @@ function App() {
   return (
     <Router>
       <div>
-        <AppBar position='fixed'>
           <Nav />
-        </AppBar>
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
