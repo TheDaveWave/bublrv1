@@ -41,14 +41,16 @@ function Map() {
         let result = 0;
         let fountain;
         fountains.map((ftn, index) => {
-            let x = Number(ftn?.longitude) - lng;
-            let y = Number(ftn?.latitude) - lat;
+            let x = Number(ftn.longitude) - lng;
+            let y = Number(ftn.latitude) - lat;
+            // console.log('X:', x, 'Y:', y);
             let x2 = x * x;
             let y2 = y * y;
             let root = Math.sqrt(x2 + y2);
-            // console.log(ftn.id, ':', root);
+            console.log(ftn.id, ":", root);
             if(index === 0) {
                 result = root;
+                fountain = ftn;
             }
             if(result > root) {
                 result = root;
@@ -62,7 +64,7 @@ function Map() {
     // direct to closest fountain.
     const directToClosest = () => {
         findClosest();
-        // console.log(closest);
+        // console.log('~~~In Direct to Closest~~~', closest);
         getDirections(closest);
     }
 
@@ -94,7 +96,7 @@ function Map() {
         //     type: 'SET_FOUNTAINS',
         //     payload: filteredFountains
         // });
-        console.log(filteredFountains);
+        // console.log(filteredFountains);
         // filteredFountains = [];
     }
 
@@ -212,7 +214,7 @@ function Map() {
         }
         if(history.location.state !== undefined && coords) {
             getDirections(history.location.state?.position);
-            window.history.replaceState({}, document.title)
+            window.history.replaceState({}, document.title);
         }
     }, [coords]);
 
@@ -224,22 +226,26 @@ function Map() {
     // create an async function to await a response from the google
     // server which will send the directions.
     async function getDirections(position) {
-        // call get location to get the location of the user
-        // this will be the origin location.
-        getLocation();
-        const results = await DirectionsService.route({
-            origin: new google.maps.LatLng(lat, lng),
-            destination: new google.maps.LatLng(position.lat, position.lng),
-            travelMode: google.maps.TravelMode.DRIVING
-        });
-        console.log(results);
-        // set the directions results to the result from teh request.
-        setDirectionsRes(results);
-        // set the distance and duration to state variables.
-        setDistance(results.routes[0].legs[0].distance.text);
-        setDuration(results.routes[0].legs[0].duration.text);
-        // close the ingo window
-        setActiveMarker(null);
+        try {
+             // call get location to get the location of the user
+            // this will be the origin location.
+            getLocation();
+            const results = await DirectionsService.route({
+                origin: new google.maps.LatLng(lat, lng),
+                destination: new google.maps.LatLng(position.lat, position.lng),
+                travelMode: google.maps.TravelMode.DRIVING
+            });
+            console.log(results);
+            // set the directions results to the result from teh request.
+            setDirectionsRes(results);
+            // set the distance and duration to state variables.
+            setDistance(results.routes[0].legs[0].distance.text);
+            setDuration(results.routes[0].legs[0].duration.text);
+            // close the ingo window
+            setActiveMarker(null);
+        } catch (err) {
+            console.log('Error in getting directions', err);
+        }
     }
 
     // clear the current route.
