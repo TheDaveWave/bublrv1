@@ -40,13 +40,8 @@ function App() {
     <Router>
       <div>
         <Box 
+          className='flex-wrapper'
           component='div' 
-          sx={{
-            display: 'flex',
-            minHeight: '100vh',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
         >
           <Nav />
           <Box className='content' component='div'>
