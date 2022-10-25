@@ -64,14 +64,14 @@ function App() {
               <ProtectedRoute
                 // logged in shows UserPage else shows LoginPage
                 exact
-                path="/user"
+                path="/profile"
               >
                 <UserPage />
               </ProtectedRoute>
 
               <ProtectedRoute
                 // logged in can visit the maps page.
-                exact path='/maps'
+                exact path='/map'
               >
                 <MapPage />
               </ProtectedRoute>
@@ -102,7 +102,7 @@ function App() {
                 {user.admin ? 
                   <SettingsPage />
                   :
-                  <Redirect to="/user" />
+                  <Redirect to="/profile" />
                 }
               </ProtectedRoute>
 
@@ -113,7 +113,7 @@ function App() {
                 {user.id ?
                   // If the user is already logged in, 
                   // redirect to the /user page
-                  <Redirect to="/user" />
+                  <Redirect to="/profile" />
                   :
                   // Otherwise, show the login page
                   <LoginPage />
@@ -127,7 +127,7 @@ function App() {
                 {user.id ?
                   // If the user is already logged in, 
                   // redirect them to the /user page
-                  <Redirect to="/user" />
+                  <Redirect to="/profile" />
                   :
                   // Otherwise, show the registration page
                   <RegisterPage />

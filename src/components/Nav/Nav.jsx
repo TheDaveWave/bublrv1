@@ -7,6 +7,7 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@m
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import PageDisplay from './PageDisplay';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -19,6 +20,8 @@ function Nav() {
           <Link className='navLink' to="/home">
             <h2 className="nav-title">Bublr</h2>
           </Link>
+          {/* Setup display of current page here. */}
+          <PageDisplay />
           {/* If no user is logged in, show these links */}
           {!user.id && (
           <Box>
@@ -106,7 +109,7 @@ function Nav() {
                   </Link>
                 </MenuItem>
                 <MenuItem onClick={() => setNavAnchor(null)}>
-                  <Link className="navLink" to="/user">
+                  <Link className="navLink" to="/profile">
                     <Typography>
                       Profile
                     </Typography>
@@ -114,7 +117,7 @@ function Nav() {
                 </MenuItem>
                 <MenuItem onClick={() => setNavAnchor(null)}>
                   {/* link to the maps page */}
-                  <Link className='navLink' to='/maps'>
+                  <Link className='navLink' to='/map'>
                     <Typography>
                       Map
                     </Typography>
