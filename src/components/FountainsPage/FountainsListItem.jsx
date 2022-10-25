@@ -1,4 +1,5 @@
-import { Button, Card, CardContent, CardMedia, Divider, Rating, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, Chip, Divider, Rating, Stack, Typography } from "@mui/material";
+import RecommendIcon from '@mui/icons-material/Recommend';
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -53,7 +54,10 @@ function FountainsListItem({fountain}) {
                     <Rating name='rating' value={rating} onChange={(evt, newValue) => setRating(newValue)} precision={0.1} /> : 
                     <Rating name='read-only' value={Number(fountain.rating)} precision={0.1} readOnly/>
                 }
-                <Typography>Likes: {fountain.likes}</Typography>
+                <Stack direction="row" spacing={1}>
+                <Chip icon={<RecommendIcon />} variant='outlined' label={fountain.likes}/>
+                </Stack>
+                {/* <Typography>Likes: {fountain.likes}</Typography> */}
             </Box>
             <Divider />
             <Box component='div'>

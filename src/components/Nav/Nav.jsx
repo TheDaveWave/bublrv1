@@ -7,7 +7,6 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@m
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
-import { RotateRight } from '@mui/icons-material';
 
 function Nav() {
   const user = useSelector((store) => store.user);
