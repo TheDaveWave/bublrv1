@@ -71,7 +71,7 @@ function App() {
 
               <ProtectedRoute
                 // logged in can visit the maps page.
-                exact path='/maps'
+                exact path='/map'
               >
                 <MapPage />
               </ProtectedRoute>

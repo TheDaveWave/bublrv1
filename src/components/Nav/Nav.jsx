@@ -117,7 +117,7 @@ function Nav() {
                 </MenuItem>
                 <MenuItem onClick={() => setNavAnchor(null)}>
                   {/* link to the maps page */}
-                  <Link className='navLink' to='/maps'>
+                  <Link className='navLink' to='/map'>
                     <Typography>
                       Map
                     </Typography>
