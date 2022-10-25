@@ -7,6 +7,7 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@m
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import PageDisplay from './PageDisplay';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -20,7 +21,7 @@ function Nav() {
             <h2 className="nav-title">Bublr</h2>
           </Link>
           {/* Setup display of current page here. */}
-
+          <PageDisplay />
           {/* If no user is logged in, show these links */}
           {!user.id && (
           <Box>
