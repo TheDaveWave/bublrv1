@@ -15,7 +15,7 @@ function Nav() {
   const [navAnchor, setNavAnchor] = useState(null);
 
   return (
-    <AppBar position='fixed'>
+    <AppBar sx={{postion: 'fixed', top: 0}}>
       <Toolbar className='toolbar'>
           <Link className='navLink' to="/home">
             <h2 className="nav-title">Bublr</h2>
