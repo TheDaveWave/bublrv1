@@ -11,13 +11,15 @@ function LoginPage() {
       <LoginForm />
 
       <center>
-        <Button
-          onClick={() => {
-            history.push('/registration');
-          }}
-        >
-          Register
-        </Button>
+        <Box sx={{ mt: 2 }}>
+          <Button
+            onClick={() => {
+              history.push('/registration');
+            }}
+          >
+            Register
+          </Button>
+        </Box>
       </center>
     </Box>
   );
