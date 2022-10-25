@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
+import { Box, Divider, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -47,29 +48,58 @@ function UserPage() {
   }
 
   return (
-    <div>
-      <div>
-        <h2>{user.username}</h2>
-        <p>First Name: {user.firstname}</p>
-        <p>Last Name: {user.lastname}</p>
-        <h3>Bio</h3>
-      </div>
-      <div>
-        <textarea value={bio} onChange={evt => setBio(evt.target.value)} readOnly={editBio ? false : true}></textarea>
-        <div>
-          {editBio ? 
-            <>
-            <button onClick={() => updateBio()}>Save</button>
-            <button onClick={() => setEditBio(false)}>Cancel</button> 
-            </> :
-            <button onClick={() => setEditBio(true)}>Edit Bio</button>
-          }         
-        </div>
-      </div>
+    <Box sx={{width: '100%'}}>
+      <Box sx={{width: '100%'}}>
+        <List>
+          <ListItem>
+            <ListItemText
+              primary={
+                <Typography variant='h4'>
+                  {user.username}
+                </Typography>
+              }
+              secondary={
+                <Typography textAlign='left' color='text.secondary'>
+                  {user.firstname} {user.lastname}
+                </Typography>
+              }
+            />
+          </ListItem>
+          <Divider variant='middle'/>
+          <ListItem>
+            <ListItemText 
+              primary={
+                <Typography variant='h6'>
+                  Bio
+                </Typography>
+              }
+              secondary={
+                <TextField 
+                  fullWidth 
+                  multiline 
+                  rows={5} 
+                  value={bio} 
+                  onChange={evt => setBio(evt.target.value)} 
+                  disabled={editBio ? false : true}
+                />
+              }
+            />
+          </ListItem>
+        </List>
+      </Box>
+      <Box>
+        {editBio ? 
+          <>
+          <button onClick={() => updateBio()}>Save</button>
+          <button onClick={() => setEditBio(false)}>Cancel</button> 
+          </> :
+          <button onClick={() => setEditBio(true)}>Edit Bio</button>
+        }         
+      </Box>
       {/* on edit mode create form to update user information */}
       {editMode ?
       <>
-        <div>
+        <Box>
           <label htmlFor='firstname'>First Name</label>
           <input value={firstname} onChange={evt => setFirstname(evt.target.value)} id='firstname' type='text'/>
           <br />
@@ -78,16 +108,16 @@ function UserPage() {
           <br />
           <label htmlFor='pass'>New Password</label>
           <input value={password} onChange={evt => setPassword(evt.target.value)} id='pass' type='password'/>
-        </div>
-        <div>
+        </Box>
+        <Box>
           <button onClick={() => updateInfo()}>Save</button>
           <button onClick={() => setEditMode(false)}>Cancel</button> 
-        </div>
+        </Box>
       </> :
         <button onClick={() => setEditMode(true)}>Edit Profile</button>
       }
       <LogOutButton />
-    </div>
+    </Box>
   );
 }
 
