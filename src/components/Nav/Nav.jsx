@@ -19,6 +19,8 @@ function Nav() {
           <Link className='navLink' to="/home">
             <h2 className="nav-title">Bublr</h2>
           </Link>
+          {/* Setup display of current page here. */}
+
           {/* If no user is logged in, show these links */}
           {!user.id && (
           <Box>
