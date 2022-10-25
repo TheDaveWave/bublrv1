@@ -7,6 +7,7 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@m
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import { RotateRight } from '@mui/icons-material';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -24,7 +25,7 @@ function Nav() {
           <Box>
             <IconButton onClick={evt => setNavAnchor(evt.currentTarget)}>
               {/* <MoreVertIcon sx={{color: '#fff'}}/> */}
-              {navAnchor? <MenuOpenIcon sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}
+              {navAnchor? <MenuOpenIcon className='open-icon' sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}
             </IconButton>
             <Menu
               id='menu-appbar'
@@ -74,7 +75,7 @@ function Nav() {
           <Box>
             <IconButton onClick={evt => setNavAnchor(evt.currentTarget)}>
               {/* <MoreVertIcon sx={{color: '#fff'}}/> */}
-              {navAnchor? <MenuOpenIcon sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}              
+              {navAnchor? <MenuOpenIcon className='open-icon' sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}              
             </IconButton>
             <Menu
               id='menu-appbar'
