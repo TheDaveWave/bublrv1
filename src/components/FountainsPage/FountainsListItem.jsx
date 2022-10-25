@@ -55,7 +55,7 @@ function FountainsListItem({fountain}) {
                     <Rating name='read-only' value={Number(fountain.rating)} precision={0.1} readOnly/>
                 }
                 <Stack direction="row" spacing={1}>
-                <Chip icon={<RecommendIcon />} variant='outlined' label={fountain.likes}/>
+                <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={fountain.likes}/>
                 </Stack>
                 {/* <Typography>Likes: {fountain.likes}</Typography> */}
             </Box>
