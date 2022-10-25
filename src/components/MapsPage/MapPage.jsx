@@ -1,4 +1,5 @@
 import { useLoadScript } from "@react-google-maps/api";
+import { useEffect } from "react";
 import Map from "../Map/Map";
 
 // component to display the map page.

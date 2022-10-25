@@ -1,8 +1,10 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function PageDisplay() {
+    const pathName = useSelector(store => store.path);
 
     // console.log(window.location.pathname);
     let path = window.location.pathname.replaceAll('/', '');
