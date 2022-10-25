@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
-import { Box, Divider, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -66,57 +66,89 @@ function UserPage() {
             />
           </ListItem>
           <Divider variant='middle'/>
-          <ListItem>
+          <ListItem sx={{mt: 2}}>
             <ListItemText 
               primary={
-                <Typography variant='h6'>
-                  Bio
-                </Typography>
-              }
-              secondary={
-                <TextField 
-                  fullWidth 
-                  multiline 
-                  rows={5} 
-                  value={bio} 
-                  onChange={evt => setBio(evt.target.value)} 
-                  disabled={editBio ? false : true}
-                />
+                <>
+                  <Typography variant='h6'>
+                    Bio
+                  </Typography>
+                  <Divider sx={{width: '50%'}} variant='middle'/>
+                </>
               }
             />
           </ListItem>
+          <ListItem>
+             <TextField 
+                  fullWidth 
+                  multiline 
+                  minRows={2}
+                  value={bio} 
+                  onChange={evt => setBio(evt.target.value)} 
+                  disabled={editBio ? false : true}
+                  className='bio'
+                  variant='standard'
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+          </ListItem>
         </List>
+        <Box ml={2}>
+          {editBio ? 
+            <>
+            <Button onClick={() => updateBio()}>Save</Button>
+            <Button onClick={() => setEditBio(false)}>Cancel</Button> 
+            </> :
+            <Button onClick={() => setEditBio(true)}>Edit Bio</Button>
+          }         
+        </Box>
       </Box>
-      <Box>
-        {editBio ? 
-          <>
-          <button onClick={() => updateBio()}>Save</button>
-          <button onClick={() => setEditBio(false)}>Cancel</button> 
-          </> :
-          <button onClick={() => setEditBio(true)}>Edit Bio</button>
-        }         
-      </Box>
+      <Divider />
       {/* on edit mode create form to update user information */}
+      <Box ml={2} mt={4}>
       {editMode ?
       <>
         <Box>
-          <label htmlFor='firstname'>First Name</label>
-          <input value={firstname} onChange={evt => setFirstname(evt.target.value)} id='firstname' type='text'/>
-          <br />
-          <label htmlFor='lastname'>Last Name</label>
-          <input value={lastname} onChange={evt => setLastname(evt.target.value)} id='lastname' type='text'/>
-          <br />
-          <label htmlFor='pass'>New Password</label>
-          <input value={password} onChange={evt => setPassword(evt.target.value)} id='pass' type='password'/>
+          <Box>
+            <TextField
+              type="text"
+              variant='standard'
+              label='First Name'
+              value={firstname}
+              required
+              onChange={(event) => setFirstname(event.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              type="text"
+              variant='standard'
+              label='Last Name'
+              value={lastname}
+              required
+              onChange={(event) => setLastname(event.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              type="password"
+              variant='standard'
+              label='New Password'
+              value={password}
+              required
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </Box>
         </Box>
         <Box>
-          <button onClick={() => updateInfo()}>Save</button>
-          <button onClick={() => setEditMode(false)}>Cancel</button> 
+          <Button onClick={() => updateInfo()}>Save</Button>
+          <Button onClick={() => setEditMode(false)}>Cancel</Button> 
         </Box>
       </> :
-        <button onClick={() => setEditMode(true)}>Edit Profile</button>
+        <Button variant='contained' onClick={() => setEditMode(true)}>Edit Profile</Button>
       }
-      <LogOutButton />
+      </Box>
     </Box>
   );
 }

@@ -16,3 +16,8 @@
    /* have the open menu icon face in towards the app */
    transform: rotate(180deg);
 }
+
+.bio {
+   outline: none;
+   border: none;
+}
