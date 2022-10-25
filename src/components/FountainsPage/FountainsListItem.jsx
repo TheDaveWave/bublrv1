@@ -1,4 +1,6 @@
-import { Rating } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, Chip, Divider, Rating, Stack, Typography } from "@mui/material";
+import RecommendIcon from '@mui/icons-material/Recommend';
+import { Box } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -38,24 +40,36 @@ function FountainsListItem({fountain}) {
     }
 
     return (
-        <div>
-            <img src={fountain.picture} className='info-img' alt='A drinking fountain'/>
-            <div>
+        <Card sx={{mt: 2}}>
+            <CardMedia 
+                component='img'
+                height='140px'
+                image={fountain.picture}
+                alt='A Drinking Fountain'
+            />
+            {/* <img src={fountain.picture} className='info-img' alt='A drinking fountain'/> */}
+            <CardContent>
+            <Box component='div'>
                 {rateMode ? 
                     <Rating name='rating' value={rating} onChange={(evt, newValue) => setRating(newValue)} precision={0.1} /> : 
                     <Rating name='read-only' value={Number(fountain.rating)} precision={0.1} readOnly/>
                 }
-                <p>Likes: {fountain.likes}</p>
-            </div>
-            <div>
-                <button onClick={() => fountainGo()}>Go</button>
-                <button onClick={() => history.push(`/fountain/${fountain.id}`)}>Comments</button>
+                <Stack direction="row" spacing={1}>
+                <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={fountain.likes}/>
+                </Stack>
+                {/* <Typography>Likes: {fountain.likes}</Typography> */}
+            </Box>
+            <Divider />
+            <Box component='div'>
+                <Button onClick={() => fountainGo()}>Go</Button>
+                <Button onClick={() => history.push(`/fountain/${fountain.id}`)}>Comments</Button>
                 {rateMode ? 
-                    <button onClick={() => submitRating()}>Confirm</button> : 
-                    <button onClick={() => setRateMode(true)}>Rate</button>
+                    <Button onClick={() => submitRating()}>Confirm</Button> : 
+                    <Button onClick={() => setRateMode(true)}>Rate</Button>
                 }
-            </div>
-        </div>
+            </Box>
+            </CardContent>
+        </Card>
     );
 }
 

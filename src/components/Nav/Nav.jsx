@@ -5,6 +5,8 @@ import './Nav.css';
 import { useSelector } from 'react-redux';
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -21,7 +23,8 @@ function Nav() {
           {!user.id && (
           <Box>
             <IconButton onClick={evt => setNavAnchor(evt.currentTarget)}>
-              <MoreVertIcon sx={{color: '#fff'}}/>
+              {/* <MoreVertIcon sx={{color: '#fff'}}/> */}
+              {navAnchor? <MenuOpenIcon className='open-icon' sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}
             </IconButton>
             <Menu
               id='menu-appbar'
@@ -70,7 +73,8 @@ function Nav() {
           {user.id && (
           <Box>
             <IconButton onClick={evt => setNavAnchor(evt.currentTarget)}>
-              <MoreVertIcon sx={{color: '#fff'}}/>
+              {/* <MoreVertIcon sx={{color: '#fff'}}/> */}
+              {navAnchor? <MenuOpenIcon className='open-icon' sx={{color: '#fff'}}/> : <MenuIcon sx={{color: '#fff'}}/>}              
             </IconButton>
             <Menu
               id='menu-appbar'
