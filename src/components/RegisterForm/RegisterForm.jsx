@@ -1,3 +1,4 @@
+import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,53 +26,58 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={email}
-            required
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
-    </form>
+    <Box
+      sx={{
+        mt: 2,
+        '.MuiTextField-root': { m: 0.5, width: '25ch'}
+      }}
+    >
+      <Card>
+        <CardContent>
+          <form className="formPanel" onSubmit={registerUser}>
+            <Typography align='center' component='h2' variant='h5'>Sign Up</Typography>
+            {errors.registrationMessage && (
+              <h3 className="alert" role="alert">
+                {errors.registrationMessage}
+              </h3>
+            )}
+            <Box>
+                <TextField
+                  type="text"
+                  variant='standard'
+                  label='Username'
+                  value={username}
+                  required
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+            </Box>
+            <Box>
+                <TextField
+                  type="email"
+                  variant='standard'
+                  label='Email'
+                  value={email}
+                  required
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+            </Box>
+            <Box>
+                <TextField
+                  type="password"
+                  variant='standard'
+                  label='Password'
+                  value={password}
+                  required
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+            </Box>
+            <Box textAlign='center' sx={{ mt: 2 }}>
+              <Button variant='contained' type='submit'>Register</Button>
+            </Box>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 
