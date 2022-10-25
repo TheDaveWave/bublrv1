@@ -109,7 +109,7 @@ function Nav() {
                   </Link>
                 </MenuItem>
                 <MenuItem onClick={() => setNavAnchor(null)}>
-                  <Link className="navLink" to="/user">
+                  <Link className="navLink" to="/profile">
                     <Typography>
                       Profile
                     </Typography>

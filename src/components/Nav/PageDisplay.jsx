@@ -1,15 +1,18 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useRouteMatch } from "react-router-dom";
 
 function PageDisplay() {
 
-    const match = useRouteMatch();
+    // console.log(window.location.pathname);
+    let path = window.location.pathname.replace('/', '');
+    // console.log(path);
+    let pageName = path.charAt(0).toUpperCase() + path.slice(1);
+    // console.log(pageName);
 
     return (
         <Box>
             <Typography>
-                Hi
+                {pageName}
             </Typography>
         </Box>
     );
