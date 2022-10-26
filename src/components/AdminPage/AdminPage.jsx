@@ -140,14 +140,14 @@ function SettingsPage() {
     }, [fountainId]);
 
     return (
-        <Box sx={{margin: 'auto auto'}}>
+        <Box sx={{ mt: 2 }}>
             { !addForm & !editMode ? 
             <>
-            <Typography sx={{ m: 2 }} variant='subtitle2'>
+            <Typography  sx={{ m: 2 }} variant='h6'>
                 Add New Fountain
             </Typography>
-            <Button sx={{ m: 2 }} onClick={() => toggleAddForm(true)} variant='contained'>Add Fountain</Button>
-            <Typography sx={{ m: 2 }} variant='subtitle2'>
+            <Button sx={{ ml: 2 }} onClick={() => toggleAddForm(true)} variant='contained'>Add Fountain</Button>
+            <Typography sx={{ m: 2 }} variant='subtitle1'>
                 Edit Fountain
             </Typography>
             <FormControl sx={{width: 150}}>
