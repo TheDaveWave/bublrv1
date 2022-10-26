@@ -1,3 +1,11 @@
+.scrollable {
+   overflow: scroll;
+}
+
+.noscroll {
+   overflow: hidden;
+}
+
 .flex-wrapper {
    margin-top: 68px;
    display: flex;

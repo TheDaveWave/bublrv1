@@ -33,16 +33,6 @@ function App() {
   
   const user = useSelector(store => store.user);
 
-  useEffect(() => {
-    const path = window.location.pathname;
-    if(path === '/fountains') {
-      console.log(path);
-      window.document.body.style.overflow = 'visible';
-    } else {
-      console.log('failed', path);
-      window.document.body.style.overflow = 'hidden';
-    }
-  }, []);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
