@@ -132,7 +132,7 @@ function Map() {
     const dispatch = useDispatch();
     // get the current route.
     let match = useRouteMatch();
-    let checkMatch = match.path === '/maps';
+    let checkMatch = match.path === '/map';
     // console.log(match);
 
     // function to get the current location of the user. 
