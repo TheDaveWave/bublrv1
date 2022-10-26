@@ -54,7 +54,6 @@ function UserPage() {
           <ListItem>
             <ListItemAvatar>
               <Avatar>
-                
               </Avatar>
             </ListItemAvatar>
             <ListItemText
