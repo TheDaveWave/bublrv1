@@ -1,9 +1,12 @@
-import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import NearMeIcon from '@mui/icons-material/NearMe';
 import './Map.css';
+import { Stack } from "@mui/system";
 
 // component to display the map page.
 function Map() {
@@ -13,8 +16,10 @@ function Map() {
     // lat and lng are set to fargo, ND.
     const [lat, setLat] = useState(46.8772);
     const [lng, setLng] = useState(-96.7898);
+    const [map, setMap] = useState( /** @type google.maps.Map */ (null) );
     const [coords, setCoords] = useState(false);
     const [activeMarker, setActiveMarker] = useState(null);
+    const [toggleOptions, setToggleOptions] = useState(false);
     // store the directions response from google into local state.
     const [directionsRes, setDirectionsRes] = useState(null);
     // state to store the distance and duration returned by google directions service.
@@ -309,12 +314,14 @@ function Map() {
     }
 
     return (
-        <>
         <div>
+        <Box sx={{mt: 1}} component='div'></Box>
+        <Box sx={{width: '100vw'}}>
             <GoogleMap
             // setup properties of the map for it to function.
             zoom={checkMatch ? 15 : 18}
             center={center}
+            onLoad={map => setMap(map)}
             mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
             options={checkMatch ? mapOptions : homeMapOptions}
             // options={mapOptions}
@@ -377,23 +384,56 @@ function Map() {
              ))
             }
             </GoogleMap>
-        </div>
-        <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
-        <Button onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
-        {checkMatch && 
-        <Container>
-            <FormGroup>
-                <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
-                <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
-                <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
-                <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
-                <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
-            </FormGroup>
-            <Button onClick={() => useFilter()}>Filter</Button>
-            <Button onClick={() => clearFilter()}>Clear Filter</Button>
-        </Container>
+        </Box>
+        <Box className={checkMatch ? 'map-btns' : 'mini-map-btns'} >
+            <Stack direction='row' justifyContent='center' alignItems='center'>
+            {directionsRes ? 
+                <Button fullWidth onClick={() => clearRoute()} variant='contained'>Clear Route</Button> 
+                :
+                <>
+                {setCoords ?  
+                <Button sx={{flexGrow: 3}} onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                :
+                <Button sx={{flexGrow: 3}} onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                }
+                <Button variant='contained'  onClick={() => map.panTo(center)}><MyLocationOutlinedIcon /></Button>
+                </>
+            }
+            </Stack>
+        </Box>
+        {toggleOptions ?   
+        <Box className='option-background'
+            sx={{
+                zIndex: '2', 
+                position: 'absolute',
+                top: 65,
+                left: 0,
+            }}
+        >
+            <Button fullWidth onClick={() => setToggleOptions(false)} variant='contained'>Close</Button>
+            {checkMatch && 
+            <Container>
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
+                    <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
+                    <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
+                    <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
+                    <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
+                </FormGroup>
+                <Button onClick={() => useFilter()}>Filter</Button>
+                <Button onClick={() => clearFilter()}>Clear Filter</Button>
+            </Container>
+            }
+        </Box> 
+        :
+        checkMatch && 
+        <div>
+            <div id='options'>
+            <Button onClick={() => setToggleOptions(true)} variant='contained'>Options</Button>
+            </div>
+        </div> 
         }
-        </>
+        </div>
     );
 }
 

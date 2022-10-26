@@ -1,11 +1,36 @@
 .map-container {
-    height: 75vh;
-    width: 75%;
+    height: 87vh;
+    width: 98%;
+}
+
+#options {
+    z-index: 2;
+    position: absolute;
+    top: 65px;
+    left: 0;
+}
+
+.option-background {
+    background-color: #fff;
+    box-shadow: 0px 4px 4px #2f2f2d;
+}
+
+.map-btns {
+    margin: 0 auto;
+    /* margin-left: 2; */
+    z-index: 2;
+    position: absolute;
+    top: 96vh;
+    width: 100vw;
+}
+
+.mini-map-btns {
+    position: relative;
 }
 
 .mini-map {
     height: 45vh;
-    width: 45%;
+    width: 98%;
 }
 
 .info-img {
