@@ -1,5 +1,5 @@
 .map-container {
-    height: 90vh;
+    height: 87vh;
     width: 98%;
 }
 
@@ -10,12 +10,18 @@
     left: 0;
 }
 
+.option-background {
+    background-color: #fff;
+    box-shadow: 0px 4px 4px #2f2f2d;
+}
+
 .map-btns {
     margin: 0 auto;
     /* margin-left: 2; */
     z-index: 2;
     position: absolute;
-    top: 95vh;
+    top: 96vh;
+    width: 100vw;
 }
 
 .mini-map-btns {

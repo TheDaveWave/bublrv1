@@ -381,11 +381,14 @@ function Map() {
             </GoogleMap>
         </Box>
         <Box className={checkMatch ? 'map-btns' : 'mini-map-btns'} >
-            <Button onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
-            <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+            {directionsRes ? 
+                <Button fullWidth onClick={() => clearRoute()} variant='contained'>Clear Route</Button> 
+                :
+                <Button fullWidth onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+            }
         </Box>
         {toggleOptions ?   
-        <Box
+        <Box className='option-background'
             sx={{
                 zIndex: '2', 
                 position: 'absolute',
