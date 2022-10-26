@@ -140,10 +140,10 @@ function SettingsPage() {
     }, [fountainId]);
 
     return (
-        <Container>
+        <Box sx={{margin: 'auto auto'}}>
             { !addForm & !editMode ? 
             <>
-             <Typography sx={{ m: 2 }} variant='subtitle2'>
+            <Typography sx={{ m: 2 }} variant='subtitle2'>
                 Add New Fountain
             </Typography>
             <Button sx={{ m: 2 }} onClick={() => toggleAddForm(true)} variant='contained'>Add Fountain</Button>
@@ -170,11 +170,12 @@ function SettingsPage() {
             <Box
                 component='form'
                 sx={{
+                    margin: 'auto auto',
                     '& .MuiTextField-root': { m: 2, width: '25ch' },
                     '.MuiButtonBase-root': {m: 2}
                     }}
             >
-                <div>
+                <Box>
                     <TextField 
                         variant='standard'
                         label='Latitude'
@@ -185,7 +186,7 @@ function SettingsPage() {
                         label='Longitude'
                         value={lng}
                     />
-                </div>
+                </Box>
                 <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
                 <Divider variant='middle'/>
                 <Box
@@ -202,7 +203,7 @@ function SettingsPage() {
                         onChange={evt => setPicture(evt.target.value)}
                     />
                 </Box>
-                <Container>
+                <Box>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
                         <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
@@ -210,7 +211,7 @@ function SettingsPage() {
                         <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
                         <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
                     </FormGroup>
-                </Container>
+                </Box>
                 <Divider variant='middle'/>
                 <Box
                     component='label'
@@ -229,44 +230,46 @@ function SettingsPage() {
                 }}
             >
                 <Box>
-                    <div>
-                        <TextField 
-                            variant='standard'
-                            label='Latitude'
-                            value={selectLat}
-                            onChange={evt => setSelectLat(evt.target.value)}
-                        />
-                        <TextField 
-                            variant='standard'
-                            label='Longitude'
-                            value={selectLng}
-                            onChange={evt => setSelectLng(evt.target.value)}
-                        />
-                    </div>
                     <TextField 
                         variant='standard'
-                        label='Image URL'
-                        type='url'
-                        value={selPicture}
-                        onChange={evt => setPicture(evt.target.value)}
+                        label='Latitude'
+                        value={selectLat}
+                        onChange={evt => setSelectLat(evt.target.value)}
                     />
-                    <Container>
-                        <FormGroup>
-                            <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
-                            <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
-                            <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
-                            <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
-                            <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
-                        </FormGroup>
-                    </Container>
-                    <Button onClick={() => editFountain()}>Update</Button>
-                    <Button onClick={() => {setEditMode(false); setFountainId(''); clearCheckBoxes()}}>Cancel</Button>
+                    <TextField 
+                        variant='standard'
+                        label='Longitude'
+                        value={selectLng}
+                        onChange={evt => setSelectLng(evt.target.value)}
+                    />
                 </Box>
+                <TextField 
+                    variant='standard'
+                    label='Image URL'
+                    type='url'
+                    value={selPicture}
+                    onChange={evt => setPicture(evt.target.value)}
+                />
+                <Box
+                    sx={{
+                        ' .MuiFormGroup-root': {m: 2}
+                    }}
+                >
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox checked={laminar} onChange={evt => {setLaminar(!laminar); setTurbulent(laminar)}}/>} label='Laminar Flow'/>
+                        <FormControlLabel control={<Checkbox checked={turbulent} onChange={evt => {setTurbulent(!turbulent); setLaminar(turbulent)}}/>} label='Turbulent Flow'/>
+                        <FormControlLabel control={<Checkbox checked={bottle} onChange={evt => setBottle(!bottle)}/>} label='Bottle Accessible'/>
+                        <FormControlLabel control={<Checkbox checked={outdoor} onChange={evt => {setOutdoor(!outdoor); setIndoor(outdoor)}}/>} label='Outdoor'/>
+                        <FormControlLabel control={<Checkbox checked={indoor} onChange={evt => {setIndoor(!indoor); setOutdoor(indoor)}}/>} label='Indoor'/>
+                    </FormGroup>
+                </Box>
+                <Button onClick={() => editFountain()}>Update</Button>
+                <Button onClick={() => {setEditMode(false); setFountainId(''); clearCheckBoxes()}}>Cancel</Button>
             </Box>
             :
             <div>404</div>
         }
-    </Container>
+    </Box>
 )}
 
 export default SettingsPage;
