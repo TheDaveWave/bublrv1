@@ -9,6 +9,9 @@ function PageDisplay() {
     // instantiate this as a jank way to make the page name update.
     const local = useLocation();
 
+    // console.log(local);
+
+    // console.log(window.location.pathname);
     let path = window.location.pathname.replaceAll('/', '');
     path = path.replaceAll(/[0-9]/g, '');
     // console.log(path);
@@ -26,9 +29,12 @@ function PageDisplay() {
         const locale = window.location.pathname;
         if(locale === '/fountains') {
             // console.log(locale);
+        //   window.document.body.style.overflow = 'visible';
             window.document.body.classList.remove('noscroll');
         } else {
-            // console.log('failed', locale);
+        //   console.log('failed', locale);
+        //   window.document.body.style.overflow = 'hidden';
+            // document.body.scrollTop = 65;
             window.scrollTo(65 , 0);
             window.document.body.classList.add('noscroll');
         }
