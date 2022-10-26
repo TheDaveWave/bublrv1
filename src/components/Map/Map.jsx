@@ -1,4 +1,4 @@
-import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box, IconButton } from "@mui/material";
+import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -391,7 +391,11 @@ function Map() {
                 <Button fullWidth onClick={() => clearRoute()} variant='contained'>Clear Route</Button> 
                 :
                 <>
+                {setCoords ?  
                 <Button sx={{flexGrow: 3}} onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                :
+                <Button sx={{flexGrow: 3}} onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                }
                 <Button variant='contained'  onClick={() => map.panTo(center)}><MyLocationOutlinedIcon /></Button>
                 </>
             }
