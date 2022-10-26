@@ -380,6 +380,10 @@ function Map() {
             }
             </GoogleMap>
         </Box>
+        <Box className={checkMatch ? 'map-btns' : 'mini-map-btns'} >
+            <Button onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+            <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
+        </Box>
         {toggleOptions ?   
         <Box
             sx={{
@@ -389,7 +393,7 @@ function Map() {
                 left: 0,
             }}
         >
-            <Button onClick={() => setToggleOptions(false)}>X</Button>
+            <Button onClick={() => setToggleOptions(false)} variant='contained'>Close</Button>
             {checkMatch && 
             <Container>
                 <FormGroup>
@@ -405,13 +409,12 @@ function Map() {
             }
         </Box> 
         :
+        checkMatch && 
         <div>
-        <Button onClick={() => setToggleOptions(true)}>Options</Button>
-        <Box sx={{ml: 2}}>
-            <Button onClick={() => clearRoute()} variant='contained'>Clear Route</Button>
-            <Button onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
-        </Box>
-        </div>
+            <div id='options'>
+            <Button onClick={() => setToggleOptions(true)} variant='contained' >Options</Button>
+            </div>
+        </div> 
         }
         </div>
     );

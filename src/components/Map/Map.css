@@ -1,5 +1,5 @@
 .map-container {
-    height: 75vh;
+    height: 90vh;
     width: 98%;
 }
 
@@ -8,6 +8,18 @@
     position: absolute;
     top: 65px;
     left: 0;
+}
+
+.map-btns {
+    margin: 0 auto;
+    /* margin-left: 2; */
+    z-index: 2;
+    position: absolute;
+    top: 95vh;
+}
+
+.mini-map-btns {
+    position: relative;
 }
 
 .mini-map {
