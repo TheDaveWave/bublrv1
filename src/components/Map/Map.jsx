@@ -1,8 +1,10 @@
-import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
+import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box, IconButton } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import NearMeIcon from '@mui/icons-material/NearMe';
 import './Map.css';
 
 // component to display the map page.
@@ -13,6 +15,7 @@ function Map() {
     // lat and lng are set to fargo, ND.
     const [lat, setLat] = useState(46.8772);
     const [lng, setLng] = useState(-96.7898);
+    const [map, setMap] = useState( /** @type google.maps.Map */ (null) );
     const [coords, setCoords] = useState(false);
     const [activeMarker, setActiveMarker] = useState(null);
     const [toggleOptions, setToggleOptions] = useState(false);
@@ -317,6 +320,7 @@ function Map() {
             // setup properties of the map for it to function.
             zoom={checkMatch ? 15 : 18}
             center={center}
+            onLoad={map => setMap(map)}
             mapContainerClassName={checkMatch ? 'map-container' : 'mini-map'}
             options={checkMatch ? mapOptions : homeMapOptions}
             // options={mapOptions}
@@ -416,6 +420,7 @@ function Map() {
         <div>
             <div id='options'>
             <Button onClick={() => setToggleOptions(true)} variant='contained' >Options</Button>
+            <Button variant='contained'  onClick={() => map.panTo(center)}><MyLocationOutlinedIcon /></Button>
             </div>
         </div> 
         }
