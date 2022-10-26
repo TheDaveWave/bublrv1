@@ -6,7 +6,6 @@ import FountainsListItem from "./FountainsListItem";
 function FountainsPage() {
     // access the list of fountains to display on the dom.
     const fountains = useSelector(store => store.fountains.fountainsReducer);
-
     // access useDispatch()
     const dispatch = useDispatch();
 
@@ -16,7 +15,6 @@ function FountainsPage() {
 
     return (
         <main>
-            <h1>Fountains Page</h1>
             {fountains.map(ftn => (
                 <FountainsListItem key={ftn.id} fountain={ftn}/>
             ))}
