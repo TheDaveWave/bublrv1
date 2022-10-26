@@ -1,9 +1,10 @@
-import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
+import { Button, Container, Rating, FormGroup, FormControlLabel, Checkbox, Box, Card, CardMedia, CardContent, Chip, Divider } from "@mui/material";
 import { DirectionsRenderer, GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import RecommendIcon from '@mui/icons-material/Recommend';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import './Map.css';
 import { Stack } from "@mui/system";
@@ -343,16 +344,27 @@ function Map() {
                 >
                     {activeMarker == ftn.id && (
                         <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                            <div>
-                                <img className='info-img' src={ftn.picture} alt='A Bubbler'/>
-                                <div>
+                            <Card>
+                                <CardMedia 
+                                    component='img'
+                                    height='100px'
+                                    image={ftn.picture}
+                                    alt='A Bubbler'
+                                />
+                                <CardContent>
+                                <Box>
                                 <Rating value={Number(ftn.rating)} precision={0.1} readOnly/>
-                                </div>
-                                <p>Likes: {ftn.likes}</p>
-                                <button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</button>
-                                <button onClick={() => addLike(ftn.id)}>Like</button>
-                                <button onClick={() => removeLike(ftn.id)}>Dislike</button>
-                            </div>
+                                </Box>
+                                <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={ftn.likes}/>
+                                {/* <p>Likes: {ftn.likes}</p> */}
+                                <Divider />
+                                <Box>
+                                    <Button onClick={() => getDirections({lat: Number(ftn.latitude), lng: Number(ftn.longitude)})}>Go</Button>
+                                    <Button onClick={() => addLike(ftn.id)}>Like</Button>
+                                    <Button onClick={() => removeLike(ftn.id)}>Dislike</Button>
+                                </Box>
+                                </CardContent>
+                            </Card>
                         </InfoWindow>
                     )}
                 </Marker>
