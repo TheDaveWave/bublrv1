@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
-import { Box, Button, Divider, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -52,6 +52,11 @@ function UserPage() {
       <Box sx={{width: '100%'}}>
         <List>
           <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                
+              </Avatar>
+            </ListItemAvatar>
             <ListItemText
               primary={
                 <Typography variant='h4'>
