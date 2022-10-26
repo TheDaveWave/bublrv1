@@ -6,6 +6,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import './Map.css';
+import { Stack } from "@mui/system";
 
 // component to display the map page.
 function Map() {
@@ -385,11 +386,16 @@ function Map() {
             </GoogleMap>
         </Box>
         <Box className={checkMatch ? 'map-btns' : 'mini-map-btns'} >
+            <Stack direction='row' justifyContent='center' alignItems='center'>
             {directionsRes ? 
                 <Button fullWidth onClick={() => clearRoute()} variant='contained'>Clear Route</Button> 
                 :
-                <Button fullWidth onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                <>
+                <Button sx={{flexGrow: 3}} onClick={() => directToClosest()} variant='contained'>Closest Fountain</Button>
+                <Button variant='contained'  onClick={() => map.panTo(center)}><MyLocationOutlinedIcon /></Button>
+                </>
             }
+            </Stack>
         </Box>
         {toggleOptions ?   
         <Box className='option-background'
@@ -400,7 +406,7 @@ function Map() {
                 left: 0,
             }}
         >
-            <Button onClick={() => setToggleOptions(false)} variant='contained'>Close</Button>
+            <Button fullWidth onClick={() => setToggleOptions(false)} variant='contained'>Close</Button>
             {checkMatch && 
             <Container>
                 <FormGroup>
@@ -419,8 +425,7 @@ function Map() {
         checkMatch && 
         <div>
             <div id='options'>
-            <Button onClick={() => setToggleOptions(true)} variant='contained' >Options</Button>
-            <Button variant='contained'  onClick={() => map.panTo(center)}><MyLocationOutlinedIcon /></Button>
+            <Button onClick={() => setToggleOptions(true)} variant='contained'>Options</Button>
             </div>
         </div> 
         }
