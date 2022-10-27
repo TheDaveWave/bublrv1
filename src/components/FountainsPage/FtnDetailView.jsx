@@ -1,4 +1,4 @@
-import { Box, Rating } from "@mui/material";
+import { Box, Paper, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -55,28 +55,30 @@ function FtnDetailView() {
 
     return (
         <Box component='main'>
-            <h1>Fountain: {ftn?.id}</h1>
-            <Rating name='read-only' value={Number(ftn.rating)} precision={0.1} readOnly/>
-            <p>Likes: {ftn?.likes}</p>
-            {newComment ? 
-            <div>
-                <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
-                <button onClick={() => addComment()}>Add</button>
-                <button onClick={() => {setNewComment(false); setCommentBody('')}}>Cancel</button>
-            </div>
-            : <button onClick={() => setNewComment(true)}>Comment</button> }
-            <div>
-            <ul>
-                {comments.map(comment => (
-                    <div key={comment.id}>
-                        <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
-                        <ul>
-                            <Replies commentId={comment.id}/>
-                        </ul>
-                    </div>
-                ))}
-            </ul>
-            </div>
+            <Paper elevation={0}>
+                <h1>Fountain: {ftn?.id}</h1>
+                <Rating name='read-only' value={Number(ftn.rating)} precision={0.1} readOnly/>
+                <p>Likes: {ftn?.likes}</p>
+                {newComment ? 
+                <div>
+                    <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
+                    <button onClick={() => addComment()}>Add</button>
+                    <button onClick={() => {setNewComment(false); setCommentBody('')}}>Cancel</button>
+                </div>
+                : <button onClick={() => setNewComment(true)}>Comment</button> }
+                <div>
+                <ul>
+                    {comments.map(comment => (
+                        <div key={comment.id}>
+                            <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
+                            <ul>
+                                <Replies commentId={comment.id}/>
+                            </ul>
+                        </div>
+                    ))}
+                </ul>
+                </div>
+            </Paper>
         </Box>
     );
 }
