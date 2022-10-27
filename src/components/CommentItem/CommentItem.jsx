@@ -25,7 +25,6 @@ function CommentItem({comment, ftnId}) {
             return commentReplies.push(reply);
         }
     });
-    console.log(comment.id, commentReplies);
     // let date = comment.date;
     // date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
     // date = date.substring(0, 5);
