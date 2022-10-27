@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider, Input, ListItem, ListItemIcon, Stack } from "@mui/material";
+import { Avatar, Box, Button, Divider, Input, ListItem, ListItemIcon, ListItemText, Stack } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -45,7 +45,11 @@ function ReplyItem({reply}) {
             <ListItemIcon>
                 <Avatar />
             </ListItemIcon>
-            User: {reply.username} | Reply: {reply.body} | Date: {reply.date}
+            <ListItemText 
+                primary={reply.username}
+                secondary={reply.body}
+            />
+            {/* User: {reply.username} | Reply: {reply.body} | Date: {reply.date} */}
         </ListItem>
         <Divider variant='middle' />
         <Stack direction='row' justifyContent='space-evenly' alignItems='flex-end'>
