@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Chip, Input, Paper, Rating, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Chip, Input, Paper, Rating, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -79,23 +79,21 @@ function FtnDetailView() {
                     </Stack>
                 </CardContent>
                 <CardContent sx={{mt: -3}}>
-                <Input 
-                    fullWidth
-                    value={commentBody} 
-                    onFocus={() => setNewComment(true)} 
-                    onBlur={() => setNewComment(false)}
-                    onChange={evt => setCommentBody(evt.target.value)} 
-                    placeholder='Leave a comment'
-                />
-                {newComment ? 
-                <Box component='div'>
-                    <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
-                    <button onClick={() => addComment()}>Add</button>
-                    <button onClick={() => {setNewComment(false); setCommentBody('')}}>Cancel</button>
-                </Box>
-                : 
                 <Box>
-                    <button onClick={() => setNewComment(true)}>Comment</button> 
+                    <Input 
+                        fullWidth
+                        value={commentBody} 
+                        onFocus={() => setNewComment(true)} 
+                        onChange={evt => setCommentBody(evt.target.value)} 
+                        placeholder='Leave a comment'
+                    />
+                </Box>
+                {newComment &&
+                <Box component='div'>
+                    <Stack direction='row' alignItems='center' justifyContent='flex-end'>
+                    <Button onClick={() => {setNewComment(false); setCommentBody('')}}>Cancel</Button>
+                    <Button onClick={() => addComment()}>Comment</Button>
+                    </Stack>
                 </Box>
                 }
                 <div>
