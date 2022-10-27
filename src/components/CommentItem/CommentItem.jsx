@@ -1,10 +1,11 @@
-import { Avatar, Button, Chip, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { useState } from "react";
+import { Avatar, Button, Chip, Divider, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Stack } from "@mui/system";
+import Replies from "../Replies/Replies";
 
 function CommentItem({comment, ftnId}) {
     // setup local state for reply input.
@@ -17,9 +18,17 @@ function CommentItem({comment, ftnId}) {
     // get current user
     const userid = useSelector(store => store.user.id);
     // console.log(userid);
-    let date = comment.date;
-    date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
-    date = date.substring(0, 5);
+    const replies = useSelector(store => store.fountains.replies);
+    const commentReplies = [];
+    replies.map(reply => {
+        if(Number(reply.comment_id) === comment.id) {
+            return commentReplies.push(reply);
+        }
+    });
+    console.log(comment.id, commentReplies);
+    // let date = comment.date;
+    // date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
+    // date = date.substring(0, 5);
     // console.log(date);
 
     // handles the deleting of a comment on button click.
@@ -68,6 +77,13 @@ function CommentItem({comment, ftnId}) {
         }
     }
 
+     // fetch replies on load.
+     useEffect(() => {
+        dispatch({
+            type: 'GET_REPLIES',
+        });
+    }, []);
+
     return (
         <>
         <ListItem>
@@ -79,13 +95,14 @@ function CommentItem({comment, ftnId}) {
                 secondary={comment.body}
             />
         </ListItem>
+        <Divider variant='middle' />
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         <Stack direction='row' justifyContent='space-evenly' alignItems='center'>
         {addingReply ? 
         <>
             <Input sx={{ml: 2}} value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Add a reply...'/>
-            <Button onClick={() => handleComment()}>Add</Button>
             <Button onClick={() => {setAddingReply(false); setEditMode(false)}}>Cancel</Button>
+            <Button onClick={() => handleComment()}>Add</Button>
         </> :
         <>
             <Button onClick={() => setAddingReply(true)}>Reply</Button>
@@ -97,6 +114,7 @@ function CommentItem({comment, ftnId}) {
             </>}
         </>}
         </Stack>
+        {commentReplies.length > 0 && 
         <Chip 
             sx={{mt: 1, ml: 2}}
             size='small'
@@ -106,6 +124,12 @@ function CommentItem({comment, ftnId}) {
             icon={open ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />} 
             label='replies'
         />
+        }
+        {open && 
+        <ul>
+            <Replies commentId={comment.id}/>
+        </ul>
+        }
         </>
     );
 }
