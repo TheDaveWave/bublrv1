@@ -40,7 +40,7 @@ function LandingPage() {
         {isLoaded ? <Map /> : <div>Loading... </div>}
       </Box>
       <Box sx={{mt: 4, ml: 2, mr: 2}}>
-          <Typography>
+          <Typography variant='h6'>
             {quotes[rdmIndex]}
           </Typography>
       </Box>
