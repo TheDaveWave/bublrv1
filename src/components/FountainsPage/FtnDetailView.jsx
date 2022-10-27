@@ -6,6 +6,7 @@ import RecommendIcon from '@mui/icons-material/Recommend';
 import './FountainsPage.css';
 import CommentItem from "../CommentItem/CommentItem";
 import Replies from "../Replies/Replies";
+import { Stack } from "@mui/system";
 
 function FtnDetailView() {
     // setup local state
@@ -70,11 +71,14 @@ function FtnDetailView() {
                     image={ftn?.picture}
                     alt='A Drinking Fountain'
                 />
+                <CardContent sx={{mt: -2}}>
+                    <Typography variant='caption'>fountain #{ftn?.id}</Typography>
+                    <Stack direction='row' spacing={2} justifyContent='space-between'>
+                        <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={ftn?.likes}/>
+                        <Rating name='read-only' value={Number(ftn?.rating)} precision={0.1} readOnly/>
+                    </Stack>
+                </CardContent>
                 <CardContent>
-                <Typography variant='caption'>fountain #{ftn?.id}</Typography>
-                <Rating name='read-only' value={Number(ftn?.rating)} precision={0.1} readOnly/>
-                <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={ftn?.likes}/>
-                <p>Likes: {ftn?.likes}</p>
                 {newComment ? 
                 <div>
                     <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
