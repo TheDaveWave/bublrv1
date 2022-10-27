@@ -36,7 +36,7 @@ function FountainsListItem({fountain}) {
         }
         console.log(position);
         // push to maps page.
-        history.push('/maps', {position});
+        history.push('/map', {position});
     }
 
     return (
