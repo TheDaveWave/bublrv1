@@ -1,4 +1,4 @@
-import { Avatar, Button, Chip, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Avatar, Button, Chip, Divider, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
@@ -79,6 +79,7 @@ function CommentItem({comment, ftnId}) {
                 secondary={comment.body}
             />
         </ListItem>
+        <Divider variant='middle' />
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         <Stack direction='row' justifyContent='space-evenly' alignItems='center'>
         {addingReply ? 

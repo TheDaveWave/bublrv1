@@ -1,6 +1,8 @@
+import { Avatar, Box, Button, Divider, Input, ListItem, ListItemIcon, Stack } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function ReplyItem({reply}) {
     // setup local state for editing reply.
@@ -39,20 +41,30 @@ function ReplyItem({reply}) {
 
     return (
         <>
-        <li key={reply?.id}>User: {reply.username} | Reply: {reply.body} | Date: {reply.date}</li>
+        <ListItem key={reply?.id}>
+            <ListItemIcon>
+                <Avatar />
+            </ListItemIcon>
+            User: {reply.username} | Reply: {reply.body} | Date: {reply.date}
+        </ListItem>
+        <Divider variant='middle' />
+        <Stack direction='row' justifyContent='space-evenly' alignItems='flex-end'>
         {userid === Number(reply.user_id) && 
             <>
             {editMode ? 
             <>
-            <input value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Insert'/>
-            <button onClick={() => editReply(reply.id)}>Confirm</button>
-            <button onClick={() => setEditMode(false)}>Cancel</button>
+            <Input fullWidth value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Edit reply...'/>
+            <Box component='div'>
+                <Button onClick={() => editReply(reply.id)}>Confirm</Button>
+                <Button onClick={() => setEditMode(false)}>Cancel</Button>
+            </Box>
             </> : 
             <> 
-            <button onClick={() => setEditMode(true)}>Edit</button>
-            <button onClick={() => deleteReply(reply.id)}>Delete</button>
+            <Button onClick={() => setEditMode(true)}>Edit</Button>
+            <Button startIcon={<DeleteIcon />} onClick={() => deleteReply(reply.id)}>Delete</Button>
             </>}
             </>}
+        </Stack>
         </>
     );
 }
