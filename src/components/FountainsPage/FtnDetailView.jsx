@@ -1,3 +1,4 @@
+import { Box, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -53,9 +54,9 @@ function FtnDetailView() {
     }, []);
 
     return (
-        <main>
+        <Box component='main'>
             <h1>Fountain: {ftn?.id}</h1>
-            <p>Rating: {ftn?.rating}</p>
+            <Rating name='read-only' value={Number(ftn.rating)} precision={0.1} readOnly/>
             <p>Likes: {ftn?.likes}</p>
             {newComment ? 
             <div>
@@ -76,7 +77,7 @@ function FtnDetailView() {
                 ))}
             </ul>
             </div>
-        </main>
+        </Box>
     );
 }
 
