@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Chip, Paper, Rating, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, Input, Paper, Rating, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -78,14 +78,26 @@ function FtnDetailView() {
                         <Rating name='read-only' value={Number(ftn?.rating)} precision={0.1} readOnly/>
                     </Stack>
                 </CardContent>
-                <CardContent>
+                <CardContent sx={{mt: -3}}>
+                <Input 
+                    fullWidth
+                    value={commentBody} 
+                    onFocus={() => setNewComment(true)} 
+                    onBlur={() => setNewComment(false)}
+                    onChange={evt => setCommentBody(evt.target.value)} 
+                    placeholder='Leave a comment'
+                />
                 {newComment ? 
-                <div>
+                <Box component='div'>
                     <input value={commentBody} onChange={evt => setCommentBody(evt.target.value)} placeholder='comment'/>
                     <button onClick={() => addComment()}>Add</button>
                     <button onClick={() => {setNewComment(false); setCommentBody('')}}>Cancel</button>
-                </div>
-                : <button onClick={() => setNewComment(true)}>Comment</button> }
+                </Box>
+                : 
+                <Box>
+                    <button onClick={() => setNewComment(true)}>Comment</button> 
+                </Box>
+                }
                 <div>
                 <ul>
                     {comments.map(comment => (
