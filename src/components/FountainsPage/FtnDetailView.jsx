@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, Chip, Input, Paper, Rating, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Chip, Input, List, ListSubheader, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -96,18 +96,18 @@ function FtnDetailView() {
                     </Stack>
                 </Box>
                 }
-                <div>
-                <ul>
-                    {comments.map(comment => (
-                        <div key={comment.id}>
-                            <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
-                            <ul>
-                                <Replies commentId={comment.id}/>
-                            </ul>
-                        </div>
-                    ))}
-                </ul>
-                </div>
+                <Box sx={{mt: 2}}>
+                    <List>
+                        {comments.map(comment => (
+                            <div key={comment.id}>
+                                <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
+                                <ul>
+                                    <Replies commentId={comment.id}/>
+                                </ul>
+                            </div>
+                        ))}
+                    </List>
+                </Box>
                 </CardContent>
             </Card>
         </Box>
