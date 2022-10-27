@@ -5,6 +5,7 @@ import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Stack } from "@mui/system";
+import Replies from "../Replies/Replies";
 
 function CommentItem({comment, ftnId}) {
     // setup local state for reply input.
@@ -85,8 +86,8 @@ function CommentItem({comment, ftnId}) {
         {addingReply ? 
         <>
             <Input sx={{ml: 2}} value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Add a reply...'/>
-            <Button onClick={() => handleComment()}>Add</Button>
             <Button onClick={() => {setAddingReply(false); setEditMode(false)}}>Cancel</Button>
+            <Button onClick={() => handleComment()}>Add</Button>
         </> :
         <>
             <Button onClick={() => setAddingReply(true)}>Reply</Button>
@@ -107,7 +108,11 @@ function CommentItem({comment, ftnId}) {
             icon={open ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />} 
             label='replies'
         />
-        
+        {open && 
+        <ul>
+            <Replies commentId={comment.id}/>
+        </ul>
+        }
         </>
     );
 }

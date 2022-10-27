@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import RecommendIcon from '@mui/icons-material/Recommend';
+import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import './FountainsPage.css';
 import CommentItem from "../CommentItem/CommentItem";
 import Replies from "../Replies/Replies";
@@ -101,9 +103,6 @@ function FtnDetailView() {
                         {comments.map(comment => (
                             <div key={comment.id}>
                                 <CommentItem key={comment.id} comment={comment} ftnId={Number(ftnId)}/>
-                                <ul>
-                                    <Replies commentId={comment.id}/>
-                                </ul>
                             </div>
                         ))}
                     </List>
