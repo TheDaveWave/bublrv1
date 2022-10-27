@@ -27,7 +27,7 @@ function PageDisplay() {
     useEffect(() => {
         let locale = window.location.pathname.replaceAll('/', '');
         locale = locale.replaceAll(/[0-9]/g, '');
-        console.log(locale);
+        // console.log(locale);
         if(locale === 'fountains' || locale === 'fountain') {
             // console.log(locale);
         //   window.document.body.style.overflow = 'visible';

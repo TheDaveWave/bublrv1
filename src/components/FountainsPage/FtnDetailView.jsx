@@ -1,8 +1,9 @@
-import { Box, Button, Card, CardContent, CardMedia, Chip, Input, List, Rating, Typography } from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Box, Button, Card, CardContent, CardMedia, Chip, Input, List, Paper, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import RecommendIcon from '@mui/icons-material/Recommend';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import './FountainsPage.css';
 import CommentItem from "../CommentItem/CommentItem";
 import { Stack } from "@mui/system";
@@ -17,6 +18,7 @@ function FtnDetailView() {
 
     // access useDispatch
     const dispatch = useDispatch();
+    const history = useHistory();
     // access the url parameters to get the fountain id.
     const { ftnId } = useParams();
 
@@ -104,6 +106,11 @@ function FtnDetailView() {
                 </Box>
                 </CardContent>
             </Card>
+            <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0}} elevation={3}>
+                <BottomNavigation showLabels>
+                    <BottomNavigationAction onClick={() => history.push('/fountains')} label='Back' icon={<ArrowBackIosIcon />}/>
+                </BottomNavigation>
+            </Paper>
         </Box>
     );
 }

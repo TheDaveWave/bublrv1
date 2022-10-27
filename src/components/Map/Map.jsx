@@ -94,7 +94,7 @@ function Map() {
                 && ftn.outdoor === mapFilter.outdoor
                 && ftn.indoor === mapFilter.indoor) 
             {
-                console.log(ftn);
+                // console.log(ftn);
                 return ftn;
             }
         }); 
@@ -171,7 +171,7 @@ function Map() {
                     // set lng local state to current longitude.
                     setLng(p.coords.longitude);
                     // console log for testing
-                    console.log(p.coords.latitude, p.coords.longitude);
+                    // console.log(p.coords.latitude, p.coords.longitude);
                     resolve(setCoords(true));
                 }, err => {
                     alert('Navigation services are not enabled.');
