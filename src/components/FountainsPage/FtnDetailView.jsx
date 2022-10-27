@@ -1,4 +1,4 @@
-import { Box, Card, CardMedia, Chip, Paper, Rating, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, Paper, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -67,10 +67,10 @@ function FtnDetailView() {
             <Card>
                 <CardMedia 
                     component='img'
-                    height='px'
                     image={ftn?.picture}
                     alt='A Drinking Fountain'
                 />
+                <CardContent>
                 <Typography variant='caption'>fountain #{ftn?.id}</Typography>
                 <Rating name='read-only' value={Number(ftn?.rating)} precision={0.1} readOnly/>
                 <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={ftn?.likes}/>
@@ -94,6 +94,7 @@ function FtnDetailView() {
                     ))}
                 </ul>
                 </div>
+                </CardContent>
             </Card>
         </Box>
     );
