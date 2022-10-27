@@ -49,7 +49,6 @@ function ReplyItem({reply}) {
                 primary={reply.username}
                 secondary={reply.body}
             />
-            {/* User: {reply.username} | Reply: {reply.body} | Date: {reply.date} */}
         </ListItem>
         <Divider variant='middle' />
         <Stack direction='row' justifyContent='space-evenly' alignItems='flex-end'>
@@ -57,15 +56,13 @@ function ReplyItem({reply}) {
             <>
             {editMode ? 
             <>
-            <Input fullWidth value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Edit reply...'/>
-            <Box component='div'>
-                <Button onClick={() => editReply(reply.id)}>Confirm</Button>
-                <Button onClick={() => setEditMode(false)}>Cancel</Button>
-            </Box>
+            <Input value={newBody} onChange={evt => setNewBody(evt.target.value)} placeholder='Edit reply...'/>
+                <Button size='small' onClick={() => setEditMode(false)}>Cancel</Button>
+                <Button size='small' onClick={() => editReply(reply.id)}>Confirm</Button>
             </> : 
             <> 
-            <Button onClick={() => setEditMode(true)}>Edit</Button>
-            <Button startIcon={<DeleteIcon />} onClick={() => deleteReply(reply.id)}>Delete</Button>
+            <Button size='small' onClick={() => setEditMode(true)}>Edit</Button>
+            <Button size='small' startIcon={<DeleteIcon />} onClick={() => deleteReply(reply.id)}>Delete</Button>
             </>}
             </>}
         </Stack>
