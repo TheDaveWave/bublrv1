@@ -1,10 +1,10 @@
-import { Button, Chip, Input, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Avatar, Button, Chip, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Stack } from "@mui/system";
+import { Box, Stack } from "@mui/system";
 
 function CommentItem({comment, ftnId}) {
     // setup local state for reply input.
@@ -18,6 +18,9 @@ function CommentItem({comment, ftnId}) {
     const userid = useSelector(store => store.user.id);
     // console.log(userid);
     let date = comment.date;
+    date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
+    date = date.substring(0, 5);
+    // console.log(date);
 
     // handles the deleting of a comment on button click.
     const handleDelete = () => {
@@ -68,16 +71,13 @@ function CommentItem({comment, ftnId}) {
     return (
         <>
         <ListItem>
-            <Stack direction='row' justifyContent='space-evenly'>
+            <ListItemIcon>
+                <Avatar />
+            </ListItemIcon>
             <ListItemText 
                 primary={comment.username}
                 secondary={comment.body}
             />
-            <ListItemText 
-                secondary={comment.date}
-            />
-            </Stack>
-            {/* ID: {comment.id} | User: {comment.username} | Comment: {comment.body} | Date: {comment.date} */}
         </ListItem>
         {/* Conditionally render reply and delete buttons if addingReply is false or reply form if addingReply is true */}
         <Stack direction='row' justifyContent='space-evenly' alignItems='center'>
