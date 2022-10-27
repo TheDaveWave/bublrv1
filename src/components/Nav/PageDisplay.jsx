@@ -8,7 +8,6 @@ function PageDisplay() {
 
     // instantiate this as a jank way to make the page name update.
     const local = useLocation();
-
     // console.log(local);
 
     // console.log(window.location.pathname);
@@ -26,8 +25,10 @@ function PageDisplay() {
     }, [pageName]);
 
     useEffect(() => {
-        const locale = window.location.pathname;
-        if(locale === '/fountains') {
+        let locale = window.location.pathname.replaceAll('/', '');
+        locale = locale.replaceAll(/[0-9]/g, '');
+        console.log(locale);
+        if(locale === 'fountains' || locale === 'fountain') {
             // console.log(locale);
         //   window.document.body.style.overflow = 'visible';
             window.document.body.classList.remove('noscroll');

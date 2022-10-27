@@ -1,7 +1,9 @@
-import { Box, Paper, Rating } from "@mui/material";
+import { Box, Card, CardMedia, Chip, Paper, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import RecommendIcon from '@mui/icons-material/Recommend';
+import './FountainsPage.css';
 import CommentItem from "../CommentItem/CommentItem";
 import Replies from "../Replies/Replies";
 
@@ -9,6 +11,8 @@ function FtnDetailView() {
     // setup local state
     const [newComment, setNewComment] = useState(false);
     const [commentBody, setCommentBody] = useState('');
+    // setup state for nested lists / comments
+    const [open, setOpen] = useState(false);
     // get the current fountain from redux
     const ftn = useSelector(store => store.fountains.fountain[0]);
     const comments = useSelector(store => store.fountains.fountainComments);
@@ -54,10 +58,22 @@ function FtnDetailView() {
     }, []);
 
     return (
-        <Box component='main'>
-            <Paper elevation={0}>
-                <h1>Fountain: {ftn?.id}</h1>
-                <Rating name='read-only' value={Number(ftn.rating)} precision={0.1} readOnly/>
+        <Box 
+        component='main' 
+        sx={{
+            mt: 2
+        }}
+        >
+            <Card>
+                <CardMedia 
+                    component='img'
+                    height='px'
+                    image={ftn?.picture}
+                    alt='A Drinking Fountain'
+                />
+                <Typography variant='caption'>fountain #{ftn?.id}</Typography>
+                <Rating name='read-only' value={Number(ftn?.rating)} precision={0.1} readOnly/>
+                <Chip icon={<RecommendIcon />} color='primary' variant='outlined' label={ftn?.likes}/>
                 <p>Likes: {ftn?.likes}</p>
                 {newComment ? 
                 <div>
@@ -78,7 +94,7 @@ function FtnDetailView() {
                     ))}
                 </ul>
                 </div>
-            </Paper>
+            </Card>
         </Box>
     );
 }
