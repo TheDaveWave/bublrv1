@@ -1,5 +1,5 @@
 import { Avatar, Button, Chip, Divider, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
@@ -18,9 +18,17 @@ function CommentItem({comment, ftnId}) {
     // get current user
     const userid = useSelector(store => store.user.id);
     // console.log(userid);
-    let date = comment.date;
-    date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
-    date = date.substring(0, 5);
+    const replies = useSelector(store => store.fountains.replies);
+    const commentReplies = [];
+    replies.map(reply => {
+        if(Number(reply.comment_id) === comment.id) {
+            return commentReplies.push(reply);
+        }
+    });
+    console.log(comment.id, commentReplies);
+    // let date = comment.date;
+    // date = date.substring(date.indexOf('T')+1, date.indexOf('.'));
+    // date = date.substring(0, 5);
     // console.log(date);
 
     // handles the deleting of a comment on button click.
@@ -69,6 +77,13 @@ function CommentItem({comment, ftnId}) {
         }
     }
 
+     // fetch replies on load.
+     useEffect(() => {
+        dispatch({
+            type: 'GET_REPLIES',
+        });
+    }, []);
+
     return (
         <>
         <ListItem>
@@ -99,6 +114,7 @@ function CommentItem({comment, ftnId}) {
             </>}
         </>}
         </Stack>
+        {commentReplies.length > 0 && 
         <Chip 
             sx={{mt: 1, ml: 2}}
             size='small'
@@ -108,6 +124,7 @@ function CommentItem({comment, ftnId}) {
             icon={open ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />} 
             label='replies'
         />
+        }
         {open && 
         <ul>
             <Replies commentId={comment.id}/>

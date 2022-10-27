@@ -1,21 +1,16 @@
-import { Box, Button, Card, CardContent, CardMedia, Chip, Input, List, ListSubheader, Rating, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Chip, Input, List, Rating, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import RecommendIcon from '@mui/icons-material/Recommend';
-import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
-import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import './FountainsPage.css';
 import CommentItem from "../CommentItem/CommentItem";
-import Replies from "../Replies/Replies";
 import { Stack } from "@mui/system";
 
 function FtnDetailView() {
     // setup local state
     const [newComment, setNewComment] = useState(false);
     const [commentBody, setCommentBody] = useState('');
-    // setup state for nested lists / comments
-    const [open, setOpen] = useState(false);
     // get the current fountain from redux
     const ftn = useSelector(store => store.fountains.fountain[0]);
     const comments = useSelector(store => store.fountains.fountainComments);
