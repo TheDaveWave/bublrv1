@@ -4,13 +4,14 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+// should be changed to AdminPage
 function SettingsPage() {
     // get list of fountains from redux.
     const fountains = useSelector(store => store.fountains.fountainsReducer);
     // Sort the fountains by ID without having to make another server get request.
     const sortFountains = [...fountains].sort((a, b) => a.id - b.id);
     // setup access to react methods.
-    const defaultImageUrl = 'images/eda-fountain1.jpeg';
+    const defaultImageUrl = '/images/eda-fountain1.jpeg';
     const dispatch = useDispatch();
     const history = useHistory();
     // setup local state.
