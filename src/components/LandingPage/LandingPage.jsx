@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, createSvgIcon, Divider, Typography } from '@mui/material';
 import { useLoadScript } from '@react-google-maps/api';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,11 @@ function LandingPage() {
   // to get a random index that will be displayed on the page.
   const rdmIndex = Math.floor(Math.random() * quotes.length);
 
+  const BubblerIcon = createSvgIcon(
+    <path path='/svg/df.svg' />,
+    'Bubbler'
+  );
+
   // set the heading depending on if the user is logged in or not.
   let heading = '';
 
@@ -41,13 +46,18 @@ function LandingPage() {
     <Box sx={{mt: 2}}>
       <Typography align='center' component='h2' variant='h6'>{heading}</Typography>
       <Divider />
+        <Typography textAlign='center' sx={{p: 3}} component='p'>
+          {/* Nearby drinking fountains are displayed with the <img className='ex-icon' src='/svg/df.svg'/> icon.  */}
+          Select the <img className='ex-icon' src='/svg/df.svg'/> icon to navigate to a drinking fountain.
+        </Typography>
+      <Divider />
       {/* if isLoaded is true display the map, else display Loading... */}
       <Box>
         {isLoaded ? <Map /> : <div>Loading... </div>}
       </Box>
       <Box sx={{mt: 4, ml: 2, mr: 2}}>
           {/* display a random quote from the quotes array. */}
-          <Typography variant='h6'>
+          <Typography textAlign='center' variant='h6'>
             {quotes[rdmIndex]}
           </Typography>
       </Box>
