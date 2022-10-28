@@ -147,7 +147,7 @@ function SettingsPage() {
             <Typography  sx={{ m: 2 }} variant='h6'>
                 Add New Fountain
             </Typography>
-            <Button sx={{ ml: 2 }} onClick={() => toggleAddForm(true)} variant='contained'>Add Fountain</Button>
+            <Button sx={{ ml: 2 }} onClick={() => {toggleAddForm(true); setLat(0); setLng(0)}} variant='contained'>Add Fountain</Button>
             <Typography sx={{ m: 2 }} variant='subtitle1'>
                 Edit Fountain
             </Typography>
@@ -181,11 +181,13 @@ function SettingsPage() {
                         variant='standard'
                         label='Latitude'
                         value={lat}
+                        onChange={evt => setLat(evt.target.value)}
                     />
                     <TextField 
                         variant='standard'
                         label='Longitude'
                         value={lng}
+                        onChange={evt => setLng(evt.target.value)}
                     />
                 </Box>
                 <Button onClick={() => getLocation()} variant='contained'>Get Location</Button>
