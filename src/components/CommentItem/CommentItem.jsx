@@ -1,4 +1,4 @@
-import { Avatar, Button, Chip, Divider, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Avatar, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Input, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
@@ -13,6 +13,7 @@ function CommentItem({comment, ftnId}) {
     const [newBody, setNewBody] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [open, setOpen] = useState(false);
+    // const [modal, setModal] = useState(false);
     // access useDispatch()
     const dispatch = useDispatch();
     // get current user
@@ -32,13 +33,13 @@ function CommentItem({comment, ftnId}) {
 
     // handles the deleting of a comment on button click.
     const handleDelete = () => {
-        dispatch({
-            type: 'DELETE_COMMENT',
-            payload: {
-                commentId: comment.id,
-                ftnId
-            }
-        });
+        // dispatch({
+        //     type: 'DELETE_COMMENT',
+        //     payload: {
+        //         commentId: comment.id,
+        //         ftnId
+        //     }
+        // });
     }
 
     // a function to handle adding and editing a comment.
@@ -110,6 +111,25 @@ function CommentItem({comment, ftnId}) {
             <>
                 <Button onClick={() => {setAddingReply(true); setEditMode(true)}}>Edit</Button>
                 <Button startIcon={<DeleteIcon />} onClick={() => handleDelete()}>Delete</Button>
+                {/* <div>
+                <Dialog
+                    open={modal}
+                    onClose={setModal(false)}
+                >
+                    <DialogTitle>
+                        {'Delete comment?'}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Once deleted, it will be gone forever.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setModal(false)}>Cancel</Button>
+                        <Button onClick={() => handleDelete()}>Confirm</Button>
+                    </DialogActions>
+                </Dialog>
+                </div> */}
             </>}
         </>}
         </Stack>
