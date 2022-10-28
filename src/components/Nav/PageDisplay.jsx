@@ -11,21 +11,24 @@ function PageDisplay() {
     const local = useLocation();
     // console.log(local);
 
-    // console.log(window.location.pathname);
+    // get the current path and make it a readable page name.
+    // this replace all gets rid of the slashes.
     let path = window.location.pathname.replaceAll('/', '');
+    // takes out all the numbers.
     path = path.replaceAll(/[0-9]/g, '');
-    // console.log(path);
+    // makes the first character uppercase.
     let pageName = path.charAt(0).toUpperCase() + path.slice(1);
     // console.log(pageName);
 
     useEffect(() => {
+        // ensures the pathname is formatted on each page.
         path = window.location.pathname.replaceAll('/', '');
         path = path.replaceAll(/[0-9]/g, '');
-        // console.log(path);
         pageName = path.charAt(0).toUpperCase() + path.slice(1);
     }, [pageName]);
 
     useEffect(() => {
+        // ensures pages that need to scoll have scroll enabled.
         let locale = window.location.pathname.replaceAll('/', '');
         locale = locale.replaceAll(/[0-9]/g, '');
         // console.log(locale);
@@ -45,6 +48,7 @@ function PageDisplay() {
     return (
         <Box>
             <Typography>
+                {/* display the current page name */}
                 {pageName}
             </Typography>
         </Box>
