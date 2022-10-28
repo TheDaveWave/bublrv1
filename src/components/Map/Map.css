@@ -1,5 +1,6 @@
 .map-container {
-    height: 87vh;
+    height: 81vh;
+    /* height: 87vh; */
     width: 98%;
 }
 
@@ -20,7 +21,8 @@
     /* margin-left: 2; */
     z-index: 2;
     position: absolute;
-    top: 96vh;
+    /* top: 96vh; */
+    top: 90vh;
     width: 100vw;
 }
 
