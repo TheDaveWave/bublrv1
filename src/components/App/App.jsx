@@ -29,11 +29,11 @@ import SettingsPage from '../AdminPage/AdminPage';
 import { Box } from '@mui/material';
 
 function App() {
+  // access useDispatch()
   const dispatch = useDispatch();
-  
+  // get the user store from redux.
   const user = useSelector(store => store.user);
-
-
+  // dispatch to FETCH_USER on application load, and each dispatch.
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
@@ -97,10 +97,11 @@ function App() {
               >
                 <InfoPage />
               </ProtectedRoute>
-
+                {/* created admin route */}
               <ProtectedRoute
                 exact path='/admin'
               >
+                {/* if the user is an admin go to the admin page else redirect to home. */}
                 {user.admin ? 
                   <SettingsPage />
                   :
