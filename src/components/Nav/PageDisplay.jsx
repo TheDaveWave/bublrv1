@@ -1,12 +1,13 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
+// a component used on the nav bar to display the current page name.
 function PageDisplay() {
-
     // instantiate this as a jank way to make the page name update.
+    // having this line fixes the lag issue and immediately displays the 
+    // current page correctly.
     const local = useLocation();
     // console.log(local);
 
