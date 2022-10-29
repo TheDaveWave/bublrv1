@@ -33,13 +33,13 @@ function CommentItem({comment, ftnId}) {
 
     // handles the deleting of a comment on button click.
     const handleDelete = () => {
-        // dispatch({
-        //     type: 'DELETE_COMMENT',
-        //     payload: {
-        //         commentId: comment.id,
-        //         ftnId
-        //     }
-        // });
+        dispatch({
+            type: 'DELETE_COMMENT',
+            payload: {
+                commentId: comment.id,
+                ftnId
+            }
+        });
     }
 
     // a function to handle adding and editing a comment.

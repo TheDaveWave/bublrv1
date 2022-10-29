@@ -90,7 +90,7 @@ function SettingsPage() {
                 payload: fountainObj
             });
             clearCheckBoxes();
-            history.push('/maps');
+            history.push('/map');
         }
     }
 
