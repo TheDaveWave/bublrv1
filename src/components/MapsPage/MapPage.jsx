@@ -7,8 +7,8 @@ function MapPage() {
 
     // extract isLoaded key from useLoadScript
     const { isLoaded } = useLoadScript({
-        // access the google maps API key.
-        googleMapsApiKey: 'AIzaSyDpIuGzfvVnYjbuWH99wXaEDuCfFuPjwdM',
+        // access the google maps API key, put key in this string.
+        googleMapsApiKey: '',
     });
 
     return (

@@ -46,6 +46,9 @@ Bublr is a mobile first web application meant to serve all of your drinking foun
 - [PostrgeSQL](https://www.postgresql.org/)
 - [Nodemon](https://nodemon.io/)
 
+You must also get an API key from the Google Maps Platform:
+- [Google Maps Platform](https://console.cloud.google.com/google/maps-apis)
+
 ## Built With
 
 - [React](https://reactjs.org/)
