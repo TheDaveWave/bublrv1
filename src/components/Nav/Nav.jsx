@@ -129,13 +129,13 @@ function Nav() {
                     </Typography>
                   </Link>
                 </MenuItem>
-                <MenuItem onClick={() => setNavAnchor(null)}>
+                {/* <MenuItem onClick={() => setNavAnchor(null)}>
                   <Link className="navLink" to="/info">
                     <Typography>
                       Info Page
                     </Typography>
                   </Link>
-                </MenuItem>
+                </MenuItem> */}
                     {/* If a user is logged in and the user is an admin show settings. */}
                     {user.admin && (
                       <MenuItem onClick={() => setNavAnchor(null)}>
