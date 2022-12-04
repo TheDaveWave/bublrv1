@@ -38,4 +38,23 @@ Bublr is a mobile first web application meant to serve all of your drinking foun
 ---
 ![add-fountain](public/preview-images/admin-add-fountain.png)
 
+---
+## Prerequisites
 
+- [node js](https://nodejs.org/en/)
+- [npm](https://docs.npmjs.com/)
+- [PostrgeSQL](https://www.postgresql.org/)
+- [Nodemon](https://nodemon.io/)
+
+## Built With
+
+- [React](https://reactjs.org/)
+- [React-Redux](https://react-redux.js.org/)
+- [Material UI](https://mui.com/)
+- [@react-google-maps/api](https://react-google-maps-api-docs.netlify.app/)
+
+## Acknowledgement
+Thanks to [Emerging Digital Academy](https://emergingacademy.org/) for supplying me with the resources to complete this project.
+
+## Support
+If you have any questions, suggestions, or issues, please email me at [david.wesley.lindberg@gmail.com](www.google.com)
